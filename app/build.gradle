@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'android-apt'
 def AAVersion = '4.1.0'
+def sdkVersion = '23.0.0'
 
 buildscript {
     repositories {
@@ -17,7 +18,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.pdedio.sendsnap"
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 24
         versionCode 1
         versionName "1.0"
