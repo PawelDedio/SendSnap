@@ -4,6 +4,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 
 import com.example.pdedio.sendsnap.R;
 import com.example.pdedio.sendsnap.presenters.activities.MainPresenter;
@@ -40,6 +41,8 @@ public class MainActivity extends FragmentActivity implements MainPresenter.Pres
     @Override
     public void initViewPager(PagerAdapter adapter) {
         this.vpMain.setAdapter(adapter);
-        this.vpMain.setCurrentItem(0);
+//        this.vpMain.setCurrentItem();
+        Log.e("MainActivity", "currentItem: " + this.vpMain.getCurrentItem());
+        Log.e("MainActivity", "pageLimit: " + this.vpMain.getOffscreenPageLimit());
     }
 }

@@ -1,7 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'android-apt'
 def AAVersion = '4.1.0'
-def sdkVersion = '23.0.0'
 
 buildscript {
     repositories {

@@ -19,16 +19,14 @@ public class CameraPresenter extends BasePresenter {
 
 
     ///Lifecycle
-    @RootContext
-    protected void setContext(Context context) {
-        if(context instanceof PresenterCallback) {
-            this.presenterCallback = (PresenterCallback) context;
-        }
+    public void init(PresenterCallback presenterCallback) {
+        this.presenterCallback = presenterCallback;
     }
 
     @Override
     public void afterViews() {
         Log.e("CameraPresenter", "afterViews");
+        this.presenterCallback.changeText("Hello world!");
     }
 
     @Override
@@ -38,6 +36,6 @@ public class CameraPresenter extends BasePresenter {
 
 
     public interface PresenterCallback {
-
+        void changeText(String text);
     }
 }
