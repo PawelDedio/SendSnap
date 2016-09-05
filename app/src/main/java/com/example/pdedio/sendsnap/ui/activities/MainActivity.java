@@ -41,8 +41,5 @@ public class MainActivity extends FragmentActivity implements MainPresenter.Pres
     @Override
     public void initViewPager(PagerAdapter adapter) {
         this.vpMain.setAdapter(adapter);
-//        this.vpMain.setCurrentItem();
-        Log.e("MainActivity", "currentItem: " + this.vpMain.getCurrentItem());
-        Log.e("MainActivity", "pageLimit: " + this.vpMain.getOffscreenPageLimit());
     }
 }

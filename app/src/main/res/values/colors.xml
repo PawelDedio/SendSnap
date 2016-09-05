@@ -3,4 +3,9 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+
+    <!-- Camera Fragment -->
+    <color name="camera_btn_record_stroke">#ffffff</color>
+    <color name="camera_btn_record_solid">#d22323</color>
+    <color name="camera_btn_record_progress_stroke">#d22323</color>
 </resources>

@@ -58,9 +58,7 @@ public class MainPresenter extends BasePresenter {
         ArrayList<BaseFragment> list = new ArrayList<>();
 
         CameraFragment fragment = CameraFragment_.builder().build();
-        CameraFragment fragment1 = CameraFragment_.builder().build();
         list.add(fragment);
-        list.add(fragment1);
         return list;
     }
 
