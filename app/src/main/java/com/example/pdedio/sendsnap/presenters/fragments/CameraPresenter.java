@@ -1,6 +1,8 @@
 package com.example.pdedio.sendsnap.presenters.fragments;
 
+import android.content.Context;
 import android.view.MotionEvent;
+import android.view.TextureView;
 import android.view.View;
 import android.widget.Button;
 
@@ -37,6 +39,8 @@ public class CameraPresenter extends BasePresenter {
 
     private static final int MAX_RECORD_TIME = 1000;
 
+    private CameraHelper cameraHelper;
+
 
     ///Lifecycle
     public void init(PresenterCallback presenterCallback) {
@@ -46,11 +50,29 @@ public class CameraPresenter extends BasePresenter {
     @Override
     public void afterViews() {
         this.configureViews();
+        this.cameraHelper = CameraHelper.Factory.build();
+        this.cameraHelper.init(this.presenterCallback.getActivityContext(), this.presenterCallback.getTextureView());
     }
 
     @Override
     public void destroy() {
+        if(this.cameraHelper != null) {
+            this.cameraHelper.release();
+        }
+    }
 
+    @Override
+    public void onResume() {
+        if(this.cameraHelper != null && this.presenterCallback != null) {
+            this.cameraHelper.init(this.presenterCallback.getActivityContext(), this.presenterCallback.getTextureView());
+        }
+    }
+
+    @Override
+    public void onPause() {
+        if(this.cameraHelper != null) {
+            this.cameraHelper.release();
+        }
     }
 
 
@@ -162,5 +184,9 @@ public class CameraPresenter extends BasePresenter {
         DonutProgress getCameraProgressBar();
 
         Button getCameraButton();
+
+        Context getActivityContext();
+
+        TextureView getTextureView();
     }
 }

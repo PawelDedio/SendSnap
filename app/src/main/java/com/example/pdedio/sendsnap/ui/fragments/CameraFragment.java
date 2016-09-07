@@ -1,9 +1,16 @@
 package com.example.pdedio.sendsnap.ui.fragments;
 
 import android.content.Context;
+import android.content.pm.PackageManager;
+import android.hardware.camera2.CameraAccessException;
+import android.hardware.camera2.CameraManager;
+import android.os.Build;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.SurfaceView;
+import android.view.TextureView;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.example.pdedio.sendsnap.R;
 import com.example.pdedio.sendsnap.presenters.fragments.CameraPresenter;
@@ -32,8 +39,8 @@ public class CameraFragment extends BaseFragment implements CameraPresenter.Pres
     @ViewById(R.id.btnCameraRecord)
     protected Button btnCameraRecord;
 
-    @ViewById(R.id.svCameraPreview)
-    protected SurfaceView svCameraPreview;
+    @ViewById(R.id.tvCameraPreview)
+    protected TextureView tvCameraPreview;
 
 
     //Lifecycle
@@ -44,14 +51,23 @@ public class CameraFragment extends BaseFragment implements CameraPresenter.Pres
 
     @AfterViews
     protected void afterViewsCameraFragment() {
-        Log.e(TAG, "afterViewsCameraFragment: ");
         this.cameraPresenter.afterViews();
     }
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        Log.e("CameraFragment", "onAttach");
+    public void onPause() {
+        super.onPause();
+        if(this.cameraPresenter != null) {
+            this.cameraPresenter.onPause();
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(this.cameraPresenter != null) {
+            this.cameraPresenter.onResume();
+        }
     }
 
 
@@ -61,7 +77,18 @@ public class CameraFragment extends BaseFragment implements CameraPresenter.Pres
         return this.pbRecordProgress;
     }
 
+    @Override
     public Button getCameraButton() {
         return this.btnCameraRecord;
+    }
+
+    @Override
+    public TextureView getTextureView() {
+        return this.tvCameraPreview;
+    }
+
+    @Override
+    public Context getActivityContext() {
+        return this.getActivity();
     }
 }

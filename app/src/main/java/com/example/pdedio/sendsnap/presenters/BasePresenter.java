@@ -8,4 +8,8 @@ public abstract class BasePresenter {
     public abstract void afterViews();
 
     public abstract void destroy();
+
+    public void onPause(){};
+
+    public void onResume(){};
 }
