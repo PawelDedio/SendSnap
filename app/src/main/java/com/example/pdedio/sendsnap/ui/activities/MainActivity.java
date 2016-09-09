@@ -4,11 +4,9 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 
 import com.example.pdedio.sendsnap.R;
 import com.example.pdedio.sendsnap.presenters.activities.MainPresenter;
-import com.example.pdedio.sendsnap.ui.fragments.BaseFragment;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;

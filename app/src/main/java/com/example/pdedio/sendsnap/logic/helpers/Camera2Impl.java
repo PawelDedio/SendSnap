@@ -1,6 +1,7 @@
 package com.example.pdedio.sendsnap.logic.helpers;
 
 import android.content.Context;
+import android.graphics.ImageFormat;
 import android.graphics.SurfaceTexture;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCaptureSession;
@@ -9,16 +10,28 @@ import android.hardware.camera2.CameraDevice;
 import android.hardware.camera2.CameraManager;
 import android.hardware.camera2.CameraMetadata;
 import android.hardware.camera2.CaptureRequest;
+import android.hardware.camera2.TotalCaptureResult;
 import android.hardware.camera2.params.StreamConfigurationMap;
+import android.media.Image;
 import android.media.ImageReader;
+import android.media.MediaRecorder;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.util.Log;
 import android.util.Size;
 import android.view.Surface;
 import android.view.TextureView;
+import android.view.WindowManager;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.nio.ByteBuffer;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created by p.dedio on 05.09.16.
@@ -45,9 +58,17 @@ public class Camera2Impl implements CameraHelper {
 
     private ImageReader imageReader;
 
-    private int REQUIRED_WIDTH = 1920;
+    private int REQUIRED_PHOTO_WIDTH = 1920;
 
-    private int REQUIRED_HEIGHT = 1080;
+    private int REQUIRED_PHOTO_HEIGHT = 1080;
+
+    private int REQUIRED_VIDEO_WIDTH = 854;
+
+    private int REQUIRED_VIDEO_HEIGHT = 480;
+
+    private MediaRecorder mediaRecorder;
+
+    private String videoPath;
 
 
 
@@ -89,16 +110,21 @@ public class Camera2Impl implements CameraHelper {
             imageReader.close();
             imageReader = null;
         }
+
+        this.stopBackgroundThread();
     }
 
     private void openCamera(Context context, int cameraIndex, final TextureView textureView) {
+        this.startBackgroundThread();
+
         CameraManager manager = (CameraManager) context.getSystemService(Context.CAMERA_SERVICE);
 
         try {
             this.cameraIds = manager.getCameraIdList();
             CameraCharacteristics characteristics = manager.getCameraCharacteristics(this.cameraIds[cameraIndex]);
             StreamConfigurationMap map = characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
-            this.imageDimension = this.getBestCameraSize(map);
+            Size[] dimensions = map.getOutputSizes(SurfaceTexture.class);
+            this.imageDimension = this.getBestCameraSize(dimensions);
 
             manager.openCamera(this.cameraIds[cameraIndex], new CameraDevice.StateCallback() {
                 @Override
@@ -122,18 +148,24 @@ public class Camera2Impl implements CameraHelper {
         }
     }
 
-    private Size getBestCameraSize(StreamConfigurationMap map) {
-        Size[] dimensions = map.getOutputSizes(SurfaceTexture.class);
+    private Size getBestCameraSize(Size[] dimensions) {
+        return this.getClosestDimension(dimensions, REQUIRED_PHOTO_WIDTH, REQUIRED_PHOTO_HEIGHT);
+    }
+
+    private Size getBestVideoSize(Size[] dimensions) {
+        return this.getClosestDimension(dimensions, REQUIRED_VIDEO_WIDTH, REQUIRED_VIDEO_HEIGHT);
+    }
+
+    private Size getClosestDimension(Size[] dimensions, int requiredWidth, int requiredHeight) {
         Size closestSize = dimensions[0];
         int lastWidthResult = Integer.MAX_VALUE;
         int lastHeightResult = Integer.MAX_VALUE;
 
         for(Size size : dimensions) {
-            Log.e("getCameraSize", "width: " + size.getWidth() + " height: " + size.getHeight());
             int width = Math.max(size.getHeight(), size.getWidth());
             int height = Math.min(size.getHeight(), size.getWidth());
-            int widthResult = Math.abs(REQUIRED_WIDTH - width);
-            int heightResult = Math.abs(REQUIRED_HEIGHT - height);
+            int widthResult = Math.abs(requiredWidth - width);
+            int heightResult = Math.abs(requiredHeight - height);
 
             if(widthResult < lastWidthResult && heightResult < lastHeightResult) {
                 closestSize = size;
@@ -141,8 +173,6 @@ public class Camera2Impl implements CameraHelper {
                 lastHeightResult = heightResult;
             }
         }
-
-        Log.e("getCameraSize", "bestWidth: " + closestSize.getWidth() + " bestHeight: " + closestSize.getHeight());
 
         return closestSize;
     }
@@ -194,13 +224,212 @@ public class Camera2Impl implements CameraHelper {
     }
 
     private void stopBackgroundThread() {
-        backgroundThread.quitSafely();
+        if(backgroundThread != null) {
+            backgroundThread.quitSafely();
+
+            try {
+                backgroundThread.join();
+                backgroundThread = null;
+                backgroundHandler = null;
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @Override
+    public File takePicture(Context context, final TextureView textureView) {
+        if(cameraDevice == null) {
+            return null;
+        }
+        final File file;
+
+        CameraManager manager = (CameraManager) context.getSystemService(Context.CAMERA_SERVICE);
+        try {
+            CameraCharacteristics characteristics = manager.getCameraCharacteristics(cameraDevice.getId());
+            Size[] jpegSizes = characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP).getOutputSizes(ImageFormat.JPEG);
+
+            Size imageSize = this.getBestCameraSize(jpegSizes);
+
+            ImageReader reader = ImageReader.newInstance(imageSize.getWidth(), imageSize.getHeight(), ImageFormat.JPEG, 1);
+            List<Surface> outputSurfaces = new ArrayList(2);
+            outputSurfaces.add(reader.getSurface());
+            outputSurfaces.add(new Surface(textureView.getSurfaceTexture()));
+            final CaptureRequest.Builder captureBuilder = this.cameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW);
+            captureBuilder.addTarget(reader.getSurface());
+            captureBuilder.set(CaptureRequest.CONTROL_MODE, CameraMetadata.CONTROL_MODE_AUTO);
+
+            WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+
+            int rotation = windowManager.getDefaultDisplay().getRotation();
+            captureBuilder.set(CaptureRequest.JPEG_ORIENTATION, rotation);
+
+            file = new File(Environment.getExternalStorageDirectory() + "/pic.jpg");
+            ImageReader.OnImageAvailableListener readerListener = new ImageReader.OnImageAvailableListener() {
+
+                @Override
+                public void onImageAvailable(ImageReader imageReader) {
+                    Image image = null;
+                    try {
+                        image = imageReader.acquireLatestImage();
+                        ByteBuffer buffer = image.getPlanes()[0].getBuffer();
+                        byte[] bytes = new byte[buffer.capacity()];
+                        buffer.get(bytes);
+                        save(bytes);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } finally {
+                        if(image != null) {
+                            image.close();
+                        }
+                    }
+                }
+
+                private void save(byte[] bytes) throws IOException {
+                    OutputStream output = null;
+                    try {
+                        output = new FileOutputStream(file);
+                        output.write(bytes);
+                    } finally {
+                        if(output != null) {
+                            output.close();
+                        }
+                    }
+                }
+            };
+            reader.setOnImageAvailableListener(readerListener, backgroundHandler);
+            final CameraCaptureSession.CaptureCallback captureCallback = new CameraCaptureSession.CaptureCallback() {
+                @Override
+                public void onCaptureCompleted(CameraCaptureSession session, CaptureRequest request, TotalCaptureResult result) {
+                    super.onCaptureCompleted(session, request, result);
+                    //createCameraPreview(textureView);
+                }
+            };
+            cameraDevice.createCaptureSession(outputSurfaces, new CameraCaptureSession.StateCallback() {
+                @Override
+                public void onConfigured(CameraCaptureSession cameraCaptureSession) {
+                    try {
+                        cameraCaptureSession.capture(captureBuilder.build(), captureCallback, backgroundHandler);
+                    } catch (CameraAccessException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                @Override
+                public void onConfigureFailed(CameraCaptureSession cameraCaptureSession) {
+
+                }
+            }, backgroundHandler);
+
+            return file;
+        } catch (CameraAccessException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    @Override
+    public void switchCamera(Context context, TextureView textureView) {
+        if(cameraDevice != null) {
+            cameraDevice.close();
+            cameraDevice = null;
+        }
+        this.currentCameraId = this.currentCameraId == 0 ? 1 : 0;
+
+        this.openCamera(context, this.currentCameraId, textureView);
+    }
+
+    @Override
+    public void startRecording(Context context, TextureView textureView) {
 
         try {
-            backgroundThread.join();
-            backgroundThread = null;
-            backgroundHandler = null;
-        } catch (InterruptedException e) {
+            this.setUpMediaRecorder(context);
+            SurfaceTexture texture = textureView.getSurfaceTexture();
+            texture.setDefaultBufferSize(this.imageDimension.getWidth(), this.imageDimension.getHeight());
+
+            final CaptureRequest.Builder captureBuilder = this.cameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_RECORD);
+            List<Surface> surfaces = new ArrayList<>();
+
+            final Surface previewSurface = new Surface(texture);
+            surfaces.add(previewSurface);
+            captureBuilder.addTarget(previewSurface);
+
+            Surface recordSurface = this.mediaRecorder.getSurface();
+            surfaces.add(recordSurface);
+            captureBuilder.addTarget(recordSurface);
+
+            this.cameraDevice.createCaptureSession(surfaces, new CameraCaptureSession.StateCallback() {
+                @Override
+                public void onConfigured(CameraCaptureSession session) {
+                    cameraCaptureSession = session;
+                    updatePreview();
+
+                    mediaRecorder.setOnInfoListener(new MediaRecorder.OnInfoListener() {
+                        @Override
+                        public void onInfo(MediaRecorder mediaRecorder, int i, int i1) {
+                            Log.e("MediaRecorder", "onInfo i: " + i + " i1: " + i1);
+                        }
+                    });
+                    mediaRecorder.start();
+
+                }
+
+                @Override
+                public void onConfigureFailed(CameraCaptureSession cameraCaptureSession) {
+
+                }
+            }, backgroundHandler);
+        } catch (CameraAccessException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public File stopRecording() {
+        try {
+            this.mediaRecorder.stop();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        this.mediaRecorder.reset();
+
+        File file = new File(this.videoPath);
+
+        return file;
+    }
+
+    private void setUpMediaRecorder(Context context) {
+        if(this.mediaRecorder != null) {
+            return;
+        }
+
+        try {
+            this.mediaRecorder = new MediaRecorder();
+
+            this.mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+            this.mediaRecorder.setVideoSource(MediaRecorder.VideoSource.SURFACE);
+            this.mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
+
+            if(videoPath == null || videoPath.isEmpty()) {
+                this.videoPath = context.getExternalFilesDir(null).getAbsolutePath() + "/photo.mp4";
+            }
+            this.mediaRecorder.setOutputFile(this.videoPath);
+            this.mediaRecorder.setVideoEncodingBitRate(10000000);
+            this.mediaRecorder.setVideoFrameRate(30);
+
+            CameraManager manager = (CameraManager) context.getSystemService(Context.CAMERA_SERVICE);
+            this.cameraIds = manager.getCameraIdList();
+            CameraCharacteristics characteristics = manager.getCameraCharacteristics(this.cameraIds[this.currentCameraId]);
+            StreamConfigurationMap map = characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
+
+            Size size = this.getBestVideoSize(map.getOutputSizes(MediaRecorder.class));
+            this.mediaRecorder.setVideoSize(size.getWidth(), size.getHeight());
+            this.mediaRecorder.setVideoEncoder(MediaRecorder.VideoEncoder.H264);
+            this.mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
+
+            this.mediaRecorder.prepare();
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

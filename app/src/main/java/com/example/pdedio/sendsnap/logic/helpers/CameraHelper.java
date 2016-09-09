@@ -5,6 +5,8 @@ import android.os.Build;
 import android.view.SurfaceView;
 import android.view.TextureView;
 
+import java.io.File;
+
 /**
  * Created by p.dedio on 05.09.16.
  */
@@ -14,6 +16,13 @@ public interface CameraHelper {
 
     void release();
 
+    File takePicture(Context context, final TextureView textureView);
+
+    void switchCamera(Context context, TextureView textureView);
+
+    void startRecording(Context context, TextureView textureView);
+
+    File stopRecording();
 
 
     class Factory {

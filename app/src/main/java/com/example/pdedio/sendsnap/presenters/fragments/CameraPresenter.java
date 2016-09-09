@@ -5,6 +5,7 @@ import android.view.MotionEvent;
 import android.view.TextureView;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import com.example.pdedio.sendsnap.logic.helpers.CameraHelper;
 import com.example.pdedio.sendsnap.presenters.BasePresenter;
@@ -106,6 +107,13 @@ public class CameraPresenter extends BasePresenter {
                 return false;
             }
         });
+
+        this.presenterCallback.getChangeCameraButton().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                switchCamera();
+            }
+        });
     }
 
     private void startCameraButtonEvent() {
@@ -131,15 +139,21 @@ public class CameraPresenter extends BasePresenter {
     }
 
     private void takePicture() {
-
+        this.cameraHelper.takePicture(this.presenterCallback.getActivityContext(), this.presenterCallback.getTextureView());
     }
 
     private void startRecording() {
         this.startProgress();
+        this.cameraHelper.startRecording(this.presenterCallback.getActivityContext(), this.presenterCallback.getTextureView());
     }
 
     private void stopRecording() {
         this.stopProgress();
+        this.cameraHelper.stopRecording();
+    }
+
+    private void switchCamera() {
+        this.cameraHelper.switchCamera(this.presenterCallback.getActivityContext(), this.presenterCallback.getTextureView());
     }
 
     private void startProgress() {
@@ -188,5 +202,7 @@ public class CameraPresenter extends BasePresenter {
         Context getActivityContext();
 
         TextureView getTextureView();
+
+        ImageButton getChangeCameraButton();
     }
 }

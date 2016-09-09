@@ -1,16 +1,9 @@
 package com.example.pdedio.sendsnap.ui.fragments;
 
 import android.content.Context;
-import android.content.pm.PackageManager;
-import android.hardware.camera2.CameraAccessException;
-import android.hardware.camera2.CameraManager;
-import android.os.Build;
-import android.support.v4.content.ContextCompat;
-import android.util.Log;
-import android.view.SurfaceView;
 import android.view.TextureView;
 import android.widget.Button;
-import android.widget.Toast;
+import android.widget.ImageButton;
 
 import com.example.pdedio.sendsnap.R;
 import com.example.pdedio.sendsnap.presenters.fragments.CameraPresenter;
@@ -41,6 +34,9 @@ public class CameraFragment extends BaseFragment implements CameraPresenter.Pres
 
     @ViewById(R.id.tvCameraPreview)
     protected TextureView tvCameraPreview;
+
+    @ViewById(R.id.btnCameraChangeCamera)
+    protected ImageButton btnChangeCamera;
 
 
     //Lifecycle
@@ -85,6 +81,11 @@ public class CameraFragment extends BaseFragment implements CameraPresenter.Pres
     @Override
     public TextureView getTextureView() {
         return this.tvCameraPreview;
+    }
+
+    @Override
+    public ImageButton getChangeCameraButton() {
+        return this.btnChangeCamera;
     }
 
     @Override
