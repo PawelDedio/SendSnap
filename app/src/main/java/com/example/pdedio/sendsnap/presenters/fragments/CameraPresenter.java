@@ -1,7 +1,12 @@
 package com.example.pdedio.sendsnap.presenters.fragments;
 
 import android.content.Context;
+import android.graphics.SurfaceTexture;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
+import android.util.Log;
 import android.view.MotionEvent;
+import android.view.Surface;
 import android.view.TextureView;
 import android.view.View;
 import android.widget.Button;
@@ -13,6 +18,8 @@ import com.github.lzyzsd.circleprogress.DonutProgress;
 
 import org.androidannotations.annotations.EBean;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 import rx.Observable;
@@ -41,6 +48,8 @@ public class CameraPresenter extends BasePresenter {
     private static final int MAX_RECORD_TIME = 1000;
 
     private CameraHelper cameraHelper;
+
+    private MediaPlayer mediaPlayer;
 
 
     ///Lifecycle
@@ -149,7 +158,8 @@ public class CameraPresenter extends BasePresenter {
 
     private void stopRecording() {
         this.stopProgress();
-        this.cameraHelper.stopRecording();
+        File videoFile = this.cameraHelper.stopRecording();
+        showVideo(videoFile);
     }
 
     private void switchCamera() {
@@ -191,6 +201,57 @@ public class CameraPresenter extends BasePresenter {
     private void stopProgress() {
         this.progressSubscription.unsubscribe();
         this.presenterCallback.getCameraProgressBar().setProgress(0);
+    }
+
+    private void showVideo(final File videoFile) {
+        TextureView textureView = this.presenterCallback.getTextureView();
+        textureView.setSurfaceTextureListener(new TextureView.SurfaceTextureListener() {
+            @Override
+            public void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height) {
+                Log.e("listener", "onSurfaceTextureAvailable");
+            }
+
+            @Override
+            public void onSurfaceTextureSizeChanged(SurfaceTexture surface, int width, int height) {
+                Log.e("listener", "onSurfaceTextureSizeChanged");
+            }
+
+            @Override
+            public boolean onSurfaceTextureDestroyed(SurfaceTexture surface) {
+                Log.e("listener", "onSurfaceTextureDestroyed");
+                return false;
+            }
+
+            @Override
+            public void onSurfaceTextureUpdated(SurfaceTexture surfaceTexture) {
+                Log.e("listener", "onSurfaceTextureUpdated");
+                Surface surface = new Surface(surfaceTexture);
+                startMediaPlayer(videoFile, surface);
+            }
+        });
+    }
+
+    private void startMediaPlayer(File videoFile, Surface surface) {
+        try {
+            this.mediaPlayer = new MediaPlayer();
+            this.mediaPlayer.setDataSource(videoFile.getAbsolutePath());
+            this.mediaPlayer.setSurface(surface);
+            this.mediaPlayer.prepare();
+            this.mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+            this.mediaPlayer.start();
+        } catch (IllegalArgumentException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (SecurityException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IllegalStateException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 
 

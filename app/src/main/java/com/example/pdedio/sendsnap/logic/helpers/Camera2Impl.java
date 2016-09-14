@@ -348,16 +348,16 @@ public class Camera2Impl implements CameraHelper {
             SurfaceTexture texture = textureView.getSurfaceTexture();
             texture.setDefaultBufferSize(this.imageDimension.getWidth(), this.imageDimension.getHeight());
 
-            final CaptureRequest.Builder captureBuilder = this.cameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_RECORD);
+            captureRequestBuilder = this.cameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_RECORD);
             List<Surface> surfaces = new ArrayList<>();
 
             final Surface previewSurface = new Surface(texture);
             surfaces.add(previewSurface);
-            captureBuilder.addTarget(previewSurface);
+            captureRequestBuilder.addTarget(previewSurface);
 
             Surface recordSurface = this.mediaRecorder.getSurface();
             surfaces.add(recordSurface);
-            captureBuilder.addTarget(recordSurface);
+            captureRequestBuilder.addTarget(recordSurface);
 
             this.cameraDevice.createCaptureSession(surfaces, new CameraCaptureSession.StateCallback() {
                 @Override
