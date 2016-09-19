@@ -14,6 +14,11 @@ import android.widget.ImageButton;
 
 import com.example.pdedio.sendsnap.logic.helpers.CameraHelper;
 import com.example.pdedio.sendsnap.presenters.BasePresenter;
+import com.example.pdedio.sendsnap.presenters.activities.MainPresenter;
+import com.example.pdedio.sendsnap.ui.activities.BaseFragmentActivity;
+import com.example.pdedio.sendsnap.ui.activities.MainActivity;
+import com.example.pdedio.sendsnap.ui.fragments.EditSnapFragment;
+import com.example.pdedio.sendsnap.ui.fragments.EditSnapFragment_;
 import com.github.lzyzsd.circleprogress.DonutProgress;
 
 import org.androidannotations.annotations.EBean;
@@ -35,8 +40,6 @@ import rx.functions.Func1;
 @EBean
 public class CameraPresenter extends BasePresenter {
 
-    public static final String TAG = CameraPresenter.class.getSimpleName();
-
     private PresenterCallback presenterCallback;
 
     private Subscription progressSubscription;
@@ -52,7 +55,7 @@ public class CameraPresenter extends BasePresenter {
     private MediaPlayer mediaPlayer;
 
 
-    ///Lifecycle
+    //Lifecycle
     public void init(PresenterCallback presenterCallback) {
         this.presenterCallback = presenterCallback;
     }
@@ -226,12 +229,19 @@ public class CameraPresenter extends BasePresenter {
             public void onSurfaceTextureUpdated(SurfaceTexture surfaceTexture) {
                 Log.e("listener", "onSurfaceTextureUpdated");
                 Surface surface = new Surface(surfaceTexture);
-                //startMediaPlayer(videoFile, surface);
             }
         });
 
         Surface surface = new Surface(this.presenterCallback.getPlayingTextureView().getSurfaceTexture());
-        startMediaPlayer(videoFile, surface);
+        //startMediaPlayer(videoFile, surface);
+        BaseFragmentActivity activity = this.presenterCallback.getBaseFragmentActivity();
+
+        if(activity instanceof MainActivity) {
+            MainActivity mainActivity = (MainActivity) activity;
+
+            EditSnapFragment fragment = EditSnapFragment_.builder().build();
+            mainActivity.showFragment(fragment);
+        }
     }
 
     private void startMediaPlayer(File videoFile, Surface surface) {
@@ -245,16 +255,12 @@ public class CameraPresenter extends BasePresenter {
             this.presenterCallback.getPreviewTextureView().setVisibility(View.GONE);
             this.mediaPlayer.start();
         } catch (IllegalArgumentException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         } catch (SecurityException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         } catch (IllegalStateException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
@@ -272,5 +278,7 @@ public class CameraPresenter extends BasePresenter {
         TextureView getPlayingTextureView();
 
         ImageButton getChangeCameraButton();
+
+        BaseFragmentActivity getBaseFragmentActivity();
     }
 }

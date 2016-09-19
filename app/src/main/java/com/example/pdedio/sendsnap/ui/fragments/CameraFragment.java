@@ -21,8 +21,6 @@ import org.androidannotations.annotations.ViewById;
 @EFragment(R.layout.fragment_camera)
 public class CameraFragment extends BaseFragment implements CameraPresenter.PresenterCallback {
 
-    public static final String TAG = CameraFragment.class.getSimpleName();
-
     @Bean
     protected CameraPresenter cameraPresenter;
 
@@ -40,6 +38,7 @@ public class CameraFragment extends BaseFragment implements CameraPresenter.Pres
 
     @ViewById(R.id.btnCameraChangeCamera)
     protected ImageButton btnChangeCamera;
+
 
 
     //Lifecycle

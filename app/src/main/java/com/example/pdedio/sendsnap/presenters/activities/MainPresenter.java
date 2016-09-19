@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.PagerAdapter;
 
+import com.example.pdedio.sendsnap.logic.helpers.FragmentStackManager;
 import com.example.pdedio.sendsnap.presenters.BasePresenter;
 import com.example.pdedio.sendsnap.ui.adapters.VpMainAdapter;
 import com.example.pdedio.sendsnap.ui.fragments.BaseFragment;
@@ -67,5 +68,11 @@ public class MainPresenter extends BasePresenter {
         FragmentManager getActivityFragmentManager();
 
         void initViewPager(PagerAdapter adapter);
+
+        void showViewPager();
+
+        void showFragment(BaseFragment fragment);
+
+        void popFragment();
     }
 }
