@@ -35,6 +35,9 @@ public class CameraFragment extends BaseFragment implements CameraPresenter.Pres
     @ViewById(R.id.tvCameraPreview)
     protected TextureView tvCameraPreview;
 
+    @ViewById(R.id.tvCameraPlay)
+    protected TextureView tvCameraPlay;
+
     @ViewById(R.id.btnCameraChangeCamera)
     protected ImageButton btnChangeCamera;
 
@@ -79,8 +82,13 @@ public class CameraFragment extends BaseFragment implements CameraPresenter.Pres
     }
 
     @Override
-    public TextureView getTextureView() {
+    public TextureView getPreviewTextureView() {
         return this.tvCameraPreview;
+    }
+
+    @Override
+    public TextureView getPlayingTextureView() {
+        return this.tvCameraPlay;
     }
 
     @Override

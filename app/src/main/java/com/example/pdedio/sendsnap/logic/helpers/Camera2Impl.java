@@ -298,18 +298,12 @@ public class Camera2Impl implements CameraHelper {
                 }
             };
             reader.setOnImageAvailableListener(readerListener, backgroundHandler);
-            final CameraCaptureSession.CaptureCallback captureCallback = new CameraCaptureSession.CaptureCallback() {
-                @Override
-                public void onCaptureCompleted(CameraCaptureSession session, CaptureRequest request, TotalCaptureResult result) {
-                    super.onCaptureCompleted(session, request, result);
-                    //createCameraPreview(textureView);
-                }
-            };
+
             cameraDevice.createCaptureSession(outputSurfaces, new CameraCaptureSession.StateCallback() {
                 @Override
                 public void onConfigured(CameraCaptureSession cameraCaptureSession) {
                     try {
-                        cameraCaptureSession.capture(captureBuilder.build(), captureCallback, backgroundHandler);
+                        cameraCaptureSession.capture(captureBuilder.build(), null, backgroundHandler);
                     } catch (CameraAccessException e) {
                         e.printStackTrace();
                     }
@@ -351,7 +345,7 @@ public class Camera2Impl implements CameraHelper {
             captureRequestBuilder = this.cameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_RECORD);
             List<Surface> surfaces = new ArrayList<>();
 
-            final Surface previewSurface = new Surface(texture);
+            Surface previewSurface = new Surface(texture);
             surfaces.add(previewSurface);
             captureRequestBuilder.addTarget(previewSurface);
 
@@ -364,13 +358,6 @@ public class Camera2Impl implements CameraHelper {
                 public void onConfigured(CameraCaptureSession session) {
                     cameraCaptureSession = session;
                     updatePreview();
-
-                    mediaRecorder.setOnInfoListener(new MediaRecorder.OnInfoListener() {
-                        @Override
-                        public void onInfo(MediaRecorder mediaRecorder, int i, int i1) {
-                            Log.e("MediaRecorder", "onInfo i: " + i + " i1: " + i1);
-                        }
-                    });
                     mediaRecorder.start();
 
                 }
@@ -389,10 +376,14 @@ public class Camera2Impl implements CameraHelper {
     public File stopRecording() {
         try {
             this.mediaRecorder.stop();
+            this.cameraCaptureSession.abortCaptures();
+            this.cameraCaptureSession.close();
+            this.cameraCaptureSession = null;
         } catch (Exception e) {
             e.printStackTrace();
         }
-        this.mediaRecorder.reset();
+        this.mediaRecorder.release();
+        this.mediaRecorder = null;
 
         File file = new File(this.videoPath);
 
@@ -417,6 +408,7 @@ public class Camera2Impl implements CameraHelper {
             this.mediaRecorder.setOutputFile(this.videoPath);
             this.mediaRecorder.setVideoEncodingBitRate(10000000);
             this.mediaRecorder.setVideoFrameRate(30);
+            this.mediaRecorder.setOrientationHint(90);
 
             CameraManager manager = (CameraManager) context.getSystemService(Context.CAMERA_SERVICE);
             this.cameraIds = manager.getCameraIdList();

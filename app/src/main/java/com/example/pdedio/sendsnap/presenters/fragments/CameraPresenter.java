@@ -61,7 +61,7 @@ public class CameraPresenter extends BasePresenter {
     public void afterViews() {
         this.configureViews();
         this.cameraHelper = CameraHelper.Factory.build();
-        this.cameraHelper.init(this.presenterCallback.getActivityContext(), this.presenterCallback.getTextureView());
+        this.cameraHelper.init(this.presenterCallback.getActivityContext(), this.presenterCallback.getPreviewTextureView());
     }
 
     @Override
@@ -74,7 +74,7 @@ public class CameraPresenter extends BasePresenter {
     @Override
     public void onResume() {
         if(this.cameraHelper != null && this.presenterCallback != null) {
-            this.cameraHelper.init(this.presenterCallback.getActivityContext(), this.presenterCallback.getTextureView());
+            this.cameraHelper.init(this.presenterCallback.getActivityContext(), this.presenterCallback.getPreviewTextureView());
         }
     }
 
@@ -148,12 +148,12 @@ public class CameraPresenter extends BasePresenter {
     }
 
     private void takePicture() {
-        this.cameraHelper.takePicture(this.presenterCallback.getActivityContext(), this.presenterCallback.getTextureView());
+        this.cameraHelper.takePicture(this.presenterCallback.getActivityContext(), this.presenterCallback.getPreviewTextureView());
     }
 
     private void startRecording() {
         this.startProgress();
-        this.cameraHelper.startRecording(this.presenterCallback.getActivityContext(), this.presenterCallback.getTextureView());
+        this.cameraHelper.startRecording(this.presenterCallback.getActivityContext(), this.presenterCallback.getPreviewTextureView());
     }
 
     private void stopRecording() {
@@ -163,7 +163,7 @@ public class CameraPresenter extends BasePresenter {
     }
 
     private void switchCamera() {
-        this.cameraHelper.switchCamera(this.presenterCallback.getActivityContext(), this.presenterCallback.getTextureView());
+        this.cameraHelper.switchCamera(this.presenterCallback.getActivityContext(), this.presenterCallback.getPreviewTextureView());
     }
 
     private void startProgress() {
@@ -204,7 +204,7 @@ public class CameraPresenter extends BasePresenter {
     }
 
     private void showVideo(final File videoFile) {
-        TextureView textureView = this.presenterCallback.getTextureView();
+        TextureView textureView = this.presenterCallback.getPlayingTextureView();
         textureView.setSurfaceTextureListener(new TextureView.SurfaceTextureListener() {
             @Override
             public void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height) {
@@ -226,9 +226,12 @@ public class CameraPresenter extends BasePresenter {
             public void onSurfaceTextureUpdated(SurfaceTexture surfaceTexture) {
                 Log.e("listener", "onSurfaceTextureUpdated");
                 Surface surface = new Surface(surfaceTexture);
-                startMediaPlayer(videoFile, surface);
+                //startMediaPlayer(videoFile, surface);
             }
         });
+
+        Surface surface = new Surface(this.presenterCallback.getPlayingTextureView().getSurfaceTexture());
+        startMediaPlayer(videoFile, surface);
     }
 
     private void startMediaPlayer(File videoFile, Surface surface) {
@@ -237,7 +240,9 @@ public class CameraPresenter extends BasePresenter {
             this.mediaPlayer.setDataSource(videoFile.getAbsolutePath());
             this.mediaPlayer.setSurface(surface);
             this.mediaPlayer.prepare();
+            this.mediaPlayer.setLooping(true);
             this.mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+            this.presenterCallback.getPreviewTextureView().setVisibility(View.GONE);
             this.mediaPlayer.start();
         } catch (IllegalArgumentException e) {
             // TODO Auto-generated catch block
@@ -262,7 +267,9 @@ public class CameraPresenter extends BasePresenter {
 
         Context getActivityContext();
 
-        TextureView getTextureView();
+        TextureView getPreviewTextureView();
+
+        TextureView getPlayingTextureView();
 
         ImageButton getChangeCameraButton();
     }
