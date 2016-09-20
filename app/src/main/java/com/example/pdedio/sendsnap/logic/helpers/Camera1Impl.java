@@ -3,6 +3,8 @@ package com.example.pdedio.sendsnap.logic.helpers;
 import android.content.Context;
 import android.graphics.SurfaceTexture;
 import android.hardware.Camera;
+import android.media.CamcorderProfile;
+import android.media.MediaRecorder;
 import android.view.SurfaceHolder;
 import android.view.TextureView;
 
@@ -15,10 +17,15 @@ public class Camera1Impl implements CameraHelper, TextureView.SurfaceTextureList
 
     private Camera camera;
 
+    private MediaRecorder mediaRecorder;
+
+    private String videoPath;
+
 
     @Override
     public void init(Context context, TextureView textureView) {
         this.camera = Camera.open();
+        this.camera.setDisplayOrientation(90);
         textureView.setSurfaceTextureListener(this);
     }
 
@@ -74,5 +81,21 @@ public class Camera1Impl implements CameraHelper, TextureView.SurfaceTextureList
     @Override
     public void onSurfaceTextureUpdated(SurfaceTexture surface) {
 
+    }
+
+
+    //Private methods
+    private void initMediaRecorder(Context context) {
+        this.mediaRecorder = new MediaRecorder();
+        this.mediaRecorder.setAudioSource(MediaRecorder.AudioSource.DEFAULT);
+        this.mediaRecorder.setVideoSource(MediaRecorder.VideoSource.DEFAULT);
+
+        CamcorderProfile profile = CamcorderProfile.get(CamcorderProfile.QUALITY_HIGH);
+        this.mediaRecorder.setProfile(profile);
+
+        if(videoPath == null || videoPath.isEmpty()) {
+            this.videoPath = context.getExternalFilesDir(null).getAbsolutePath() + "/photo.mp4";
+        }
+        this.mediaRecorder.setOutputFile(this.videoPath);
     }
 }
