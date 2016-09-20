@@ -46,12 +46,22 @@ public class Camera1Impl implements CameraHelper, TextureView.SurfaceTextureList
 
     @Override
     public void startRecording(Context context, TextureView textureView) {
+        this.initMediaRecorder(context);
 
+        try {
+            this.mediaRecorder.prepare();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        this.mediaRecorder.start();
     }
 
     @Override
     public File stopRecording() {
-        return null;
+        this.mediaRecorder.stop();
+
+        return new File(this.videoPath);
     }
 
 
@@ -97,5 +107,6 @@ public class Camera1Impl implements CameraHelper, TextureView.SurfaceTextureList
             this.videoPath = context.getExternalFilesDir(null).getAbsolutePath() + "/photo.mp4";
         }
         this.mediaRecorder.setOutputFile(this.videoPath);
+        this.mediaRecorder.setOrientationHint(90);
     }
 }

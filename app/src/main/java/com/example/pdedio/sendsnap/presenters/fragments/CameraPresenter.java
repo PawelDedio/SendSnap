@@ -233,15 +233,15 @@ public class CameraPresenter extends BasePresenter {
         });
 
         Surface surface = new Surface(this.presenterCallback.getPlayingTextureView().getSurfaceTexture());
-        //startMediaPlayer(videoFile, surface);
-        BaseFragmentActivity activity = this.presenterCallback.getBaseFragmentActivity();
+        startMediaPlayer(videoFile, surface);
+        /*BaseFragmentActivity activity = this.presenterCallback.getBaseFragmentActivity();
 
         if(activity instanceof MainActivity) {
             MainActivity mainActivity = (MainActivity) activity;
 
             EditSnapFragment fragment = EditSnapFragment_.builder().build();
             mainActivity.showFragment(fragment);
-        }
+        }*/
     }
 
     private void startMediaPlayer(File videoFile, Surface surface) {
