@@ -3,8 +3,10 @@ package com.example.pdedio.sendsnap.logic.helpers;
 import android.content.Context;
 import android.graphics.SurfaceTexture;
 import android.hardware.Camera;
+import android.hardware.camera2.CameraManager;
 import android.media.CamcorderProfile;
 import android.media.MediaRecorder;
+import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.TextureView;
 
@@ -19,19 +21,30 @@ public class Camera1Impl implements CameraHelper, TextureView.SurfaceTextureList
 
     private MediaRecorder mediaRecorder;
 
-    private String videoPath;
+    private String videoPath
+
+    private String[] cameraIds;
+
+    private int currentCameraId;
 
 
     @Override
     public void init(Context context, TextureView textureView) {
-        this.camera = Camera.open();
-        this.camera.setDisplayOrientation(90);
+        try {
+            CameraManager cameraManager = (CameraManager) context.getSystemService(Context.CAMERA_SERVICE);
+            this.cameraIds = cameraManager.getCameraIdList();
+            this.currentCameraId = 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        this.openCamera(this.currentCameraId);
         textureView.setSurfaceTextureListener(this);
     }
 
     @Override
     public void release() {
-
+        this.camera.unlock();
+        this.camera.release();
     }
 
     @Override
@@ -49,11 +62,22 @@ public class Camera1Impl implements CameraHelper, TextureView.SurfaceTextureList
         this.initMediaRecorder(context);
 
         try {
+            this.mediaRecorder.setOnInfoListener(new MediaRecorder.OnInfoListener() {
+                @Override
+                public void onInfo(MediaRecorder mediaRecorder, int i, int i1) {
+                    Log.e("onInfo", "i: " + i + "i1" + i1);
+                }
+            });
+            this.mediaRecorder.setOnErrorListener(new MediaRecorder.OnErrorListener() {
+                @Override
+                public void onError(MediaRecorder mediaRecorder, int i, int i1) {
+                    Log.e("onError", "i: " + i + "i1" + i1);
+                }
+            });
             this.mediaRecorder.prepare();
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         this.mediaRecorder.start();
     }
 
@@ -62,6 +86,11 @@ public class Camera1Impl implements CameraHelper, TextureView.SurfaceTextureList
         this.mediaRecorder.stop();
 
         return new File(this.videoPath);
+    }
+
+    @Override
+    public int getNumberOfCameras(Context context) {
+        return Camera.getNumberOfCameras();
     }
 
 
@@ -95,8 +124,15 @@ public class Camera1Impl implements CameraHelper, TextureView.SurfaceTextureList
 
 
     //Private methods
+    private void openCamera(int cameraId) {
+        this.camera = Camera.open(cameraId);
+        this.camera.setDisplayOrientation(90);
+    }
+
     private void initMediaRecorder(Context context) {
         this.mediaRecorder = new MediaRecorder();
+        this.camera.unlock();
+        this.mediaRecorder.setCamera(this.camera);
         this.mediaRecorder.setAudioSource(MediaRecorder.AudioSource.DEFAULT);
         this.mediaRecorder.setVideoSource(MediaRecorder.VideoSource.DEFAULT);
 

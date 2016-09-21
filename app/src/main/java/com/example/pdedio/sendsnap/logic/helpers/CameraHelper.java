@@ -24,6 +24,8 @@ public interface CameraHelper {
 
     File stopRecording();
 
+    int getNumberOfCameras(Context context);
+
 
     class Factory {
         public static CameraHelper build() {

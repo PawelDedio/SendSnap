@@ -390,6 +390,12 @@ public class Camera2Impl implements CameraHelper {
         return file;
     }
 
+    @Override
+    public int getNumberOfCameras(Context context) {
+        CameraManager
+        return 0;
+    }
+
     private void setUpMediaRecorder(Context context) {
         if(this.mediaRecorder != null) {
             return;
