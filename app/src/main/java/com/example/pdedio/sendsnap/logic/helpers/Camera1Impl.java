@@ -11,6 +11,7 @@ import android.view.SurfaceHolder;
 import android.view.TextureView;
 
 import java.io.File;
+import java.security.Policy;
 
 /**
  * Created by p.dedio on 05.09.16.
@@ -21,29 +22,27 @@ public class Camera1Impl implements CameraHelper, TextureView.SurfaceTextureList
 
     private MediaRecorder mediaRecorder;
 
-    private String videoPath
+    private String videoPath;
 
     private String[] cameraIds;
 
     private int currentCameraId;
 
+    private boolean isFlashlightEnabled;
+
 
     @Override
     public void init(Context context, TextureView textureView) {
         try {
-            CameraManager cameraManager = (CameraManager) context.getSystemService(Context.CAMERA_SERVICE);
-            this.cameraIds = cameraManager.getCameraIdList();
             this.currentCameraId = 0;
         } catch (Exception e) {
             e.printStackTrace();
         }
-        this.openCamera(this.currentCameraId);
-        textureView.setSurfaceTextureListener(this);
+        this.openCamera(this.currentCameraId, textureView);
     }
 
     @Override
     public void release() {
-        this.camera.unlock();
         this.camera.release();
     }
 
@@ -54,7 +53,13 @@ public class Camera1Impl implements CameraHelper, TextureView.SurfaceTextureList
 
     @Override
     public void switchCamera(Context context, TextureView textureView) {
+        if(this.camera != null) {
+            this.camera.release();
+            this.camera = null;
+        }
+        this.currentCameraId = this.currentCameraId == 0 ? 1 : 0;
 
+        this.openCamera(this.currentCameraId, textureView);
     }
 
     @Override
@@ -93,18 +98,25 @@ public class Camera1Impl implements CameraHelper, TextureView.SurfaceTextureList
         return Camera.getNumberOfCameras();
     }
 
+    @Override
+    public void setFlashLight(boolean enabled) {
+        this.isFlashlightEnabled = enabled;
+        if(enabled) {
+            Camera.Parameters parameters = this.camera.getParameters();
+            parameters.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
+            this.camera.setParameters(parameters);
+        } else {
+            Camera.Parameters parameters = this.camera.getParameters();
+            parameters.setFlashMode(Camera.Parameters.FLASH_MODE_ON);
+            this.camera.setParameters(parameters);
+        }
+    }
+
 
     // TextureView.SurfaceTextureListener methods
     @Override
     public void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height) {
-        Camera.Size previewSize = this.camera.getParameters().getPreviewSize();
-
-        try {
-            this.camera.setPreviewTexture(surface);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        this.camera.startPreview();
+        this.setCameraPreview(surface);
     }
 
     @Override
@@ -119,14 +131,34 @@ public class Camera1Impl implements CameraHelper, TextureView.SurfaceTextureList
 
     @Override
     public void onSurfaceTextureUpdated(SurfaceTexture surface) {
-
     }
 
 
     //Private methods
-    private void openCamera(int cameraId) {
+    private void openCamera(int cameraId, TextureView textureView) {
         this.camera = Camera.open(cameraId);
         this.camera.setDisplayOrientation(90);
+
+        if(textureView.getSurfaceTextureListener() == null) {
+            textureView.setSurfaceTextureListener(this);
+
+        } else {
+            try {
+                this.camera.reconnect();
+                this.setCameraPreview(textureView.getSurfaceTexture());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void setCameraPreview(SurfaceTexture surface) {
+        try {
+            this.camera.setPreviewTexture(surface);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        this.camera.startPreview();
     }
 
     private void initMediaRecorder(Context context) {

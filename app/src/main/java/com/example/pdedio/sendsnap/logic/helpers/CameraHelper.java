@@ -26,6 +26,8 @@ public interface CameraHelper {
 
     int getNumberOfCameras(Context context);
 
+    void setFlashLight(boolean enabled);
+
 
     class Factory {
         public static CameraHelper build() {

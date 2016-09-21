@@ -27,6 +27,17 @@
         android:src="@drawable/change_camera"
         android:background="@android:color/transparent"/>
 
+    <ImageButton
+        android:id="@+id/btnCameraFlash"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/camera_btn_flash_margin_top"
+        android:layout_marginLeft="@dimen/camera_btn_flash_margin_left"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:src="@drawable/flash_disabled"
+        android:background="@android:color/transparent"/>
+
     <Button
         android:id="@+id/btnCameraRecord"
         android:layout_width="@dimen/camera_btn_record_radius"

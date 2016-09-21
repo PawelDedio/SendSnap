@@ -39,6 +39,9 @@ public class CameraFragment extends BaseFragment implements CameraPresenter.Pres
     @ViewById(R.id.btnCameraChangeCamera)
     protected ImageButton btnChangeCamera;
 
+    @ViewById(R.id.btnCameraFlash)
+    protected ImageButton btnCameraFlash;
+
 
 
     //Lifecycle
@@ -93,6 +96,11 @@ public class CameraFragment extends BaseFragment implements CameraPresenter.Pres
     @Override
     public ImageButton getChangeCameraButton() {
         return this.btnChangeCamera;
+    }
+
+    @Override
+    public ImageButton getFlashButton() {
+        return this.btnCameraFlash;
     }
 
     @Override

@@ -392,8 +392,20 @@ public class Camera2Impl implements CameraHelper {
 
     @Override
     public int getNumberOfCameras(Context context) {
-        CameraManager
-        return 0;
+        CameraManager manager = (CameraManager) context.getSystemService(Context.CAMERA_SERVICE);
+        int number = 0;
+
+        try {
+            number = manager.getCameraIdList().length;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return number;
+    }
+
+    @Override
+    public void setFlashLight(boolean enabled) {
+
     }
 
     private void setUpMediaRecorder(Context context) {

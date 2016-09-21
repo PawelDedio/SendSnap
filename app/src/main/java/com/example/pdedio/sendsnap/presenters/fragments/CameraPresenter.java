@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 
+import com.example.pdedio.sendsnap.R;
 import com.example.pdedio.sendsnap.logic.helpers.CameraHelper;
 import com.example.pdedio.sendsnap.presenters.BasePresenter;
 import com.example.pdedio.sendsnap.presenters.activities.MainPresenter;
@@ -54,6 +55,8 @@ public class CameraPresenter extends BasePresenter {
 
     private MediaPlayer mediaPlayer;
 
+    private boolean isFlashEnabled;
+
 
     //Lifecycle
     public void init(PresenterCallback presenterCallback) {
@@ -64,7 +67,6 @@ public class CameraPresenter extends BasePresenter {
     public void afterViews() {
         this.configureViews();
         this.cameraHelper = CameraHelper.Factory.build();
-        this.cameraHelper.init(this.presenterCallback.getActivityContext(), this.presenterCallback.getPreviewTextureView());
     }
 
     @Override
@@ -124,6 +126,21 @@ public class CameraPresenter extends BasePresenter {
             @Override
             public void onClick(View view) {
                 switchCamera();
+            }
+        });
+
+        this.presenterCallback.getFlashButton().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ImageButton button = (ImageButton) v;
+                if(isFlashEnabled) {
+                    button.setImageResource(R.drawable.flash_disabled);
+                } else {
+                    button.setImageResource(R.drawable.flash_enabled);
+                }
+
+                isFlashEnabled = !isFlashEnabled;
+                cameraHelper.setFlashLight(isFlashEnabled);
             }
         });
     }
@@ -278,6 +295,8 @@ public class CameraPresenter extends BasePresenter {
         TextureView getPlayingTextureView();
 
         ImageButton getChangeCameraButton();
+
+        ImageButton getFlashButton();
 
         BaseFragmentActivity getBaseFragmentActivity();
     }
