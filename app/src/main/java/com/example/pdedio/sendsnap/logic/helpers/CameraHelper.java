@@ -28,12 +28,14 @@ public interface CameraHelper {
 
     void setFlashLight(boolean enabled);
 
+    boolean isFrontCamera();
+
 
     class Factory {
         public static CameraHelper build() {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                //return new Camera2Impl();
-                return new Camera1Impl();
+                return new Camera2Impl();
+                //return new Camera1Impl();
             } else {
                 return new Camera1Impl();
             }

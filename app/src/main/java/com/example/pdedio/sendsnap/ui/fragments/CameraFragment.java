@@ -2,6 +2,7 @@ package com.example.pdedio.sendsnap.ui.fragments;
 
 import android.content.Context;
 import android.view.TextureView;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 
@@ -41,6 +42,9 @@ public class CameraFragment extends BaseFragment implements CameraPresenter.Pres
 
     @ViewById(R.id.btnCameraFlash)
     protected ImageButton btnCameraFlash;
+
+    @ViewById(R.id.vCameraFrontFlash)
+    protected View frontCameraFlash;
 
 
 
@@ -101,6 +105,11 @@ public class CameraFragment extends BaseFragment implements CameraPresenter.Pres
     @Override
     public ImageButton getFlashButton() {
         return this.btnCameraFlash;
+    }
+
+    @Override
+    public View getFrontFlashView() {
+        return this.frontCameraFlash;
     }
 
     @Override

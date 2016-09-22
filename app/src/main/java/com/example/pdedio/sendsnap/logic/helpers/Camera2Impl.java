@@ -70,6 +70,8 @@ public class Camera2Impl implements CameraHelper {
 
     private String videoPath;
 
+    private boolean isFalshEnabled;
+
 
 
 
@@ -259,6 +261,11 @@ public class Camera2Impl implements CameraHelper {
             captureBuilder.addTarget(reader.getSurface());
             captureBuilder.set(CaptureRequest.CONTROL_MODE, CameraMetadata.CONTROL_MODE_AUTO);
 
+            if(this.isFalshEnabled) {
+                this.captureRequestBuilder.set(CaptureRequest.FLASH_MODE, CaptureRequest.FLASH_MODE_TORCH);
+                this.updatePreview();
+            }
+
             WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
 
             int rotation = windowManager.getDefaultDisplay().getRotation();
@@ -343,6 +350,10 @@ public class Camera2Impl implements CameraHelper {
             texture.setDefaultBufferSize(this.imageDimension.getWidth(), this.imageDimension.getHeight());
 
             captureRequestBuilder = this.cameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_RECORD);
+
+            if(this.isFalshEnabled) {
+                captureRequestBuilder.set(CaptureRequest.FLASH_MODE, CaptureRequest.FLASH_MODE_TORCH);
+            }
             List<Surface> surfaces = new ArrayList<>();
 
             Surface previewSurface = new Surface(texture);
@@ -379,6 +390,7 @@ public class Camera2Impl implements CameraHelper {
             this.cameraCaptureSession.abortCaptures();
             this.cameraCaptureSession.close();
             this.cameraCaptureSession = null;
+            this.cameraDevice.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -405,7 +417,12 @@ public class Camera2Impl implements CameraHelper {
 
     @Override
     public void setFlashLight(boolean enabled) {
+        this.isFalshEnabled = enabled;
+    }
 
+    @Override
+    public boolean isFrontCamera() {
+        return this.currentCameraId == 1;
     }
 
     private void setUpMediaRecorder(Context context) {

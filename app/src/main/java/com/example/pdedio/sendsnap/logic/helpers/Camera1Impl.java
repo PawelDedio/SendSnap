@@ -28,8 +28,6 @@ public class Camera1Impl implements CameraHelper, TextureView.SurfaceTextureList
 
     private int currentCameraId;
 
-    private boolean isFlashlightEnabled;
-
 
     @Override
     public void init(Context context, TextureView textureView) {
@@ -100,16 +98,20 @@ public class Camera1Impl implements CameraHelper, TextureView.SurfaceTextureList
 
     @Override
     public void setFlashLight(boolean enabled) {
-        this.isFlashlightEnabled = enabled;
         if(enabled) {
             Camera.Parameters parameters = this.camera.getParameters();
             parameters.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
             this.camera.setParameters(parameters);
         } else {
             Camera.Parameters parameters = this.camera.getParameters();
-            parameters.setFlashMode(Camera.Parameters.FLASH_MODE_ON);
+            parameters.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
             this.camera.setParameters(parameters);
         }
+    }
+
+    @Override
+    public boolean isFrontCamera() {
+        return this.currentCameraId == 1;
     }
 
 

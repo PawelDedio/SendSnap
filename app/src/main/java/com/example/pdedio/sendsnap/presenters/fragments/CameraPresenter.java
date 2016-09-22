@@ -1,14 +1,18 @@
 package com.example.pdedio.sendsnap.presenters.fragments;
 
+import android.app.Activity;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.graphics.SurfaceTexture;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.Surface;
 import android.view.TextureView;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
 
@@ -57,6 +61,8 @@ public class CameraPresenter extends BasePresenter {
 
     private boolean isFlashEnabled;
 
+    private float oldBrightnessLevel;
+
 
     //Lifecycle
     public void init(PresenterCallback presenterCallback) {
@@ -104,6 +110,10 @@ public class CameraPresenter extends BasePresenter {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
 
+                if(isFlashEnabled && cameraHelper.isFrontCamera()) {
+                    startFrontFlash();
+                }
+
                 if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
                     this.downTime = System.currentTimeMillis();
                     startCameraButtonEvent();
@@ -135,12 +145,13 @@ public class CameraPresenter extends BasePresenter {
                 ImageButton button = (ImageButton) v;
                 if(isFlashEnabled) {
                     button.setImageResource(R.drawable.flash_disabled);
+                    cameraHelper.setFlashLight(false);
                 } else {
                     button.setImageResource(R.drawable.flash_enabled);
+                    cameraHelper.setFlashLight(true);
                 }
 
                 isFlashEnabled = !isFlashEnabled;
-                cameraHelper.setFlashLight(isFlashEnabled);
             }
         });
     }
@@ -169,6 +180,10 @@ public class CameraPresenter extends BasePresenter {
 
     private void takePicture() {
         this.cameraHelper.takePicture(this.presenterCallback.getActivityContext(), this.presenterCallback.getPreviewTextureView());
+
+        if(this.isFlashEnabled && this.cameraHelper.isFrontCamera()) {
+            this.stopFrontFlash();
+        }
     }
 
     private void startRecording() {
@@ -184,6 +199,27 @@ public class CameraPresenter extends BasePresenter {
 
     private void switchCamera() {
         this.cameraHelper.switchCamera(this.presenterCallback.getActivityContext(), this.presenterCallback.getPreviewTextureView());
+    }
+
+    private void startFrontFlash() {
+        Activity activity = this.presenterCallback.getBaseFragmentActivity();
+        WindowManager.LayoutParams lp = activity.getWindow().getAttributes();
+        this.oldBrightnessLevel = lp.screenBrightness;
+
+        lp.screenBrightness = 1F;
+        activity.getWindow().setAttributes(lp);
+        activity.getWindow().addFlags(WindowManager.LayoutParams.FLAGS_CHANGED);
+        this.presenterCallback.getFrontFlashView().setVisibility(View.VISIBLE);
+    }
+
+    private void stopFrontFlash() {
+        this.presenterCallback.getFrontFlashView().setVisibility(View.GONE);
+        Activity activity = this.presenterCallback.getBaseFragmentActivity();
+        WindowManager.LayoutParams lp = activity.getWindow().getAttributes();
+
+        lp.screenBrightness = oldBrightnessLevel;
+        activity.getWindow().setAttributes(lp);
+        activity.getWindow().addFlags(WindowManager.LayoutParams.FLAGS_CHANGED);
     }
 
     private void startProgress() {
@@ -299,5 +335,7 @@ public class CameraPresenter extends BasePresenter {
         ImageButton getFlashButton();
 
         BaseFragmentActivity getBaseFragmentActivity();
+
+        View getFrontFlashView();
     }
 }

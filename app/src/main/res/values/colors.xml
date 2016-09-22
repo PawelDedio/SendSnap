@@ -8,4 +8,5 @@
     <color name="camera_btn_record_stroke">#ffffff</color>
     <color name="camera_btn_record_solid">#d22323</color>
     <color name="camera_btn_record_progress_stroke">#d22323</color>
+    <color name="camera_v_front_camera_flash">#caffffff</color>
 </resources>
