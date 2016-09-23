@@ -154,6 +154,14 @@ public class CameraPresenter extends BasePresenter {
                 isFlashEnabled = !isFlashEnabled;
             }
         });
+
+        this.presenterCallback.getPreviewTextureView().setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                cameraHelper.enableAutoFocus();
+                return false;
+            }
+        });
     }
 
     private void startCameraButtonEvent() {

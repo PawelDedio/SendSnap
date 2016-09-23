@@ -98,6 +98,7 @@ public class Camera1Impl implements CameraHelper, TextureView.SurfaceTextureList
 
     @Override
     public void setFlashLight(boolean enabled) {
+
         if(enabled) {
             Camera.Parameters parameters = this.camera.getParameters();
             parameters.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
@@ -112,6 +113,11 @@ public class Camera1Impl implements CameraHelper, TextureView.SurfaceTextureList
     @Override
     public boolean isFrontCamera() {
         return this.currentCameraId == 1;
+    }
+
+    @Override
+    public void enableAutoFocus() {
+        this.camera.autoFocus(null);
     }
 
 

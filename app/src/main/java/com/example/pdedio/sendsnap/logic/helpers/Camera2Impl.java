@@ -11,6 +11,7 @@ import android.hardware.camera2.CameraManager;
 import android.hardware.camera2.CameraMetadata;
 import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.TotalCaptureResult;
+import android.hardware.camera2.params.MeteringRectangle;
 import android.hardware.camera2.params.StreamConfigurationMap;
 import android.media.Image;
 import android.media.ImageReader;
@@ -212,6 +213,11 @@ public class Camera2Impl implements CameraHelper {
         if (cameraDevice != null) {
             captureRequestBuilder.set(CaptureRequest.CONTROL_MODE, CameraMetadata.CONTROL_MODE_AUTO);
             try {
+                if(this.isFalshEnabled) {
+                    captureRequestBuilder.set(CaptureRequest.FLASH_MODE, CaptureRequest.FLASH_MODE_TORCH);
+                } else {
+                    captureRequestBuilder.set(CaptureRequest.FLASH_MODE, CaptureRequest.FLASH_MODE_OFF);
+                }
                 cameraCaptureSession.setRepeatingRequest(captureRequestBuilder.build(), null, backgroundHandler);
             } catch (CameraAccessException e) {
                 e.printStackTrace();
@@ -260,11 +266,6 @@ public class Camera2Impl implements CameraHelper {
             final CaptureRequest.Builder captureBuilder = this.cameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW);
             captureBuilder.addTarget(reader.getSurface());
             captureBuilder.set(CaptureRequest.CONTROL_MODE, CameraMetadata.CONTROL_MODE_AUTO);
-
-            if(this.isFalshEnabled) {
-                this.captureRequestBuilder.set(CaptureRequest.FLASH_MODE, CaptureRequest.FLASH_MODE_TORCH);
-                this.updatePreview();
-            }
 
             WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
 
@@ -418,11 +419,26 @@ public class Camera2Impl implements CameraHelper {
     @Override
     public void setFlashLight(boolean enabled) {
         this.isFalshEnabled = enabled;
+        this.updatePreview();
     }
 
     @Override
     public boolean isFrontCamera() {
         return this.currentCameraId == 1;
+    }
+
+    @Override
+    public void enableAutoFocus() {
+        try {
+            this.captureRequestBuilder.set(CaptureRequest.CONTROL_AF_REGIONS,
+                    MeteringRectangle.METERING_WEIGHT_MAX);
+
+            this.cameraCaptureSession.setRepeatingRequest(captureRequestBuilder.build(), new CameraCaptureSession.CaptureCallback() {
+                    },
+                    backgroundHandler);
+        } catch (CameraAccessException e) {
+            e.printStackTrace();
+        }
     }
 
     private void setUpMediaRecorder(Context context) {

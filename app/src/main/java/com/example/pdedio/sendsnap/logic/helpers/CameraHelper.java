@@ -30,6 +30,8 @@ public interface CameraHelper {
 
     boolean isFrontCamera();
 
+    void enableAutoFocus();
+
 
     class Factory {
         public static CameraHelper build() {
