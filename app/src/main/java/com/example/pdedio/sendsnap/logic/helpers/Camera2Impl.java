@@ -9,7 +9,9 @@ import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CameraDevice;
 import android.hardware.camera2.CameraManager;
 import android.hardware.camera2.CameraMetadata;
+import android.hardware.camera2.CaptureFailure;
 import android.hardware.camera2.CaptureRequest;
+import android.hardware.camera2.CaptureResult;
 import android.hardware.camera2.TotalCaptureResult;
 import android.hardware.camera2.params.MeteringRectangle;
 import android.hardware.camera2.params.StreamConfigurationMap;
@@ -430,12 +432,10 @@ public class Camera2Impl implements CameraHelper {
     @Override
     public void enableAutoFocus() {
         try {
-            this.captureRequestBuilder.set(CaptureRequest.CONTROL_AF_REGIONS,
-                    MeteringRectangle.METERING_WEIGHT_MAX);
+            this.captureRequestBuilder.set(CaptureRequest.CONTROL_AF_MODE,
+                    CameraMetadata.CONTROL_AF_MODE_AUTO);
 
-            this.cameraCaptureSession.setRepeatingRequest(captureRequestBuilder.build(), new CameraCaptureSession.CaptureCallback() {
-                    },
-                    backgroundHandler);
+            this.cameraCaptureSession.capture(captureRequestBuilder.build(), null, backgroundHandler);
         } catch (CameraAccessException e) {
             e.printStackTrace();
         }

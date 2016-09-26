@@ -1,12 +1,15 @@
 package com.example.pdedio.sendsnap.presenters.fragments;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.SurfaceTexture;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.provider.Settings;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.Surface;
@@ -18,6 +21,7 @@ import android.widget.ImageButton;
 
 import com.example.pdedio.sendsnap.R;
 import com.example.pdedio.sendsnap.logic.helpers.CameraHelper;
+import com.example.pdedio.sendsnap.logic.helpers.DialogMultiplePermissionsListener;
 import com.example.pdedio.sendsnap.presenters.BasePresenter;
 import com.example.pdedio.sendsnap.presenters.activities.MainPresenter;
 import com.example.pdedio.sendsnap.ui.activities.BaseFragmentActivity;
@@ -25,12 +29,20 @@ import com.example.pdedio.sendsnap.ui.activities.MainActivity;
 import com.example.pdedio.sendsnap.ui.fragments.EditSnapFragment;
 import com.example.pdedio.sendsnap.ui.fragments.EditSnapFragment_;
 import com.github.lzyzsd.circleprogress.DonutProgress;
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.MultiplePermissionsReport;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.multi.DialogOnAnyDeniedMultiplePermissionsListener;
+import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 
 import org.androidannotations.annotations.EBean;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.jar.Manifest;
 
 import rx.Observable;
 import rx.Subscriber;
@@ -38,6 +50,8 @@ import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.functions.Func1;
+
+import static android.Manifest.*;
 
 /**
  * Created by p.dedio on 31.08.16.
@@ -71,8 +85,7 @@ public class CameraPresenter extends BasePresenter {
 
     @Override
     public void afterViews() {
-        this.configureViews();
-        this.cameraHelper = CameraHelper.Factory.build();
+        this.checkPermissions();
     }
 
     @Override
@@ -98,6 +111,38 @@ public class CameraPresenter extends BasePresenter {
 
 
     //Private methods
+    private void checkPermissions() {
+        Dexter.checkPermissions(new MultiplePermissionsListener() {
+            @Override
+            public void onPermissionsChecked(MultiplePermissionsReport report) {
+                if(report.areAllPermissionsGranted()) {
+                    prepareLogic();
+                } else {
+                    new AlertDialog.Builder(presenterCallback.getActivityContext())
+                            .setTitle(R.string.camera_permissions_denied_title)
+                            .setMessage(R.string.camera_permissions_denied_message)
+                            .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int buttonId) {
+                                    presenterCallback.getBaseFragmentActivity().finish();
+                                }
+                            })
+                            .show();
+                }
+            }
+
+            @Override
+            public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
+                token.continuePermissionRequest();
+            }
+        }, permission.RECORD_AUDIO, permission.CAMERA, permission.WRITE_EXTERNAL_STORAGE);
+    }
+
+    private void prepareLogic() {
+        this.configureViews();
+        this.cameraHelper = CameraHelper.Factory.build();
+    }
+
     private void configureViews() {
         DonutProgress progress = this.presenterCallback.getCameraProgressBar();
         progress.setRotation(270);

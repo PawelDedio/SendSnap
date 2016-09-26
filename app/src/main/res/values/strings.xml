@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">SendSnap</string>
+
+    <!-- Camera Fragment -->
+    <string name="camera_permissions_denied_title">Permissions denied</string>
+    <string name="camera_permissions_denied_message">We need all of these permissions to record and save your snaps. Please grant all permissions in settings and open app again.</string>
 </resources>
