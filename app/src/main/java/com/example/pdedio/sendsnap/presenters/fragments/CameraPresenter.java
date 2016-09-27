@@ -141,6 +141,7 @@ public class CameraPresenter extends BasePresenter {
     private void prepareLogic() {
         this.configureViews();
         this.cameraHelper = CameraHelper.Factory.build();
+        this.cameraHelper.init(this.presenterCallback.getActivityContext(), this.presenterCallback.getPreviewTextureView());
     }
 
     private void configureViews() {
