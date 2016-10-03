@@ -248,9 +248,9 @@ public class Camera2Impl implements CameraHelper {
     }
 
     @Override
-    public File takePicture(Context context, final TextureView textureView) {
+    public void takePicture(Context context, final TextureView textureView, final PhotoCallback callback) {
         if(cameraDevice == null) {
-            return null;
+            return;
         }
         final File file;
 
@@ -288,6 +288,7 @@ public class Camera2Impl implements CameraHelper {
                         save(bytes);
                     } catch (IOException e) {
                         e.printStackTrace();
+                        callback.onError(e);
                     } finally {
                         if(image != null) {
                             image.close();
@@ -325,12 +326,11 @@ public class Camera2Impl implements CameraHelper {
                 }
             }, backgroundHandler);
 
-            return file;
+            callback.onPhotoTaken(file);
         } catch (CameraAccessException e) {
             e.printStackTrace();
+            callback.onError(e);
         }
-
-        return null;
     }
 
     @Override

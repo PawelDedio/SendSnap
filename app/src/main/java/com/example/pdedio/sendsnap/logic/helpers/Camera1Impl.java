@@ -6,11 +6,13 @@ import android.hardware.Camera;
 import android.hardware.camera2.CameraManager;
 import android.media.CamcorderProfile;
 import android.media.MediaRecorder;
+import android.os.Environment;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.TextureView;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.security.Policy;
 
 /**
@@ -27,6 +29,8 @@ public class Camera1Impl implements CameraHelper, TextureView.SurfaceTextureList
     private String[] cameraIds;
 
     private int currentCameraId;
+
+    private File photo;
 
 
     @Override
@@ -45,8 +49,23 @@ public class Camera1Impl implements CameraHelper, TextureView.SurfaceTextureList
     }
 
     @Override
-    public File takePicture(Context context, TextureView textureView) {
-        return null;
+    public void takePicture(Context context, TextureView textureView, final PhotoCallback callback) {
+        this.photo = new File(Environment.getExternalStorageDirectory() + "/pic.jpg");
+        this.camera.takePicture(null, null, new Camera.PictureCallback() {
+            @Override
+            public void onPictureTaken(byte[] bytes, Camera camera) {
+
+                try {
+                    FileOutputStream fos = new FileOutputStream(photo);
+                    fos.write(bytes);
+                    fos.close();
+                    callback.onPhotoTaken(photo);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    callback.onError(e);
+                }
+            }
+        });
     }
 
     @Override

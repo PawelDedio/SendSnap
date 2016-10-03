@@ -16,7 +16,7 @@ public interface CameraHelper {
 
     void release();
 
-    File takePicture(Context context, final TextureView textureView);
+    void takePicture(Context context, final TextureView textureView, PhotoCallback callback);
 
     void switchCamera(Context context, TextureView textureView);
 
@@ -42,5 +42,10 @@ public interface CameraHelper {
                 return new Camera1Impl();
             }
         }
+    }
+
+    interface PhotoCallback {
+        void onPhotoTaken(File photo);
+        void onError(Exception e);
     }
 }
