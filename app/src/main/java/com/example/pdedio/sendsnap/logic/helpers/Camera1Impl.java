@@ -35,11 +35,6 @@ public class Camera1Impl implements CameraHelper, TextureView.SurfaceTextureList
 
     @Override
     public void init(Context context, TextureView textureView) {
-        try {
-            this.currentCameraId = 0;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
         this.openCamera(this.currentCameraId, textureView);
     }
 
@@ -167,7 +162,11 @@ public class Camera1Impl implements CameraHelper, TextureView.SurfaceTextureList
         this.camera.setDisplayOrientation(90);
 
         if(textureView.getSurfaceTextureListener() == null) {
-            textureView.setSurfaceTextureListener(this);
+            if(textureView.isAvailable()) {
+                this.setCameraPreview(textureView.getSurfaceTexture());
+            } else {
+                textureView.setSurfaceTextureListener(this);
+            }
 
         } else {
             try {

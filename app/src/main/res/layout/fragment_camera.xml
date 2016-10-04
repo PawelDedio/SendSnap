@@ -65,5 +65,6 @@
         custom:donut_finished_color="@color/camera_btn_record_progress_stroke"
         custom:donut_finished_stroke_width="@dimen/camera_btn_record_progress_stroke_width"
         custom:donut_unfinished_stroke_width="@dimen/camera_btn_record_progress_stroke_width"
-        custom:donut_unfinished_color="@color/camera_btn_record_stroke"/>
+        custom:donut_unfinished_color="@color/camera_btn_record_stroke"
+        android:background="@drawable/btn_record_progress_background"/>
 </RelativeLayout>

@@ -33,6 +33,29 @@ public class EditSnapPresenter extends BasePresenter {
     }
 
 
+
+    /*private void startMediaPlayer(File videoFile, Surface surface) {
+        try {
+            this.mediaPlayer = new MediaPlayer();
+            this.mediaPlayer.setDataSource(videoFile.getAbsolutePath());
+            this.mediaPlayer.setSurface(surface);
+            this.mediaPlayer.prepare();
+            this.mediaPlayer.setLooping(true);
+            this.mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+            this.presenterCallback.getPreviewTextureView().setVisibility(View.GONE);
+            this.mediaPlayer.start();
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        } catch (SecurityException e) {
+            e.printStackTrace();
+        } catch (IllegalStateException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }*/
+
+
     public interface PresenterCallback {
 
     }

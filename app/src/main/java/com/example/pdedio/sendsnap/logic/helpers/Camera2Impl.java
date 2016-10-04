@@ -1,5 +1,6 @@
 package com.example.pdedio.sendsnap.logic.helpers;
 
+import android.app.ActivityManager;
 import android.content.Context;
 import android.graphics.ImageFormat;
 import android.graphics.SurfaceTexture;
@@ -80,6 +81,13 @@ public class Camera2Impl implements CameraHelper {
 
     @Override
     public void init(final Context context, final TextureView textureView) {
+
+        if(textureView.isAvailable()) {
+            currentCameraId = 0;
+            openCamera(context, currentCameraId, textureView);
+            return;
+        }
+
         textureView.setSurfaceTextureListener(new TextureView.SurfaceTextureListener() {
             @Override
             public void onSurfaceTextureAvailable(SurfaceTexture surfaceTexture, int i, int i1) {
@@ -89,17 +97,18 @@ public class Camera2Impl implements CameraHelper {
 
             @Override
             public void onSurfaceTextureSizeChanged(SurfaceTexture surfaceTexture, int i, int i1) {
-
+                ActivityManager.isUserAMonkey();
             }
 
             @Override
             public boolean onSurfaceTextureDestroyed(SurfaceTexture surfaceTexture) {
+                ActivityManager.isUserAMonkey();
                 return false;
             }
 
             @Override
             public void onSurfaceTextureUpdated(SurfaceTexture surfaceTexture) {
-
+                ActivityManager.isUserAMonkey();
             }
         });
     }
