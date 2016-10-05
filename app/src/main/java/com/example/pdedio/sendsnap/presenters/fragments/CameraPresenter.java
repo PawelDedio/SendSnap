@@ -4,10 +4,8 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.view.MotionEvent;
-import android.view.Surface;
 import android.view.TextureView;
 import android.view.View;
 import android.view.WindowManager;
@@ -32,7 +30,6 @@ import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import org.androidannotations.annotations.EBean;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -237,8 +234,8 @@ public class CameraPresenter extends BasePresenter {
             public void onPhotoTaken(File photo) {
                 if(isFlashEnabled && cameraHelper.isFrontCamera()) {
                     stopFrontFlash();
-                    openFragment(photo, Consts.SnapType.PHOTO);
                 }
+                openFragment(photo, Consts.SnapType.PHOTO);
             }
 
             @Override

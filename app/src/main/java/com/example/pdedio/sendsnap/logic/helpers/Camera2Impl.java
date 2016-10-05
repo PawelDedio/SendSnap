@@ -10,11 +10,7 @@ import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CameraDevice;
 import android.hardware.camera2.CameraManager;
 import android.hardware.camera2.CameraMetadata;
-import android.hardware.camera2.CaptureFailure;
 import android.hardware.camera2.CaptureRequest;
-import android.hardware.camera2.CaptureResult;
-import android.hardware.camera2.TotalCaptureResult;
-import android.hardware.camera2.params.MeteringRectangle;
 import android.hardware.camera2.params.StreamConfigurationMap;
 import android.media.Image;
 import android.media.ImageReader;
@@ -22,7 +18,6 @@ import android.media.MediaRecorder;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.HandlerThread;
-import android.util.Log;
 import android.util.Size;
 import android.view.Surface;
 import android.view.TextureView;
@@ -412,19 +407,6 @@ public class Camera2Impl implements CameraHelper {
         File file = new File(this.videoPath);
 
         return file;
-    }
-
-    @Override
-    public int getNumberOfCameras(Context context) {
-        CameraManager manager = (CameraManager) context.getSystemService(Context.CAMERA_SERVICE);
-        int number = 0;
-
-        try {
-            number = manager.getCameraIdList().length;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return number;
     }
 
     @Override

@@ -3,17 +3,13 @@ package com.example.pdedio.sendsnap.logic.helpers;
 import android.content.Context;
 import android.graphics.SurfaceTexture;
 import android.hardware.Camera;
-import android.hardware.camera2.CameraManager;
 import android.media.CamcorderProfile;
 import android.media.MediaRecorder;
 import android.os.Environment;
-import android.util.Log;
-import android.view.SurfaceHolder;
 import android.view.TextureView;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.security.Policy;
 
 /**
  * Created by p.dedio on 05.09.16.
@@ -79,18 +75,6 @@ public class Camera1Impl implements CameraHelper, TextureView.SurfaceTextureList
         this.initMediaRecorder(context);
 
         try {
-            this.mediaRecorder.setOnInfoListener(new MediaRecorder.OnInfoListener() {
-                @Override
-                public void onInfo(MediaRecorder mediaRecorder, int i, int i1) {
-                    Log.e("onInfo", "i: " + i + "i1" + i1);
-                }
-            });
-            this.mediaRecorder.setOnErrorListener(new MediaRecorder.OnErrorListener() {
-                @Override
-                public void onError(MediaRecorder mediaRecorder, int i, int i1) {
-                    Log.e("onError", "i: " + i + "i1" + i1);
-                }
-            });
             this.mediaRecorder.prepare();
         } catch (Exception e) {
             e.printStackTrace();
@@ -103,11 +87,6 @@ public class Camera1Impl implements CameraHelper, TextureView.SurfaceTextureList
         this.mediaRecorder.stop();
 
         return new File(this.videoPath);
-    }
-
-    @Override
-    public int getNumberOfCameras(Context context) {
-        return Camera.getNumberOfCameras();
     }
 
     @Override

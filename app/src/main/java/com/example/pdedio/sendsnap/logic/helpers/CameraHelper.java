@@ -2,7 +2,6 @@ package com.example.pdedio.sendsnap.logic.helpers;
 
 import android.content.Context;
 import android.os.Build;
-import android.view.SurfaceView;
 import android.view.TextureView;
 
 import java.io.File;
@@ -24,8 +23,6 @@ public interface CameraHelper {
 
     File stopRecording();
 
-    int getNumberOfCameras(Context context);
-
     void setFlashLight(boolean enabled);
 
     boolean isFrontCamera();
@@ -36,8 +33,7 @@ public interface CameraHelper {
     class Factory {
         public static CameraHelper create() {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                //return new Camera2Impl();
-                return new Camera1Impl();
+                return new Camera2Impl();
             } else {
                 return new Camera1Impl();
             }
