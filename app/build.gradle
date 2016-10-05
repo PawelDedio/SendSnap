@@ -17,7 +17,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.pdedio.sendsnap"
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 24
         versionCode 1
         versionName "1.0"
@@ -46,4 +46,6 @@ dependencies {
     compile 'com.squareup.retrofit:retrofit:1.9.0'
     apt "org.androidannotations:androidannotations:$AAVersion"
     compile "org.androidannotations:androidannotations-api:$AAVersion"
+    compile 'com.github.lzyzsd:circleprogress:1.1.0@aar'
+    compile 'com.karumi:dexter:2.3.1'
 }
