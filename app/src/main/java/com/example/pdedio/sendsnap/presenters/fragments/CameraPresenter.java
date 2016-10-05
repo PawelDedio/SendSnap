@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.media.MediaPlayer;
 import android.view.MotionEvent;
 import android.view.TextureView;
 import android.view.View;
@@ -60,8 +59,6 @@ public class CameraPresenter extends BasePresenter {
 
     private CameraHelper cameraHelper;
 
-    private MediaPlayer mediaPlayer;
-
     private boolean isFlashEnabled;
 
     private float oldBrightnessLevel;
@@ -83,9 +80,7 @@ public class CameraPresenter extends BasePresenter {
 
     @Override
     public void destroy() {
-        if(this.cameraHelper != null) {
-            this.cameraHelper.release();
-        }
+        this.presenterCallback = null;
     }
 
     @Override
@@ -351,8 +346,6 @@ public class CameraPresenter extends BasePresenter {
         Context getActivityContext();
 
         TextureView getPreviewTextureView();
-
-        TextureView getPlayingTextureView();
 
         ImageButton getChangeCameraButton();
 

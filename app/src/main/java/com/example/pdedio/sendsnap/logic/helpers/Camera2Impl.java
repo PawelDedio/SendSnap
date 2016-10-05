@@ -31,6 +31,7 @@ import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.Semaphore;
 
 /**
  * Created by p.dedio on 05.09.16.
@@ -71,6 +72,8 @@ public class Camera2Impl implements CameraHelper {
 
     private boolean isFalshEnabled;
 
+    private Semaphore cameraOpenCloseLock = new Semaphore(1);
+
 
 
 
@@ -78,7 +81,6 @@ public class Camera2Impl implements CameraHelper {
     public void init(final Context context, final TextureView textureView) {
 
         if(textureView.isAvailable()) {
-            currentCameraId = 0;
             openCamera(context, currentCameraId, textureView);
             return;
         }
@@ -106,19 +108,33 @@ public class Camera2Impl implements CameraHelper {
                 ActivityManager.isUserAMonkey();
             }
         });
-    }
 
+    }
     @Override
     public void release() {
-        if(cameraDevice != null) {
-            cameraDevice.close();
-            cameraDevice = null;
+        try {
+            this.cameraOpenCloseLock.acquire();
+
+            if(this.cameraDevice != null) {
+                this.cameraDevice.close();
+                this.cameraDevice = null;
+            }
+
+            if(this.imageReader != null) {
+                this.imageReader.close();
+                this.imageReader = null;
+            }
+
+            if(this.cameraCaptureSession != null) {
+                this.cameraCaptureSession.close();
+                this.cameraCaptureSession = null;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            cameraOpenCloseLock.release();
         }
 
-        if(imageReader != null) {
-            imageReader.close();
-            imageReader = null;
-        }
 
         this.stopBackgroundThread();
     }
@@ -279,6 +295,13 @@ public class Camera2Impl implements CameraHelper {
             captureBuilder.set(CaptureRequest.JPEG_ORIENTATION, rotation);
 
             file = new File(Environment.getExternalStorageDirectory() + "/pic.jpg");
+            if(file.exists()) {
+                try {
+                    file.createNewFile();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
             ImageReader.OnImageAvailableListener readerListener = new ImageReader.OnImageAvailableListener() {
 
                 @Override
@@ -339,9 +362,15 @@ public class Camera2Impl implements CameraHelper {
 
     @Override
     public void switchCamera(Context context, TextureView textureView) {
-        if(cameraDevice != null) {
-            cameraDevice.close();
-            cameraDevice = null;
+        if(this.cameraDevice != null) {
+            this.cameraDevice.close();
+            this.cameraDevice = null;
+            this.captureRequestBuilder = null;
+        }
+
+        if(this.cameraCaptureSession != null) {
+            this.cameraCaptureSession.close();
+            this.cameraCaptureSession = null;
         }
         this.currentCameraId = this.currentCameraId == 0 ? 1 : 0;
 
@@ -427,7 +456,7 @@ public class Camera2Impl implements CameraHelper {
                     CameraMetadata.CONTROL_AF_MODE_AUTO);
 
             this.cameraCaptureSession.capture(captureRequestBuilder.build(), null, backgroundHandler);
-        } catch (CameraAccessException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

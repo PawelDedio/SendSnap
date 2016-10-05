@@ -33,7 +33,8 @@ public interface CameraHelper {
     class Factory {
         public static CameraHelper create() {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                return new Camera2Impl();
+                return new Camera1Impl();
+                //return new Camera2Impl();
             } else {
                 return new Camera1Impl();
             }

@@ -22,8 +22,6 @@ public class Camera1Impl implements CameraHelper, TextureView.SurfaceTextureList
 
     private String videoPath;
 
-    private String[] cameraIds;
-
     private int currentCameraId;
 
     private File photo;
@@ -42,6 +40,9 @@ public class Camera1Impl implements CameraHelper, TextureView.SurfaceTextureList
     @Override
     public void takePicture(Context context, TextureView textureView, final PhotoCallback callback) {
         this.photo = new File(Environment.getExternalStorageDirectory() + "/pic.jpg");
+        if(this.photo.exists()) {
+            this.photo.delete();
+        }
         this.camera.takePicture(null, null, new Camera.PictureCallback() {
             @Override
             public void onPictureTaken(byte[] bytes, Camera camera) {
