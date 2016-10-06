@@ -4,6 +4,9 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.view.MotionEvent;
 import android.view.TextureView;
 import android.view.View;
@@ -29,6 +32,7 @@ import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import org.androidannotations.annotations.EBean;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -230,7 +234,8 @@ public class CameraPresenter extends BasePresenter {
                 if(isFlashEnabled && cameraHelper.isFrontCamera()) {
                     stopFrontFlash();
                 }
-                openFragment(photo, Consts.SnapType.PHOTO);
+                Bitmap rotatedBitmap = rotateAndSaveImage(photo);
+                openFragment(photo, Consts.SnapType.PHOTO, rotatedBitmap);
             }
 
             @Override
@@ -240,6 +245,26 @@ public class CameraPresenter extends BasePresenter {
                 }
             }
         });
+    }
+
+    private Bitmap rotateAndSaveImage(File file) {
+        Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+        Matrix matrix = new Matrix();
+        matrix.postRotate(90);
+        bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+
+        FileOutputStream stream;
+        try {
+            file.createNewFile();
+            stream = new FileOutputStream(file);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+            stream.flush();
+            stream.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return bitmap;
     }
 
     private void startRecording() {
@@ -254,7 +279,7 @@ public class CameraPresenter extends BasePresenter {
         }
         this.stopProgress();
         File videoFile = this.cameraHelper.stopRecording();
-        openFragment(videoFile, Consts.SnapType.VIDEO);
+        openFragment(videoFile, Consts.SnapType.VIDEO, null);
         isRecording = false;
         this.presenterCallback.getCameraButton().setPressed(false);
     }
@@ -326,13 +351,14 @@ public class CameraPresenter extends BasePresenter {
         this.presenterCallback.getCameraProgressBar().setProgress(0);
     }
 
-    private void openFragment(File file, Consts.SnapType snapType) {
+    private void openFragment(File file, Consts.SnapType snapType, Bitmap bitmap) {
         BaseFragmentActivity activity = this.presenterCallback.getBaseFragmentActivity();
 
         if(activity instanceof MainActivity) {
             MainActivity mainActivity = (MainActivity) activity;
 
-            EditSnapFragment fragment = EditSnapFragment_.builder().snapFile(file).snapType(snapType).build();
+            EditSnapFragment fragment = EditSnapFragment_.builder().snapFile(file).snapType(snapType)
+                    .snapBitmap(bitmap).build();
             mainActivity.showFragment(fragment);
         }
     }

@@ -1,9 +1,6 @@
 package com.example.pdedio.sendsnap.presenters.fragments;
 
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.media.ExifInterface;
-import android.util.Log;
 import android.view.TextureView;
 import android.widget.ImageView;
 
@@ -56,16 +53,7 @@ public class EditSnapPresenter extends BasePresenter {
     }
 
     private void showPhoto() {
-        Log.e("showPhoto", this.presenterCallback.getSnapFile().getAbsolutePath());
-        int rotation = 0;
-        try {
-            ExifInterface exif = new ExifInterface(this.presenterCallback.getSnapFile().getAbsolutePath());
-            rotation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        Log.e("showPhoto", rotation + " ");
-        Bitmap bitmap = BitmapFactory.decodeFile(this.presenterCallback.getSnapFile().getAbsolutePath());
+        Bitmap bitmap = this.presenterCallback.getSnapBitmap();
         this.presenterCallback.getPreviewImageView().setImageBitmap(bitmap);
     }
 
@@ -102,5 +90,7 @@ public class EditSnapPresenter extends BasePresenter {
         File getSnapFile();
 
         Consts.SnapType getSnapType();
+
+        Bitmap getSnapBitmap();
     }
 }

@@ -1,5 +1,6 @@
 package com.example.pdedio.sendsnap.ui.fragments;
 
+import android.graphics.Bitmap;
 import android.view.TextureView;
 import android.widget.ImageView;
 
@@ -30,6 +31,9 @@ public class EditSnapFragment extends BaseFragment implements EditSnapPresenter.
 
     @FragmentArg
     protected File snapFile;
+
+    @FragmentArg
+    protected Bitmap snapBitmap;
 
     @ViewById(R.id.ivEditSnapPhoto)
     protected ImageView ivPhoto;
@@ -76,5 +80,10 @@ public class EditSnapFragment extends BaseFragment implements EditSnapPresenter.
     @Override
     public Consts.SnapType getSnapType() {
         return this.snapType;
+    }
+
+    @Override
+    public Bitmap getSnapBitmap() {
+        return this.snapBitmap;
     }
 }
