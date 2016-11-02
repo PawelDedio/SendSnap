@@ -10,6 +10,7 @@ import android.view.TextureView;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.List;
 
 /**
  * Created by p.dedio on 05.09.16.
@@ -25,6 +26,9 @@ public class Camera1Impl implements CameraHelper, TextureView.SurfaceTextureList
     private int currentCameraId;
 
     private File photo;
+
+    private static final int REQUIRED_WIDTH = 1920;
+    private static final int REQUIRED_HEIGHT = 1080;
 
 
     @Override
@@ -140,6 +144,11 @@ public class Camera1Impl implements CameraHelper, TextureView.SurfaceTextureList
     private void openCamera(int cameraId, TextureView textureView) {
         this.camera = Camera.open(cameraId);
         this.camera.setDisplayOrientation(90);
+        Camera.Parameters params = this.camera.getParameters();
+        List<Camera.Size> sizes = params.getSupportedPictureSizes();
+        Camera.Size size = this.getClosestDimension(sizes, REQUIRED_WIDTH, REQUIRED_HEIGHT);
+        params.setPictureSize(size.width, size.height);
+        this.camera.setParameters(params);
 
         if(textureView.getSurfaceTextureListener() == null) {
             if(textureView.isAvailable()) {
@@ -182,5 +191,26 @@ public class Camera1Impl implements CameraHelper, TextureView.SurfaceTextureList
         }
         this.mediaRecorder.setOutputFile(this.videoPath);
         this.mediaRecorder.setOrientationHint(90);
+    }
+
+    private Camera.Size getClosestDimension(List<Camera.Size> dimensions, int requiredWidth, int requiredHeight) {
+        Camera.Size closestSize = dimensions.get(0);
+        int lastWidthResult = Integer.MAX_VALUE;
+        int lastHeightResult = Integer.MAX_VALUE;
+
+        for(Camera.Size size : dimensions) {
+            int width = Math.max(size.height, size.width);
+            int height = Math.min(size.height, size.width);
+            int widthResult = Math.abs(requiredWidth - width);
+            int heightResult = Math.abs(requiredHeight - height);
+
+            if(widthResult < lastWidthResult && heightResult < lastHeightResult) {
+                closestSize = size;
+                lastWidthResult = widthResult;
+                lastHeightResult = heightResult;
+            }
+        }
+
+        return closestSize;
     }
 }

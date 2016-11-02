@@ -46,7 +46,7 @@ dependencies {
     compile 'com.squareup.retrofit:retrofit:1.9.0'
     apt "org.androidannotations:androidannotations:$AAVersion"
     compile "org.androidannotations:androidannotations-api:$AAVersion"
-    compile 'com.github.lzyzsd:circleprogress:1.1.0@aar'
+    compile 'com.github.lzyzsd:CircleProgress:v1.1.1'
     compile 'com.karumi:dexter:2.3.1'
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'

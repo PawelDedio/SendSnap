@@ -99,7 +99,7 @@ public class Camera2Impl implements CameraHelper {
 
             @Override
             public boolean onSurfaceTextureDestroyed(SurfaceTexture surfaceTexture) {
-                ActivityManager.isUserAMonkey();
+                release();
                 return false;
             }
 

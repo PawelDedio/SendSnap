@@ -7,6 +7,8 @@ import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+import android.media.ExifInterface;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.TextureView;
 import android.view.View;
@@ -141,7 +143,7 @@ public class CameraPresenter extends BasePresenter {
 
     private void configureViews() {
         DonutProgress progress = this.presenterCallback.getCameraProgressBar();
-        progress.setRotation(270);
+        progress.setStartingDegree(270);
         progress.setMax(MAX_RECORD_TIME);
 
 
@@ -184,15 +186,15 @@ public class CameraPresenter extends BasePresenter {
             @Override
             public void onClick(View v) {
                 ImageButton button = (ImageButton) v;
-                if(isFlashEnabled) {
-                    button.setImageResource(R.drawable.flash_disabled);
-                    cameraHelper.setFlashLight(false);
-                } else {
-                    button.setImageResource(R.drawable.flash_enabled);
-                    cameraHelper.setFlashLight(true);
+                isFlashEnabled = !isFlashEnabled;
+                int resourceId = isFlashEnabled ? R.drawable.flash_enabled : R.drawable.flash_disabled;
+                button.setImageResource(resourceId);
+
+                if(!cameraHelper.isFrontCamera()) {
+                    cameraHelper.setFlashLight(isFlashEnabled);
                 }
 
-                isFlashEnabled = !isFlashEnabled;
+
             }
         });
 
@@ -248,6 +250,14 @@ public class CameraPresenter extends BasePresenter {
     }
 
     private Bitmap rotateAndSaveImage(File file) {
+        try {
+            ExifInterface exif = new ExifInterface(file.getAbsolutePath());
+            int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, -4);
+            Log.e("rotateAndSaveImage", "orientation: " + orientation);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
         Matrix matrix = new Matrix();
         matrix.postRotate(90);
