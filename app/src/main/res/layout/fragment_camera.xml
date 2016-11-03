@@ -18,7 +18,7 @@
         android:background="@color/camera_v_front_camera_flash"
         android:visibility="gone"/>
 
-    <ImageButton
+    <com.example.pdedio.sendsnap.ui.views.BaseImageButton_
         android:id="@+id/btnCameraChangeCamera"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -29,7 +29,7 @@
         android:src="@drawable/change_camera"
         android:background="@android:color/transparent"/>
 
-    <ImageButton
+    <com.example.pdedio.sendsnap.ui.views.BaseImageButton_
         android:id="@+id/btnCameraFlash"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -40,7 +40,7 @@
         android:src="@drawable/flash_disabled"
         android:background="@android:color/transparent"/>
 
-    <Button
+    <com.example.pdedio.sendsnap.ui.views.BaseButton_
         android:id="@+id/btnCameraRecord"
         android:layout_width="@dimen/camera_btn_record_radius"
         android:layout_height="@dimen/camera_btn_record_radius"

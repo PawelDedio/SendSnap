@@ -2,11 +2,11 @@ package com.example.pdedio.sendsnap.ui.fragments;
 
 import android.graphics.Bitmap;
 import android.view.TextureView;
-import android.widget.ImageView;
 
 import com.example.pdedio.sendsnap.R;
 import com.example.pdedio.sendsnap.logic.helpers.Consts;
 import com.example.pdedio.sendsnap.presenters.fragments.EditSnapPresenter;
+import com.example.pdedio.sendsnap.ui.views.BaseImageView;
 
 import org.androidannotations.annotations.AfterInject;
 import org.androidannotations.annotations.AfterViews;
@@ -36,7 +36,7 @@ public class EditSnapFragment extends BaseFragment implements EditSnapPresenter.
     protected Bitmap snapBitmap;
 
     @ViewById(R.id.ivEditSnapPhoto)
-    protected ImageView ivPhoto;
+    protected BaseImageView ivPhoto;
 
     @ViewById(R.id.tvEditSnapVideo)
     protected TextureView tvVideo;
@@ -68,7 +68,7 @@ public class EditSnapFragment extends BaseFragment implements EditSnapPresenter.
     }
 
     @Override
-    public ImageView getPreviewImageView() {
+    public BaseImageView getPreviewImageView() {
         return this.ivPhoto;
     }
 

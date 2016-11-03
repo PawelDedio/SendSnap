@@ -3,7 +3,7 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageView
+    <com.example.pdedio.sendsnap.ui.views.BaseImageView_
         android:id="@+id/ivEditSnapPhoto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>

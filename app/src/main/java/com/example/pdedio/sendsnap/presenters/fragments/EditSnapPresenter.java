@@ -2,10 +2,10 @@ package com.example.pdedio.sendsnap.presenters.fragments;
 
 import android.graphics.Bitmap;
 import android.view.TextureView;
-import android.widget.ImageView;
 
 import com.example.pdedio.sendsnap.logic.helpers.Consts;
 import com.example.pdedio.sendsnap.presenters.BasePresenter;
+import com.example.pdedio.sendsnap.ui.views.BaseImageView;
 
 import org.androidannotations.annotations.EBean;
 
@@ -85,7 +85,7 @@ public class EditSnapPresenter extends BasePresenter {
     public interface PresenterCallback {
         TextureView getPreviewTextureView();
 
-        ImageView getPreviewImageView();
+        BaseImageView getPreviewImageView();
 
         File getSnapFile();
 

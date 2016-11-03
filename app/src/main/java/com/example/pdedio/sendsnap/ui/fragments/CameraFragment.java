@@ -3,11 +3,11 @@ package com.example.pdedio.sendsnap.ui.fragments;
 import android.content.Context;
 import android.view.TextureView;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ImageButton;
 
 import com.example.pdedio.sendsnap.R;
 import com.example.pdedio.sendsnap.presenters.fragments.CameraPresenter;
+import com.example.pdedio.sendsnap.ui.views.BaseButton;
+import com.example.pdedio.sendsnap.ui.views.BaseImageButton;
 import com.github.lzyzsd.circleprogress.DonutProgress;
 
 import org.androidannotations.annotations.AfterInject;
@@ -29,16 +29,16 @@ public class CameraFragment extends BaseFragment implements CameraPresenter.Pres
     protected DonutProgress pbRecordProgress;
 
     @ViewById(R.id.btnCameraRecord)
-    protected Button btnCameraRecord;
+    protected BaseButton btnCameraRecord;
 
     @ViewById(R.id.tvCameraPreview)
     protected TextureView tvCameraPreview;
 
     @ViewById(R.id.btnCameraChangeCamera)
-    protected ImageButton btnChangeCamera;
+    protected BaseImageButton btnChangeCamera;
 
     @ViewById(R.id.btnCameraFlash)
-    protected ImageButton btnCameraFlash;
+    protected BaseImageButton btnCameraFlash;
 
     @ViewById(R.id.vCameraFrontFlash)
     protected View frontCameraFlash;
@@ -86,7 +86,7 @@ public class CameraFragment extends BaseFragment implements CameraPresenter.Pres
     }
 
     @Override
-    public Button getCameraButton() {
+    public BaseButton getCameraButton() {
         return this.btnCameraRecord;
     }
 
@@ -96,12 +96,12 @@ public class CameraFragment extends BaseFragment implements CameraPresenter.Pres
     }
 
     @Override
-    public ImageButton getChangeCameraButton() {
+    public BaseImageButton getChangeCameraButton() {
         return this.btnChangeCamera;
     }
 
     @Override
-    public ImageButton getFlashButton() {
+    public BaseImageButton getFlashButton() {
         return this.btnCameraFlash;
     }
 

@@ -13,8 +13,6 @@ import android.view.MotionEvent;
 import android.view.TextureView;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.ImageButton;
 
 import com.example.pdedio.sendsnap.R;
 import com.example.pdedio.sendsnap.logic.helpers.CameraHelper;
@@ -24,6 +22,8 @@ import com.example.pdedio.sendsnap.ui.activities.BaseFragmentActivity;
 import com.example.pdedio.sendsnap.ui.activities.MainActivity;
 import com.example.pdedio.sendsnap.ui.fragments.EditSnapFragment;
 import com.example.pdedio.sendsnap.ui.fragments.EditSnapFragment_;
+import com.example.pdedio.sendsnap.ui.views.BaseButton;
+import com.example.pdedio.sendsnap.ui.views.BaseImageButton;
 import com.github.lzyzsd.circleprogress.DonutProgress;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
@@ -108,12 +108,15 @@ public class CameraPresenter extends BasePresenter {
 
     //Private methods
     private void checkPermissions() {
+        System.out.println("przed sprawdzaniem chuje wyciagnijcie mnie");
         Dexter.checkPermissions(new MultiplePermissionsListener() {
             @Override
             public void onPermissionsChecked(MultiplePermissionsReport report) {
                 if(report.areAllPermissionsGranted()) {
                     prepareLogic();
+                    System.out.println("permissionChecked chuje wyciagnijcie mnie");
                 } else {
+                    System.out.println("permissionChecked chuje wyciagnijcie mnie else");
                     new AlertDialog.Builder(presenterCallback.getActivityContext())
                             .setTitle(R.string.camera_permissions_denied_title)
                             .setMessage(R.string.camera_permissions_denied_message)
@@ -129,14 +132,18 @@ public class CameraPresenter extends BasePresenter {
 
             @Override
             public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
+                System.out.println("shouldbeShowbn chuje wyciagnijcie mnie");
                 token.continuePermissionRequest();
             }
         }, permission.RECORD_AUDIO, permission.CAMERA, permission.WRITE_EXTERNAL_STORAGE);
+        System.out.println("sprawdzone chuje wyciagnijcie mnie");
     }
 
     private void prepareLogic() {
         this.configureViews();
-        this.cameraHelper = CameraHelper.Factory.create();
+        if(this.cameraHelper == null) {
+            this.cameraHelper = CameraHelper.Factory.create();
+        }
         this.cameraHelper.init(this.presenterCallback.getActivityContext(), this.presenterCallback.getPreviewTextureView());
         this.isCameraConfigured = true;
     }
@@ -185,7 +192,7 @@ public class CameraPresenter extends BasePresenter {
         this.presenterCallback.getFlashButton().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ImageButton button = (ImageButton) v;
+                BaseImageButton button = (BaseImageButton) v;
                 isFlashEnabled = !isFlashEnabled;
                 int resourceId = isFlashEnabled ? R.drawable.flash_enabled : R.drawable.flash_disabled;
                 button.setImageResource(resourceId);
@@ -377,15 +384,15 @@ public class CameraPresenter extends BasePresenter {
     public interface PresenterCallback {
         DonutProgress getCameraProgressBar();
 
-        Button getCameraButton();
+        BaseButton getCameraButton();
 
         Context getActivityContext();
 
         TextureView getPreviewTextureView();
 
-        ImageButton getChangeCameraButton();
+        BaseImageButton getChangeCameraButton();
 
-        ImageButton getFlashButton();
+        BaseImageButton getFlashButton();
 
         BaseFragmentActivity getBaseFragmentActivity();
 
