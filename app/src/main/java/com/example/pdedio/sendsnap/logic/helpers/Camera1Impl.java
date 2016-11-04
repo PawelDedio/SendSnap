@@ -32,7 +32,8 @@ public class Camera1Impl implements CameraHelper, TextureView.SurfaceTextureList
 
 
     @Override
-    public void init(Context context, TextureView textureView) {
+    public void init(Context context, TextureView textureView, int cameraId) {
+        this.currentCameraId = cameraId;
         this.openCamera(this.currentCameraId, textureView);
     }
 
@@ -118,6 +119,11 @@ public class Camera1Impl implements CameraHelper, TextureView.SurfaceTextureList
         this.camera.autoFocus(null);
     }
 
+    @Override
+    public int getCurrentCameraId() {
+        return this.currentCameraId;
+    }
+
 
     // TextureView.SurfaceTextureListener methods
     @Override
@@ -190,7 +196,11 @@ public class Camera1Impl implements CameraHelper, TextureView.SurfaceTextureList
             this.videoPath = context.getExternalFilesDir(null).getAbsolutePath() + "/photo.mp4";
         }
         this.mediaRecorder.setOutputFile(this.videoPath);
-        this.mediaRecorder.setOrientationHint(90);
+        if(this.isFrontCamera()) {
+            this.mediaRecorder.setOrientationHint(270);
+        } else {
+            this.mediaRecorder.setOrientationHint(90);
+        }
     }
 
     private Camera.Size getClosestDimension(List<Camera.Size> dimensions, int requiredWidth, int requiredHeight) {

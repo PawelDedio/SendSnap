@@ -3,7 +3,10 @@ package com.example.pdedio.sendsnap.presenters.activities;
 import android.content.Context;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
+import android.view.View;
 
+import com.example.pdedio.sendsnap.R;
 import com.example.pdedio.sendsnap.logic.helpers.FragmentStackManager;
 import com.example.pdedio.sendsnap.presenters.BasePresenter;
 import com.example.pdedio.sendsnap.ui.adapters.VpMainAdapter;
@@ -28,6 +31,9 @@ public class MainPresenter extends BasePresenter {
 
     protected VpMainAdapter vpMainAdapter;
 
+    @Bean
+    protected FragmentStackManager fragmentStackManager;
+
 
 
     ///Lifecycle
@@ -45,6 +51,30 @@ public class MainPresenter extends BasePresenter {
     @Override
     public void destroy() {
         this.presenterCallback = null;
+    }
+
+
+    ///Public methods
+    public void showFragment(BaseFragment fragment) {
+        if(this.presenterCallback.getMainViewPager().getVisibility() == View.VISIBLE) {
+            this.presenterCallback.showFrameLayout();
+        }
+
+        this.fragmentStackManager.replaceFragmentWithAddingToBackStack(R.id.flMain, fragment);
+    }
+
+    public void popFragment() {
+        int fragmentsCount = this.fragmentStackManager.getBackStackCount();
+        if(fragmentsCount > 1) {
+            this.fragmentStackManager.popBackStack();
+        } else {
+            if(fragmentsCount == 0) {
+                this.presenterCallback.finish();
+                return;
+            }
+            this.fragmentStackManager.popBackStack();
+            this.presenterCallback.showViewPager();
+        }
     }
 
 
@@ -73,6 +103,10 @@ public class MainPresenter extends BasePresenter {
 
         void showFragment(BaseFragment fragment);
 
-        void popFragment();
+        void showFrameLayout();
+
+        ViewPager getMainViewPager();
+
+        void finish();
     }
 }

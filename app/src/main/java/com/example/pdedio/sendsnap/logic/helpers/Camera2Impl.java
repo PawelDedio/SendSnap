@@ -36,6 +36,7 @@ import java.util.concurrent.Semaphore;
 /**
  * Created by p.dedio on 05.09.16.
  */
+@Deprecated
 public class Camera2Impl implements CameraHelper {
 
     private CameraDevice cameraDevice;
@@ -78,8 +79,9 @@ public class Camera2Impl implements CameraHelper {
 
 
     @Override
-    public void init(final Context context, final TextureView textureView) {
+    public void init(final Context context, final TextureView textureView, int cameraId) {
 
+        this.currentCameraId = cameraId;
         if(textureView.isAvailable()) {
             openCamera(context, currentCameraId, textureView);
             return;
@@ -459,6 +461,11 @@ public class Camera2Impl implements CameraHelper {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public int getCurrentCameraId() {
+        return this.currentCameraId;
     }
 
     private void setUpMediaRecorder(Context context) {

@@ -1,20 +1,14 @@
 package com.example.pdedio.sendsnap.ui.fragments;
 
-import android.Manifest;
-import android.app.Activity;
 import android.graphics.drawable.Drawable;
 
 import com.example.pdedio.sendsnap.BuildConfig;
 import com.example.pdedio.sendsnap.R;
-import com.example.pdedio.sendsnap.ui.activities.MainActivity;
-import com.example.pdedio.sendsnap.ui.activities.MainActivity_;
 import com.example.pdedio.sendsnap.ui.views.BaseImageButton;
 
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.Shadows;
@@ -28,7 +22,7 @@ import static android.Manifest.permission;
  * Created by p.dedio on 03.11.16.
  */
 @RunWith(RobolectricTestRunner.class)
-@Config(constants = BuildConfig.class, sdk = 19)
+@Config(constants = BuildConfig.class, sdk = 23)
 public class CameraFragmentTest {
 
     private void grantPermissions() {
@@ -49,7 +43,6 @@ public class CameraFragmentTest {
         flashButton.performClick();
         Drawable newImage = flashButton.getDrawable();
 
-        ShadowApplication.runBackgroundTasks();
         Assert.assertNotEquals(oldImage, newImage);
     }
 }

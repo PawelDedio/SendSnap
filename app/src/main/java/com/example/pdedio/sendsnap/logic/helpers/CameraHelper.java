@@ -11,7 +11,7 @@ import java.io.File;
  */
 public interface CameraHelper {
 
-    void init(Context context, TextureView textureView);
+    void init(Context context, TextureView textureView, int cameraId);
 
     void release();
 
@@ -28,6 +28,8 @@ public interface CameraHelper {
     boolean isFrontCamera();
 
     void enableAutoFocus();
+
+    int getCurrentCameraId();
 
 
     class Factory {

@@ -26,7 +26,7 @@
         android:layout_marginRight="@dimen/camera_btn_change_camera_margin_right"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
-        android:src="@drawable/change_camera"
+        android:src="@drawable/btn_change_camera"
         android:background="@android:color/transparent"/>
 
     <com.example.pdedio.sendsnap.ui.views.BaseImageButton_
@@ -37,7 +37,7 @@
         android:layout_marginLeft="@dimen/camera_btn_flash_margin_left"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:src="@drawable/flash_disabled"
+        android:src="@drawable/btn_flash_disabled"
         android:background="@android:color/transparent"/>
 
     <com.example.pdedio.sendsnap.ui.views.BaseButton_

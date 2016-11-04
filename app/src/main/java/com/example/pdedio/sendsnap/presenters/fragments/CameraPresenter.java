@@ -7,8 +7,6 @@ import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
-import android.media.ExifInterface;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.TextureView;
 import android.view.View;
@@ -17,6 +15,7 @@ import android.view.WindowManager;
 import com.example.pdedio.sendsnap.R;
 import com.example.pdedio.sendsnap.logic.helpers.CameraHelper;
 import com.example.pdedio.sendsnap.logic.helpers.Consts;
+import com.example.pdedio.sendsnap.logic.helpers.SharedPrefHelper_;
 import com.example.pdedio.sendsnap.presenters.BasePresenter;
 import com.example.pdedio.sendsnap.ui.activities.BaseFragmentActivity;
 import com.example.pdedio.sendsnap.ui.activities.MainActivity;
@@ -32,6 +31,7 @@ import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 
 import org.androidannotations.annotations.EBean;
+import org.androidannotations.annotations.sharedpreferences.Pref;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -52,6 +52,9 @@ import static android.Manifest.permission;
  */
 @EBean
 public class CameraPresenter extends BasePresenter {
+
+    @Pref
+    protected SharedPrefHelper_ sharedPrefHelper;
 
     private PresenterCallback presenterCallback;
 
@@ -92,7 +95,7 @@ public class CameraPresenter extends BasePresenter {
     @Override
     public void onResume() {
         if(this.cameraHelper != null && this.presenterCallback != null && !this.isCameraConfigured) {
-            this.cameraHelper.init(this.presenterCallback.getActivityContext(), this.presenterCallback.getPreviewTextureView());
+            this.initCameraHelper();
         }
     }
 
@@ -108,15 +111,12 @@ public class CameraPresenter extends BasePresenter {
 
     //Private methods
     private void checkPermissions() {
-        System.out.println("przed sprawdzaniem chuje wyciagnijcie mnie");
         Dexter.checkPermissions(new MultiplePermissionsListener() {
             @Override
             public void onPermissionsChecked(MultiplePermissionsReport report) {
                 if(report.areAllPermissionsGranted()) {
                     prepareLogic();
-                    System.out.println("permissionChecked chuje wyciagnijcie mnie");
                 } else {
-                    System.out.println("permissionChecked chuje wyciagnijcie mnie else");
                     new AlertDialog.Builder(presenterCallback.getActivityContext())
                             .setTitle(R.string.camera_permissions_denied_title)
                             .setMessage(R.string.camera_permissions_denied_message)
@@ -132,11 +132,9 @@ public class CameraPresenter extends BasePresenter {
 
             @Override
             public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
-                System.out.println("shouldbeShowbn chuje wyciagnijcie mnie");
                 token.continuePermissionRequest();
             }
         }, permission.RECORD_AUDIO, permission.CAMERA, permission.WRITE_EXTERNAL_STORAGE);
-        System.out.println("sprawdzone chuje wyciagnijcie mnie");
     }
 
     private void prepareLogic() {
@@ -144,7 +142,7 @@ public class CameraPresenter extends BasePresenter {
         if(this.cameraHelper == null) {
             this.cameraHelper = CameraHelper.Factory.create();
         }
-        this.cameraHelper.init(this.presenterCallback.getActivityContext(), this.presenterCallback.getPreviewTextureView());
+        this.initCameraHelper();
         this.isCameraConfigured = true;
     }
 
@@ -194,7 +192,7 @@ public class CameraPresenter extends BasePresenter {
             public void onClick(View v) {
                 BaseImageButton button = (BaseImageButton) v;
                 isFlashEnabled = !isFlashEnabled;
-                int resourceId = isFlashEnabled ? R.drawable.flash_enabled : R.drawable.flash_disabled;
+                int resourceId = isFlashEnabled ? R.drawable.btn_flash_enabled : R.drawable.btn_flash_disabled;
                 button.setImageResource(resourceId);
 
                 if(!cameraHelper.isFrontCamera()) {
@@ -212,6 +210,14 @@ public class CameraPresenter extends BasePresenter {
                 return false;
             }
         });
+    }
+
+    private void initCameraHelper() {
+        Context context = this.presenterCallback.getActivityContext();
+        TextureView textureView = this.presenterCallback.getPreviewTextureView();
+        int cameraId = this.sharedPrefHelper.cameraId().get();
+
+        this.cameraHelper.init(context, textureView, cameraId);
     }
 
     private void startCameraButtonEvent() {
@@ -257,17 +263,14 @@ public class CameraPresenter extends BasePresenter {
     }
 
     private Bitmap rotateAndSaveImage(File file) {
-        try {
-            ExifInterface exif = new ExifInterface(file.getAbsolutePath());
-            int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, -4);
-            Log.e("rotateAndSaveImage", "orientation: " + orientation);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
         Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
         Matrix matrix = new Matrix();
         matrix.postRotate(90);
+
+        if(this.cameraHelper.isFrontCamera()) {
+            matrix.preScale(-1.0f, 1.0f);
+        }
+
         bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
 
         FileOutputStream stream;
@@ -303,6 +306,7 @@ public class CameraPresenter extends BasePresenter {
 
     private void switchCamera() {
         this.cameraHelper.switchCamera(this.presenterCallback.getActivityContext(), this.presenterCallback.getPreviewTextureView());
+        this.sharedPrefHelper.cameraId().put(this.cameraHelper.getCurrentCameraId());
     }
 
     private void startFrontFlash() {

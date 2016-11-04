@@ -75,6 +75,7 @@ public class CameraFragment extends BaseFragment implements CameraPresenter.Pres
     @Override
     public void onDestroy() {
         this.cameraPresenter.destroy();
+        this.cameraPresenter = null;
         super.onDestroy();
     }
 

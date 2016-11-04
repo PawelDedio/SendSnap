@@ -57,6 +57,7 @@ public class EditSnapFragment extends BaseFragment implements EditSnapPresenter.
     @Override
     public void onDestroy() {
         this.editSnapPresenter.destroy();
+        this.editSnapPresenter = null;
         super.onDestroy();
     }
 
