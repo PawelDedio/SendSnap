@@ -6,7 +6,9 @@ import android.view.TextureView;
 import com.example.pdedio.sendsnap.R;
 import com.example.pdedio.sendsnap.logic.helpers.Consts;
 import com.example.pdedio.sendsnap.presenters.fragments.EditSnapPresenter;
+import com.example.pdedio.sendsnap.ui.views.BaseImageButton;
 import com.example.pdedio.sendsnap.ui.views.BaseImageView;
+import com.example.pdedio.sendsnap.ui.views.BaseTextView;
 
 import org.androidannotations.annotations.AfterInject;
 import org.androidannotations.annotations.AfterViews;
@@ -40,6 +42,24 @@ public class EditSnapFragment extends BaseFragment implements EditSnapPresenter.
 
     @ViewById(R.id.tvEditSnapVideo)
     protected TextureView tvVideo;
+
+    @ViewById(R.id.btnEditSnapClose)
+    protected BaseImageButton btnClose;
+
+    @ViewById(R.id.btnEditSnapDraw)
+    protected BaseImageButton btnDraw;
+
+    @ViewById(R.id.btnEditSnapAddText)
+    protected BaseImageButton btnAddText;
+
+    @ViewById(R.id.btnEditSnapTimer)
+    protected BaseTextView btnTimer;
+
+    @ViewById(R.id.btnEditSnapSaveImage)
+    protected BaseImageButton btnSaveImage;
+
+    @ViewById(R.id.btnEditSnapSend)
+    protected BaseImageButton btnSend;
 
 
 
@@ -86,5 +106,35 @@ public class EditSnapFragment extends BaseFragment implements EditSnapPresenter.
     @Override
     public Bitmap getSnapBitmap() {
         return this.snapBitmap;
+    }
+
+    @Override
+    public BaseImageButton getCloseButton() {
+        return this.btnClose;
+    }
+
+    @Override
+    public BaseImageButton getDrawButton() {
+        return this.btnDraw;
+    }
+
+    @Override
+    public BaseImageButton getAddTextButton() {
+        return btnAddText;
+    }
+
+    @Override
+    public BaseTextView getTimerButton() {
+        return btnTimer;
+    }
+
+    @Override
+    public BaseImageButton getSaveImageButton() {
+        return btnSaveImage;
+    }
+
+    @Override
+    public BaseImageButton getSendButton() {
+        return btnSend;
     }
 }

@@ -72,11 +72,6 @@ public class MainActivity extends BaseFragmentActivity implements MainPresenter.
     }
 
     @Override
-    public void showFragment(BaseFragment fragment) {
-        this.presenter.showFragment(fragment);
-    }
-
-    @Override
     public void showFrameLayout() {
         this.flMain.setVisibility(View.VISIBLE);
         this.vpMain.setVisibility(View.GONE);
@@ -92,5 +87,15 @@ public class MainActivity extends BaseFragmentActivity implements MainPresenter.
     @Override
     public BasePresenter getPresenter() {
         return this.presenter;
+    }
+
+    @Override
+    public void showFragment(BaseFragment fragment) {
+        this.presenter.showFragment(fragment);
+    }
+
+    @Override
+    public void popFragment() {
+        this.presenter.popFragment();
     }
 }

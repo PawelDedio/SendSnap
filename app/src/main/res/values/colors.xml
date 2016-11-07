@@ -10,4 +10,7 @@
     <color name="camera_btn_record_progress_stroke">#d22323</color>
     <color name="camera_btn_record_progress_border">#bfbfbf</color>
     <color name="camera_v_front_camera_flash">#caffffff</color>
+
+    <!-- Edit Snap Fragment -->
+    <color name="edit_snap_btn_timer_text">#ffffff</color>
 </resources>

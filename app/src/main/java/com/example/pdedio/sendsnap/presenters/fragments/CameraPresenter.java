@@ -16,9 +16,7 @@ import com.example.pdedio.sendsnap.R;
 import com.example.pdedio.sendsnap.logic.helpers.CameraHelper;
 import com.example.pdedio.sendsnap.logic.helpers.Consts;
 import com.example.pdedio.sendsnap.logic.helpers.SharedPrefHelper_;
-import com.example.pdedio.sendsnap.presenters.BasePresenter;
 import com.example.pdedio.sendsnap.ui.activities.BaseFragmentActivity;
-import com.example.pdedio.sendsnap.ui.activities.MainActivity;
 import com.example.pdedio.sendsnap.ui.fragments.EditSnapFragment;
 import com.example.pdedio.sendsnap.ui.fragments.EditSnapFragment_;
 import com.example.pdedio.sendsnap.ui.views.BaseButton;
@@ -51,7 +49,7 @@ import static android.Manifest.permission;
  * Created by p.dedio on 31.08.16.
  */
 @EBean
-public class CameraPresenter extends BasePresenter {
+public class CameraPresenter extends BaseFragmentPresenter {
 
     @Pref
     protected SharedPrefHelper_ sharedPrefHelper;
@@ -373,15 +371,9 @@ public class CameraPresenter extends BasePresenter {
     }
 
     private void openFragment(File file, Consts.SnapType snapType, Bitmap bitmap) {
-        BaseFragmentActivity activity = this.presenterCallback.getBaseFragmentActivity();
-
-        if(activity instanceof MainActivity) {
-            MainActivity mainActivity = (MainActivity) activity;
-
-            EditSnapFragment fragment = EditSnapFragment_.builder().snapFile(file).snapType(snapType)
-                    .snapBitmap(bitmap).build();
-            mainActivity.showFragment(fragment);
-        }
+        EditSnapFragment fragment = EditSnapFragment_.builder().snapFile(file).snapType(snapType)
+                .snapBitmap(bitmap).build();
+        this.openFragment(this.presenterCallback.getBaseFragmentActivity(), fragment);
     }
 
 

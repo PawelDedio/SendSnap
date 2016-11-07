@@ -10,10 +10,14 @@ import android.view.TextureView;
 import android.view.View;
 
 import com.example.pdedio.sendsnap.logic.helpers.Consts;
-import com.example.pdedio.sendsnap.presenters.BasePresenter;
+import com.example.pdedio.sendsnap.logic.helpers.SharedPrefHelper_;
+import com.example.pdedio.sendsnap.ui.activities.BaseFragmentActivity;
+import com.example.pdedio.sendsnap.ui.views.BaseImageButton;
 import com.example.pdedio.sendsnap.ui.views.BaseImageView;
+import com.example.pdedio.sendsnap.ui.views.BaseTextView;
 
 import org.androidannotations.annotations.EBean;
+import org.androidannotations.annotations.sharedpreferences.Pref;
 
 import java.io.File;
 
@@ -21,12 +25,15 @@ import java.io.File;
  * Created by pawel on 19.09.2016.
  */
 @EBean
-public class EditSnapPresenter extends BasePresenter {
+public class EditSnapPresenter extends BaseFragmentPresenter {
 
 
     private PresenterCallback presenterCallback;
 
     private MediaPlayer mediaPlayer;
+
+    @Pref
+    protected SharedPrefHelper_ sharedPrefHelper;
 
 
     // Lifecycle
@@ -56,6 +63,15 @@ public class EditSnapPresenter extends BasePresenter {
                 this.showVideo();
                 break;
         }
+
+        this.presenterCallback.getCloseButton().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popFragment(presenterCallback.getBaseFragmentActivity());
+            }
+        });
+
+        this.presenterCallback.getTimerButton().setText(this.sharedPrefHelper.snapDuration().get().toString());
     }
 
     private void showPhoto() {
@@ -105,6 +121,8 @@ public class EditSnapPresenter extends BasePresenter {
 
 
     public interface PresenterCallback {
+        BaseFragmentActivity getBaseFragmentActivity();
+
         TextureView getPreviewTextureView();
 
         BaseImageView getPreviewImageView();
@@ -114,5 +132,17 @@ public class EditSnapPresenter extends BasePresenter {
         Consts.SnapType getSnapType();
 
         Bitmap getSnapBitmap();
+
+        BaseImageButton getCloseButton();
+
+        BaseImageButton getDrawButton();
+
+        BaseImageButton getAddTextButton();
+
+        BaseTextView getTimerButton();
+
+        BaseImageButton getSaveImageButton();
+
+        BaseImageButton getSendButton();
     }
 }

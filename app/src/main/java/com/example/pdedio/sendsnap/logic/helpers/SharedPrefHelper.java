@@ -11,4 +11,7 @@ public interface SharedPrefHelper {
 
     @DefaultInt(0)
     int cameraId();
+
+    @DefaultInt(10)
+    int snapDuration();
 }
