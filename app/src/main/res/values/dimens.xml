@@ -28,4 +28,8 @@
     <dimen name="edit_snap_bottom_buttons_margin_bottom">15dp</dimen>
 
     <dimen name="edit_snap_btn_timer_text_size">12dp</dimen>
+
+    <dimen name="edit_snap_et_text_padding_vertical">3dp</dimen>
+    <dimen name="edit_snap_et_text_padding_horizontal">16dp</dimen>
+    <dimen name="edit_snap_et_text_text_size">20dp</dimen>
 </resources>

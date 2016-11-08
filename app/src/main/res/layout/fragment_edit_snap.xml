@@ -15,6 +15,21 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
+    <com.example.pdedio.sendsnap.ui.views.MovableEditText_
+        android:id="@+id/etEditSnapText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/edit_snap_et_text_padding_vertical"
+        android:paddingBottom="@dimen/edit_snap_et_text_padding_vertical"
+        android:paddingLeft="@dimen/edit_snap_et_text_padding_horizontal"
+        android:paddingRight="@dimen/edit_snap_et_text_padding_horizontal"
+        android:layout_marginTop="40dp"
+        android:gravity="center"
+        android:textSize="@dimen/edit_snap_et_text_text_size"
+        android:textColor="@color/edit_snap_et_text_color"
+        android:background="@color/edit_snap_et_text_background"
+        android:visibility="invisible"/>
+
     <com.example.pdedio.sendsnap.ui.views.BaseImageButton_
         android:id="@+id/btnEditSnapClose"
         android:layout_marginLeft="@dimen/edit_snap_btn_content_margin_left"

@@ -13,4 +13,6 @@
 
     <!-- Edit Snap Fragment -->
     <color name="edit_snap_btn_timer_text">#ffffff</color>
+    <color name="edit_snap_et_text_background">#87000000</color>
+    <color name="edit_snap_et_text_color">#ffffff</color>
 </resources>

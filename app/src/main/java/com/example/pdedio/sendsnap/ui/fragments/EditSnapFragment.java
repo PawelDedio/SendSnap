@@ -2,6 +2,7 @@ package com.example.pdedio.sendsnap.ui.fragments;
 
 import android.graphics.Bitmap;
 import android.view.TextureView;
+import android.widget.RelativeLayout;
 
 import com.example.pdedio.sendsnap.R;
 import com.example.pdedio.sendsnap.logic.helpers.Consts;
@@ -9,6 +10,7 @@ import com.example.pdedio.sendsnap.presenters.fragments.EditSnapPresenter;
 import com.example.pdedio.sendsnap.ui.views.BaseImageButton;
 import com.example.pdedio.sendsnap.ui.views.BaseImageView;
 import com.example.pdedio.sendsnap.ui.views.BaseTextView;
+import com.example.pdedio.sendsnap.ui.views.MovableEditText;
 
 import org.androidannotations.annotations.AfterInject;
 import org.androidannotations.annotations.AfterViews;
@@ -60,6 +62,9 @@ public class EditSnapFragment extends BaseFragment implements EditSnapPresenter.
 
     @ViewById(R.id.btnEditSnapSend)
     protected BaseImageButton btnSend;
+
+    @ViewById(R.id.etEditSnapText)
+    protected MovableEditText etText;
 
 
 
@@ -136,5 +141,15 @@ public class EditSnapFragment extends BaseFragment implements EditSnapPresenter.
     @Override
     public BaseImageButton getSendButton() {
         return btnSend;
+    }
+
+    @Override
+    public MovableEditText getTextEt() {
+        return this.etText;
+    }
+
+    @Override
+    public RelativeLayout getMainLayout() {
+        return (RelativeLayout) this.getView();
     }
 }

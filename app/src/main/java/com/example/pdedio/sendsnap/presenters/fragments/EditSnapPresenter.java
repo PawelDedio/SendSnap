@@ -8,6 +8,7 @@ import android.media.MediaPlayer;
 import android.view.Surface;
 import android.view.TextureView;
 import android.view.View;
+import android.widget.RelativeLayout;
 
 import com.example.pdedio.sendsnap.logic.helpers.Consts;
 import com.example.pdedio.sendsnap.logic.helpers.SharedPrefHelper_;
@@ -15,6 +16,7 @@ import com.example.pdedio.sendsnap.ui.activities.BaseFragmentActivity;
 import com.example.pdedio.sendsnap.ui.views.BaseImageButton;
 import com.example.pdedio.sendsnap.ui.views.BaseImageView;
 import com.example.pdedio.sendsnap.ui.views.BaseTextView;
+import com.example.pdedio.sendsnap.ui.views.MovableEditText;
 
 import org.androidannotations.annotations.EBean;
 import org.androidannotations.annotations.sharedpreferences.Pref;
@@ -72,6 +74,21 @@ public class EditSnapPresenter extends BaseFragmentPresenter {
         });
 
         this.presenterCallback.getTimerButton().setText(this.sharedPrefHelper.snapDuration().get().toString());
+
+        this.presenterCallback.getTextEt().setOnCenter();
+
+        this.presenterCallback.getMainLayout().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MovableEditText editText = presenterCallback.getTextEt();
+                if(editText.isFocused()) {
+                    editText.stopTyping();
+                } else {
+                    editText.setVisibility(View.VISIBLE);
+                    editText.startTyping();
+                }
+            }
+        });
     }
 
     private void showPhoto() {
@@ -144,5 +161,9 @@ public class EditSnapPresenter extends BaseFragmentPresenter {
         BaseImageButton getSaveImageButton();
 
         BaseImageButton getSendButton();
+
+        MovableEditText getTextEt();
+
+        RelativeLayout getMainLayout();
     }
 }
