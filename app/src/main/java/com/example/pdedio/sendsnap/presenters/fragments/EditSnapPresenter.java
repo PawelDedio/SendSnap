@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.SurfaceTexture;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.view.MotionEvent;
 import android.view.Surface;
 import android.view.TextureView;
 import android.view.View;
@@ -75,18 +76,17 @@ public class EditSnapPresenter extends BaseFragmentPresenter {
 
         this.presenterCallback.getTimerButton().setText(this.sharedPrefHelper.snapDuration().get().toString());
 
-        this.presenterCallback.getTextEt().setOnCenter();
-
-        this.presenterCallback.getMainLayout().setOnClickListener(new View.OnClickListener() {
+        this.presenterCallback.getMainLayout().setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onClick(View v) {
+            public boolean onTouch(View v, MotionEvent event) {
                 MovableEditText editText = presenterCallback.getTextEt();
                 if(editText.isFocused()) {
                     editText.stopTyping();
                 } else {
                     editText.setVisibility(View.VISIBLE);
-                    editText.startTyping();
+                    editText.startTyping(event.getRawY());
                 }
+                return false;
             }
         });
     }

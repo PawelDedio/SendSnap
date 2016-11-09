@@ -1,12 +1,12 @@
 package com.example.pdedio.sendsnap.ui.views;
 
+import android.animation.Animator;
 import android.content.Context;
 import android.text.InputType;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
-import android.view.ViewGroup;
+import android.view.ViewPropertyAnimator;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.RelativeLayout;
 
 import org.androidannotations.annotations.EView;
 import org.androidannotations.annotations.SystemService;
@@ -26,6 +26,8 @@ public class MovableEditText extends BaseEditText {
     private static final int TIME_TO_MOVE = 500;
 
     private static final int DISTANCE_TO_MOVE = 10;
+
+    private float savedPosition;
 
     @SystemService
     protected InputMethodManager inputMethodManager;
@@ -49,9 +51,7 @@ public class MovableEditText extends BaseEditText {
         this.init(context, null);
     }
 
-    private void init(Context context, AttributeSet attrs) {
-        this.savedInputType = this.getInputType();
-    }
+    //TODO: Logic for moving view to destination after back click
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
@@ -67,20 +67,11 @@ public class MovableEditText extends BaseEditText {
 
             case MotionEvent.ACTION_MOVE :
                 if(Math.abs(this.touchY - event.getRawY()) > DISTANCE_TO_MOVE) {
-                    this.stopTyping();
+                    this.clearFocusAndHideKeyboard();
 
-                    int y = (int) event.getRawY();
-                    int windowHeight = this.getContext().getResources().getDisplayMetrics().heightPixels;
-                    if(y + this.getHeight() > windowHeight) {
-                        y = windowHeight - this.getHeight();
-                    }
+                    float y = this.correctIfOverScreen(event.getRawY());
 
-                    ViewGroup.LayoutParams params = this.getLayoutParams();
-                    if(params instanceof RelativeLayout.LayoutParams) {
-                        ((RelativeLayout.LayoutParams) params).topMargin = y;
-                    }
-
-                    this.setLayoutParams(params);
+                    this.setTranslationY(y);
                 }
 
                 break;
@@ -88,7 +79,7 @@ public class MovableEditText extends BaseEditText {
             case MotionEvent.ACTION_UP :
                 long currentTime = System.currentTimeMillis();
                 if(currentTime - touchTime < TIME_TO_MOVE && (Math.abs(this.touchY - event.getRawY()) < DISTANCE_TO_MOVE)) {
-                    this.startTyping();
+                    this.startTyping(touchY);
                 }
 
                 if(this.isFocused()) {
@@ -101,27 +92,72 @@ public class MovableEditText extends BaseEditText {
         return true;
     }
 
-    public void setOnCenter() {
-        int windowHeight = this.getContext().getResources().getDisplayMetrics().heightPixels;
-        int margin = (windowHeight - this.getHeight()) / 2;
 
-        ViewGroup.LayoutParams params = this.getLayoutParams();
-        if(params instanceof RelativeLayout.LayoutParams) {
-            ((RelativeLayout.LayoutParams) params).topMargin = margin;
-        }
+    //Public methods
+    public void startTyping(float position) {
+        position = this.correctIfOverScreen(position);
+        this.savedPosition = position;
+        this.smoothMoveToCenter().setListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
 
-        this.setLayoutParams(params);
-    }
+            }
 
-    public void startTyping() {
-        this.requestFocus();
-        this.setInputType(this.savedInputType);
-        this.inputMethodManager.showSoftInput(this, InputMethodManager.SHOW_IMPLICIT);
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                requestFocus();
+                setInputType(savedInputType);
+                inputMethodManager.showSoftInput(MovableEditText.this, InputMethodManager.SHOW_IMPLICIT);
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
     }
 
     public void stopTyping() {
+        this.clearFocusAndHideKeyboard();
+        this.smoothMoveToPosition(this.savedPosition);
+    }
+
+
+    //Private methods
+    private void init(Context context, AttributeSet attrs) {
+        this.savedInputType = this.getInputType();
+    }
+
+    private void clearFocusAndHideKeyboard() {
         this.clearFocus();
         this.setInputType(InputType.TYPE_NULL);
         this.inputMethodManager.hideSoftInputFromWindow(this.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+    }
+
+    private ViewPropertyAnimator smoothMoveToCenter() {
+        int windowHeight = this. getContext().getResources().getDisplayMetrics().heightPixels;
+        int position = (windowHeight - this.getHeight()) / 2;
+
+        ViewPropertyAnimator animator = this.animate();
+        return animator.translationY(position);
+    }
+
+    private void smoothMoveToPosition(float position) {
+        ViewPropertyAnimator animator = this.animate();
+        animator.translationY(position);
+    }
+
+    private float correctIfOverScreen(float requiredPosition) {
+        int windowHeight = this.getContext().getResources().getDisplayMetrics().heightPixels;
+        if(requiredPosition + this.getHeight() > windowHeight) {
+            requiredPosition = windowHeight - this.getHeight();
+        }
+
+        return requiredPosition;
     }
 }

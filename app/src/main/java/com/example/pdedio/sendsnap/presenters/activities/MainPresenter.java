@@ -63,6 +63,11 @@ public class MainPresenter extends BasePresenter {
         this.fragmentStackManager.replaceFragmentWithAddingToBackStack(R.id.flMain, fragment);
     }
 
+    public boolean onBackKeyClick() {
+        this.popFragment();
+        return true;
+    }
+
     public void popFragment() {
         int fragmentsCount = this.fragmentStackManager.getBackStackCount();
         if(fragmentsCount > 1) {
@@ -100,8 +105,6 @@ public class MainPresenter extends BasePresenter {
         void initViewPager(PagerAdapter adapter);
 
         void showViewPager();
-
-        void showFragment(BaseFragment fragment);
 
         void showFrameLayout();
 

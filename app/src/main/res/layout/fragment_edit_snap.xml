@@ -23,7 +23,6 @@
         android:paddingBottom="@dimen/edit_snap_et_text_padding_vertical"
         android:paddingLeft="@dimen/edit_snap_et_text_padding_horizontal"
         android:paddingRight="@dimen/edit_snap_et_text_padding_horizontal"
-        android:layout_marginTop="40dp"
         android:gravity="center"
         android:textSize="@dimen/edit_snap_et_text_text_size"
         android:textColor="@color/edit_snap_et_text_color"

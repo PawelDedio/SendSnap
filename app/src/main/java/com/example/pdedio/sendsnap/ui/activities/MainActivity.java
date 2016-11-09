@@ -49,8 +49,7 @@ public class MainActivity extends BaseFragmentActivity implements MainPresenter.
     // Events
     @KeyUp(KeyEvent.KEYCODE_BACK)
     protected boolean onBackClick() {
-        this.presenter.popFragment();
-        return true;
+        return this.presenter.onBackKeyClick();
     }
 
 
