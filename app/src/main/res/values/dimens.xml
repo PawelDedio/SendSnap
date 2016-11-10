@@ -32,4 +32,6 @@
     <dimen name="edit_snap_et_text_padding_vertical">3dp</dimen>
     <dimen name="edit_snap_et_text_padding_horizontal">16dp</dimen>
     <dimen name="edit_snap_et_text_text_size">20dp</dimen>
+
+    <dimen name="edit_snap_paint_stroke">5dp</dimen>
 </resources>

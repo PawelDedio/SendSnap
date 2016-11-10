@@ -304,6 +304,9 @@ public class CameraPresenter extends BaseFragmentPresenter {
 
     private void switchCamera() {
         this.cameraHelper.switchCamera(this.presenterCallback.getActivityContext(), this.presenterCallback.getPreviewTextureView());
+        if(!cameraHelper.isFrontCamera()) {
+            cameraHelper.setFlashLight(isFlashEnabled);
+        }
         this.sharedPrefHelper.cameraId().put(this.cameraHelper.getCurrentCameraId());
     }
 

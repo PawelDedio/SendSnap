@@ -4,7 +4,9 @@ import android.animation.Animator;
 import android.content.Context;
 import android.text.InputType;
 import android.util.AttributeSet;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
+import android.view.View;
 import android.view.ViewPropertyAnimator;
 import android.view.inputmethod.InputMethodManager;
 
@@ -32,6 +34,8 @@ public class MovableEditText extends BaseEditText {
     @SystemService
     protected InputMethodManager inputMethodManager;
 
+    private boolean isTyping;
+
 
     public MovableEditText(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -53,6 +57,7 @@ public class MovableEditText extends BaseEditText {
 
     //TODO: Logic for moving view to destination after back click
 
+    //Events
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         switch (event.getActionMasked()) {
@@ -68,6 +73,7 @@ public class MovableEditText extends BaseEditText {
             case MotionEvent.ACTION_MOVE :
                 if(Math.abs(this.touchY - event.getRawY()) > DISTANCE_TO_MOVE) {
                     this.clearFocusAndHideKeyboard();
+                    this.isTyping = false;
 
                     float y = this.correctIfOverScreen(event.getRawY());
 
@@ -78,7 +84,7 @@ public class MovableEditText extends BaseEditText {
 
             case MotionEvent.ACTION_UP :
                 long currentTime = System.currentTimeMillis();
-                if(currentTime - touchTime < TIME_TO_MOVE && (Math.abs(this.touchY - event.getRawY()) < DISTANCE_TO_MOVE)) {
+                if(currentTime - touchTime < TIME_TO_MOVE && (Math.abs(this.touchY - event.getRawY()) < DISTANCE_TO_MOVE) && !this.isTyping) {
                     this.startTyping(touchY);
                 }
 
@@ -92,9 +98,27 @@ public class MovableEditText extends BaseEditText {
         return true;
     }
 
+    @Override
+    public boolean onKeyPreIme(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+            if(this.isTyping) {
+                this.stopTyping();
+                return true;
+            }
+        }
+
+        return false;
+    }
+
 
     //Public methods
+    public void startTypingFromCenter() {
+        this.startTyping(this.getCenterPosition());
+    }
     public void startTyping(float position) {
+        if(this.getVisibility() == View.INVISIBLE) {
+            this.setVisibility(View.VISIBLE);
+        }
         position = this.correctIfOverScreen(position);
         this.savedPosition = position;
         this.smoothMoveToCenter().setListener(new Animator.AnimatorListener() {
@@ -108,6 +132,8 @@ public class MovableEditText extends BaseEditText {
                 requestFocus();
                 setInputType(savedInputType);
                 inputMethodManager.showSoftInput(MovableEditText.this, InputMethodManager.SHOW_IMPLICIT);
+                setSelection(getText().length());
+                isTyping = true;
             }
 
             @Override
@@ -123,8 +149,34 @@ public class MovableEditText extends BaseEditText {
     }
 
     public void stopTyping() {
-        this.clearFocusAndHideKeyboard();
-        this.smoothMoveToPosition(this.savedPosition);
+        this.isTyping = false;
+        if(getText().length() == 0) {
+            clearFocusAndHideKeyboard();
+            setVisibility(INVISIBLE);
+        } else {
+            this.smoothMoveToPosition(this.savedPosition);
+            this.smoothMoveToPosition(this.savedPosition).setListener(new Animator.AnimatorListener() {
+                @Override
+                public void onAnimationStart(Animator animation) {
+                    clearFocusAndHideKeyboard();
+                }
+
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    clearFocusAndHideKeyboard();
+                }
+
+                @Override
+                public void onAnimationCancel(Animator animation) {
+
+                }
+
+                @Override
+                public void onAnimationRepeat(Animator animation) {
+
+                }
+            });
+        }
     }
 
 
@@ -140,16 +192,22 @@ public class MovableEditText extends BaseEditText {
     }
 
     private ViewPropertyAnimator smoothMoveToCenter() {
-        int windowHeight = this. getContext().getResources().getDisplayMetrics().heightPixels;
-        int position = (windowHeight - this.getHeight()) / 2;
+        float position = this.getCenterPosition();
 
         ViewPropertyAnimator animator = this.animate();
         return animator.translationY(position);
     }
 
-    private void smoothMoveToPosition(float position) {
+    private ViewPropertyAnimator smoothMoveToPosition(float position) {
         ViewPropertyAnimator animator = this.animate();
-        animator.translationY(position);
+        return animator.translationY(position);
+    }
+
+    private float getCenterPosition() {
+        float windowHeight = this. getContext().getResources().getDisplayMetrics().heightPixels;
+        float position = (windowHeight - this.getHeight()) / 2;
+
+        return position;
     }
 
     private float correctIfOverScreen(float requiredPosition) {

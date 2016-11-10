@@ -10,6 +10,7 @@ import com.example.pdedio.sendsnap.presenters.fragments.EditSnapPresenter;
 import com.example.pdedio.sendsnap.ui.views.BaseImageButton;
 import com.example.pdedio.sendsnap.ui.views.BaseImageView;
 import com.example.pdedio.sendsnap.ui.views.BaseTextView;
+import com.example.pdedio.sendsnap.ui.views.DrawingView;
 import com.example.pdedio.sendsnap.ui.views.MovableEditText;
 
 import org.androidannotations.annotations.AfterInject;
@@ -65,6 +66,9 @@ public class EditSnapFragment extends BaseFragment implements EditSnapPresenter.
 
     @ViewById(R.id.etEditSnapText)
     protected MovableEditText etText;
+
+    @ViewById(R.id.vEditSnapDraw)
+    protected DrawingView vDraw;
 
 
 
@@ -151,5 +155,10 @@ public class EditSnapFragment extends BaseFragment implements EditSnapPresenter.
     @Override
     public RelativeLayout getMainLayout() {
         return (RelativeLayout) this.getView();
+    }
+
+    @Override
+    public DrawingView getDrawingView() {
+        return this.vDraw;
     }
 }

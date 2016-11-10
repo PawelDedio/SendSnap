@@ -17,6 +17,7 @@ import com.example.pdedio.sendsnap.ui.activities.BaseFragmentActivity;
 import com.example.pdedio.sendsnap.ui.views.BaseImageButton;
 import com.example.pdedio.sendsnap.ui.views.BaseImageView;
 import com.example.pdedio.sendsnap.ui.views.BaseTextView;
+import com.example.pdedio.sendsnap.ui.views.DrawingView;
 import com.example.pdedio.sendsnap.ui.views.MovableEditText;
 
 import org.androidannotations.annotations.EBean;
@@ -83,10 +84,37 @@ public class EditSnapPresenter extends BaseFragmentPresenter {
                 if(editText.isFocused()) {
                     editText.stopTyping();
                 } else {
-                    editText.setVisibility(View.VISIBLE);
                     editText.startTyping(event.getRawY());
                 }
                 return false;
+            }
+        });
+
+        this.presenterCallback.getAddTextButton().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MovableEditText editText = presenterCallback.getTextEt();
+                if(editText.getVisibility() == View.VISIBLE) {
+                    editText.setText("");
+                    editText.stopTyping();
+                } else {
+                    editText.startTypingFromCenter();
+                }
+            }
+        });
+
+        DrawingView drawingView = this.presenterCallback.getDrawingView();
+        drawingView.setColor(0xFF660000);
+
+        this.presenterCallback.getDrawButton().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DrawingView view = presenterCallback.getDrawingView();
+                if(view.isDrawingEnabled()) {
+                    view.undoLastChange();
+                } else {
+                    view.startDrawing();
+                }
             }
         });
     }
@@ -165,5 +193,7 @@ public class EditSnapPresenter extends BaseFragmentPresenter {
         MovableEditText getTextEt();
 
         RelativeLayout getMainLayout();
+
+        DrawingView getDrawingView();
     }
 }
