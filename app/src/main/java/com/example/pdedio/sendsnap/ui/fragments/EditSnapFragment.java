@@ -2,6 +2,7 @@ package com.example.pdedio.sendsnap.ui.fragments;
 
 import android.graphics.Bitmap;
 import android.view.TextureView;
+import android.view.View;
 import android.widget.RelativeLayout;
 
 import com.example.pdedio.sendsnap.R;
@@ -69,6 +70,12 @@ public class EditSnapFragment extends BaseFragment implements EditSnapPresenter.
 
     @ViewById(R.id.vEditSnapDraw)
     protected DrawingView vDraw;
+
+    @ViewById(R.id.btnEditSnapUndoDraw)
+    protected BaseImageButton btnUndoDraw;
+
+    @ViewById(R.id.btnEditSnapColorSelector)
+    protected View btnColorSelector;
 
 
 
@@ -160,5 +167,15 @@ public class EditSnapFragment extends BaseFragment implements EditSnapPresenter.
     @Override
     public DrawingView getDrawingView() {
         return this.vDraw;
+    }
+
+    @Override
+    public BaseImageButton getUndoButton() {
+        return this.btnUndoDraw;
+    }
+
+    @Override
+    public View getColorSelectorButton() {
+        return this.btnColorSelector;
     }
 }

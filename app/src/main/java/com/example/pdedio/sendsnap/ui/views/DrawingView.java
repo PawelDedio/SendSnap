@@ -13,6 +13,9 @@ import com.example.pdedio.sendsnap.R;
 
 import org.androidannotations.annotations.EView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 /**
  * Created by p.dedio on 10.11.16.
@@ -33,6 +36,8 @@ public class DrawingView extends View {
     private Bitmap canvasBitmap;
 
     private boolean isDrawingEnabled;
+
+    private List<Path> paths = new ArrayList<>();
 
 
 
@@ -65,6 +70,11 @@ public class DrawingView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         canvas.drawBitmap(this.canvasBitmap, 0, 0, this.canvasPaint);
+
+        for(Path path : paths) {
+            canvas.drawPath(path, this.drawPaint);
+        }
+
         canvas.drawPath(this.drawPath, this.drawPaint);
     }
 
@@ -82,9 +92,9 @@ public class DrawingView extends View {
                     this.drawPath.lineTo(touchX, touchY);
                     break;
                 case MotionEvent.ACTION_UP:
-                    this.drawCanvas.drawPath(this.drawPath, this.drawPaint);
-                    this.drawCanvas.save();
-                    this.drawPath.reset();
+                    //this.drawCanvas.drawPath(this.drawPath, this.drawPaint);
+                    this.paths.add(this.drawPath);
+                    this.drawPath = new Path();
                     break;
                 default:
                     return false;
@@ -117,7 +127,14 @@ public class DrawingView extends View {
     }
 
     public void undoLastChange() {
-        this.drawCanvas.restore();
+        if(this.paths.size() > 0) {
+            this.paths.remove(this.paths.size() - 1);
+            this.invalidate();
+        }
+    }
+
+    public void clearArea() {
+        this.paths.clear();
         this.invalidate();
     }
 

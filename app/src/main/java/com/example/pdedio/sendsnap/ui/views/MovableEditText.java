@@ -179,6 +179,10 @@ public class MovableEditText extends BaseEditText {
         }
     }
 
+    public boolean isTyping() {
+        return this.isTyping;
+    }
+
 
     //Private methods
     private void init(Context context, AttributeSet attrs) {

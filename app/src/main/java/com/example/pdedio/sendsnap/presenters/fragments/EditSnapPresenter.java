@@ -2,15 +2,19 @@ package com.example.pdedio.sendsnap.presenters.fragments;
 
 import android.app.ActivityManager;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.SurfaceTexture;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.support.annotation.ColorInt;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.Surface;
 import android.view.TextureView;
 import android.view.View;
 import android.widget.RelativeLayout;
 
+import com.example.pdedio.sendsnap.R;
 import com.example.pdedio.sendsnap.logic.helpers.Consts;
 import com.example.pdedio.sendsnap.logic.helpers.SharedPrefHelper_;
 import com.example.pdedio.sendsnap.ui.activities.BaseFragmentActivity;
@@ -19,8 +23,10 @@ import com.example.pdedio.sendsnap.ui.views.BaseImageView;
 import com.example.pdedio.sendsnap.ui.views.BaseTextView;
 import com.example.pdedio.sendsnap.ui.views.DrawingView;
 import com.example.pdedio.sendsnap.ui.views.MovableEditText;
+import com.thebluealliance.spectrum.SpectrumDialog;
 
 import org.androidannotations.annotations.EBean;
+import org.androidannotations.annotations.res.ColorRes;
 import org.androidannotations.annotations.sharedpreferences.Pref;
 
 import java.io.File;
@@ -38,6 +44,13 @@ public class EditSnapPresenter extends BaseFragmentPresenter {
 
     @Pref
     protected SharedPrefHelper_ sharedPrefHelper;
+
+    private boolean isDrawing;
+
+    private SpectrumDialog colorPicker;
+
+    @ColorRes(R.color.edit_snap_default_draw)
+    protected int defaultDrawColor;
 
 
     // Lifecycle
@@ -71,19 +84,31 @@ public class EditSnapPresenter extends BaseFragmentPresenter {
         this.presenterCallback.getCloseButton().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                popFragment(presenterCallback.getBaseFragmentActivity());
+                if(isDrawing) {
+                    presenterCallback.getDrawingView().clearArea();
+                    stopDrawing();
+                } else {
+                    popFragment(presenterCallback.getBaseFragmentActivity());
+                }
             }
         });
 
         this.presenterCallback.getTimerButton().setText(this.sharedPrefHelper.snapDuration().get().toString());
 
+        this.presenterCallback.getTimerButton().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
         this.presenterCallback.getMainLayout().setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 MovableEditText editText = presenterCallback.getTextEt();
-                if(editText.isFocused()) {
+                if(editText.isTyping()) {
                     editText.stopTyping();
-                } else {
+                } else if(editText.getText().length() == 0) {
                     editText.startTyping(event.getRawY());
                 }
                 return false;
@@ -104,17 +129,31 @@ public class EditSnapPresenter extends BaseFragmentPresenter {
         });
 
         DrawingView drawingView = this.presenterCallback.getDrawingView();
-        drawingView.setColor(0xFF660000);
+        drawingView.setColor(this.defaultDrawColor);
 
         this.presenterCallback.getDrawButton().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 DrawingView view = presenterCallback.getDrawingView();
                 if(view.isDrawingEnabled()) {
-                    view.undoLastChange();
+                    stopDrawing();
                 } else {
-                    view.startDrawing();
+                    startDrawing();
                 }
+            }
+        });
+
+        this.presenterCallback.getUndoButton().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                presenterCallback.getDrawingView().undoLastChange();
+            }
+        });
+        this.presenterCallback.getColorSelectorButton().setBackgroundColor(this.defaultDrawColor);
+        this.presenterCallback.getColorSelectorButton().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showColorPicker();
             }
         });
     }
@@ -164,6 +203,49 @@ public class EditSnapPresenter extends BaseFragmentPresenter {
         });
     }
 
+    private void startDrawing() {
+        this.isDrawing = true;
+
+        this.presenterCallback.getAddTextButton().setVisibility(View.GONE);
+        this.presenterCallback.getUndoButton().setVisibility(View.VISIBLE);
+        this.presenterCallback.getDrawingView().startDrawing();
+    }
+
+    private void stopDrawing() {
+        this.isDrawing = false;
+
+        this.presenterCallback.getAddTextButton().setVisibility(View.VISIBLE);
+        this.presenterCallback.getUndoButton().setVisibility(View.GONE);
+        this.presenterCallback.getDrawingView().stopDrawing();
+    }
+
+    private void showColorPicker() {
+        if(this.colorPicker == null) {
+            this.buildColorPickerDialog();
+        }
+
+        this.colorPicker.show(this.presenterCallback.getBaseFragmentActivity().getSupportFragmentManager(), "Dialog");
+    }
+
+    private void buildColorPickerDialog() {
+        SpectrumDialog.Builder builder = new SpectrumDialog.Builder(this.presenterCallback.getBaseFragmentActivity());
+        builder.setColors(R.array.edit_snap_draw_colors)
+                .setDismissOnColorSelected(true)
+                .setOutlineWidth(2)
+                .setOnColorSelectedListener(new SpectrumDialog.OnColorSelectedListener() {
+                    @Override
+                    public void onColorSelected(boolean positiveResult, @ColorInt int color) {
+                        if(positiveResult) {
+                            presenterCallback.getColorSelectorButton().setBackgroundColor(color);
+                            presenterCallback.getDrawingView().setColor(color);
+                        } else {
+                            Log.e("onColorSelected", "true");
+                        }
+                    }
+                });
+        this.colorPicker = builder.build();
+    }
+
 
     public interface PresenterCallback {
         BaseFragmentActivity getBaseFragmentActivity();
@@ -195,5 +277,9 @@ public class EditSnapPresenter extends BaseFragmentPresenter {
         RelativeLayout getMainLayout();
 
         DrawingView getDrawingView();
+
+        BaseImageButton getUndoButton();
+
+        View getColorSelectorButton();
     }
 }

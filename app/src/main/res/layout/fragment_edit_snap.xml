@@ -58,6 +58,21 @@
         android:src="@drawable/btn_add_text"
         style="@style/EditSnapTopButtons"/>
 
+    <com.example.pdedio.sendsnap.ui.views.BaseImageButton_
+        android:id="@+id/btnEditSnapUndoDraw"
+        android:layout_marginRight="@dimen/edit_snap_margin_between_buttons"
+        android:layout_toLeftOf="@id/btnEditSnapDraw"
+        android:src="@drawable/btn_undo"
+        style="@style/EditSnapTopButtons"
+        android:visibility="gone"/>
+    
+    <View
+        android:id="@+id/btnEditSnapColorSelector"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/btnEditSnapDraw"/>
+
     <com.example.pdedio.sendsnap.ui.views.BaseTextView_
         android:id="@+id/btnEditSnapTimer"
         android:layout_marginLeft="@dimen/edit_snap_btn_content_margin_left"
