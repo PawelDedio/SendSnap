@@ -14,7 +14,10 @@ import com.example.pdedio.sendsnap.R;
 import org.androidannotations.annotations.EView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 
 /**
@@ -38,6 +41,10 @@ public class DrawingView extends View {
     private boolean isDrawingEnabled;
 
     private List<Path> paths = new ArrayList<>();
+
+    private List<Paint> paints = new ArrayList<>();
+
+    private int strokeWidth;
 
 
 
@@ -71,8 +78,11 @@ public class DrawingView extends View {
     protected void onDraw(Canvas canvas) {
         canvas.drawBitmap(this.canvasBitmap, 0, 0, this.canvasPaint);
 
-        for(Path path : paths) {
-            canvas.drawPath(path, this.drawPaint);
+        for(int i = 0; i < this.paths.size(); i++) {
+            Path path = this.paths.get(i);
+            Paint paint = this.paints.get(i);
+
+            canvas.drawPath(path, paint);
         }
 
         canvas.drawPath(this.drawPath, this.drawPaint);
@@ -87,6 +97,8 @@ public class DrawingView extends View {
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
                     this.drawPath.moveTo(touchX, touchY);
+                    this.drawPaint = this.buildPaint();
+                    this.paints.add(this.drawPaint);
                     break;
                 case MotionEvent.ACTION_MOVE:
                     this.drawPath.lineTo(touchX, touchY);
@@ -119,7 +131,6 @@ public class DrawingView extends View {
 
     public void setColor(int color) {
         this.paintColor = color;
-        this.drawPaint.setColor(this.paintColor);
     }
 
     public boolean isDrawingEnabled() {
@@ -129,6 +140,7 @@ public class DrawingView extends View {
     public void undoLastChange() {
         if(this.paths.size() > 0) {
             this.paths.remove(this.paths.size() - 1);
+            this.paints.remove(this.paints.size() - 1);
             this.invalidate();
         }
     }
@@ -138,17 +150,28 @@ public class DrawingView extends View {
         this.invalidate();
     }
 
+    public int getCurrentColor() {
+        return this.paintColor;
+    }
+
 
     //Private methods
     private void init(Context context, AttributeSet attrs) {
-        int strokeWidth = context.getResources().getDimensionPixelSize(R.dimen.edit_snap_paint_stroke);
+        this.strokeWidth = context.getResources().getDimensionPixelSize(R.dimen.edit_snap_paint_stroke);
 
         this.drawPath = new Path();
-        this.drawPaint = new Paint();
-        this.drawPaint.setStrokeWidth(strokeWidth);
-        this.drawPaint.setStyle(Paint.Style.STROKE);
-        this.drawPaint.setStrokeJoin(Paint.Join.ROUND);
-        this.drawPaint.setStrokeCap(Paint.Cap.ROUND);
+
         this.canvasPaint = new Paint(Paint.DITHER_FLAG);
+    }
+
+    private Paint buildPaint() {
+        Paint paint = new Paint();
+        paint.setStrokeWidth(this.strokeWidth);
+        paint.setStyle(Paint.Style.STROKE);
+        paint.setStrokeJoin(Paint.Join.ROUND);
+        paint.setStrokeCap(Paint.Cap.ROUND);
+        paint.setColor(this.paintColor);
+
+        return paint;
     }
 }

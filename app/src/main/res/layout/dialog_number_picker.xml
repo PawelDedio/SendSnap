@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.example.pdedio.sendsnap.ui.views.BaseTextView_
+        android:id="@+id/txvNumberPickerTitle"
+        android:layout_marginTop="@dimen/number_picker_title_margin_top"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <NumberPicker
+        android:id="@+id/npNumberPickerDialog"
+        android:layout_marginTop="@dimen/number_picker_content_margin_top"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"/>
+
+    <com.example.pdedio.sendsnap.ui.views.BaseButton_
+        android:id="@+id/btnNumberPickerDialogPositive"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/number_picker_buttons_margin_bottom"
+        android:layout_marginRight="@dimen/number_picker_buttons_margin_right"
+        android:text="@string/number_picker_dialog_btn_positive"
+        android:layout_below="@id/npNumberPickerDialog"
+        android:layout_alignParentRight="true"
+        android:background="@null"/>
+</RelativeLayout>

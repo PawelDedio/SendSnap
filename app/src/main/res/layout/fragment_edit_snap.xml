@@ -68,10 +68,13 @@
     
     <View
         android:id="@+id/btnEditSnapColorSelector"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
+        android:layout_width="@dimen/edit_snap_btn_color_selector_size"
+        android:layout_height="@dimen/edit_snap_btn_color_selector_size"
+        android:layout_marginTop="@dimen/edit_snap_btn_color_selector_margin_top"
+        android:layout_marginRight="@dimen/edit_snap_btn_color_selector_margin_right"
         android:layout_alignParentRight="true"
-        android:layout_below="@id/btnEditSnapDraw"/>
+        android:layout_below="@id/btnEditSnapDraw"
+        android:visibility="invisible"/>
 
     <com.example.pdedio.sendsnap.ui.views.BaseTextView_
         android:id="@+id/btnEditSnapTimer"

@@ -1,8 +1,9 @@
 package com.example.pdedio.sendsnap.presenters.fragments;
 
 import android.app.ActivityManager;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.graphics.SurfaceTexture;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -18,6 +19,7 @@ import com.example.pdedio.sendsnap.R;
 import com.example.pdedio.sendsnap.logic.helpers.Consts;
 import com.example.pdedio.sendsnap.logic.helpers.SharedPrefHelper_;
 import com.example.pdedio.sendsnap.ui.activities.BaseFragmentActivity;
+import com.example.pdedio.sendsnap.ui.dialogs.NumberPickerDialog;
 import com.example.pdedio.sendsnap.ui.views.BaseImageButton;
 import com.example.pdedio.sendsnap.ui.views.BaseImageView;
 import com.example.pdedio.sendsnap.ui.views.BaseTextView;
@@ -98,7 +100,9 @@ public class EditSnapPresenter extends BaseFragmentPresenter {
         this.presenterCallback.getTimerButton().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                NumberPickerDialog builder = new NumberPickerDialog(presenterCallback.getBaseFragmentActivity());
+                builder.show();
+                builder.setButton(AlertDialog.BUTTON_POSITIVE, "Ok", (DialogInterface.OnClickListener) null);
             }
         });
 
@@ -209,6 +213,7 @@ public class EditSnapPresenter extends BaseFragmentPresenter {
         this.presenterCallback.getAddTextButton().setVisibility(View.GONE);
         this.presenterCallback.getUndoButton().setVisibility(View.VISIBLE);
         this.presenterCallback.getDrawingView().startDrawing();
+        this.presenterCallback.getColorSelectorButton().setVisibility(View.VISIBLE);
     }
 
     private void stopDrawing() {
@@ -217,21 +222,15 @@ public class EditSnapPresenter extends BaseFragmentPresenter {
         this.presenterCallback.getAddTextButton().setVisibility(View.VISIBLE);
         this.presenterCallback.getUndoButton().setVisibility(View.GONE);
         this.presenterCallback.getDrawingView().stopDrawing();
+        this.presenterCallback.getColorSelectorButton().setVisibility(View.INVISIBLE);
     }
 
     private void showColorPicker() {
-        if(this.colorPicker == null) {
-            this.buildColorPickerDialog();
-        }
-
-        this.colorPicker.show(this.presenterCallback.getBaseFragmentActivity().getSupportFragmentManager(), "Dialog");
-    }
-
-    private void buildColorPickerDialog() {
         SpectrumDialog.Builder builder = new SpectrumDialog.Builder(this.presenterCallback.getBaseFragmentActivity());
         builder.setColors(R.array.edit_snap_draw_colors)
                 .setDismissOnColorSelected(true)
                 .setOutlineWidth(2)
+                .setSelectedColor(this.presenterCallback.getDrawingView().getCurrentColor())
                 .setOnColorSelectedListener(new SpectrumDialog.OnColorSelectedListener() {
                     @Override
                     public void onColorSelected(boolean positiveResult, @ColorInt int color) {
@@ -239,11 +238,12 @@ public class EditSnapPresenter extends BaseFragmentPresenter {
                             presenterCallback.getColorSelectorButton().setBackgroundColor(color);
                             presenterCallback.getDrawingView().setColor(color);
                         } else {
-                            Log.e("onColorSelected", "true");
+                            Log.e("onColorSelected", "false");
                         }
                     }
                 });
-        this.colorPicker = builder.build();
+
+        builder.build().show(this.presenterCallback.getBaseFragmentActivity().getSupportFragmentManager(), "Dialog");
     }
 
 
