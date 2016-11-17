@@ -5,15 +5,20 @@
 
     <com.example.pdedio.sendsnap.ui.views.BaseTextView_
         android:id="@+id/txvNumberPickerTitle"
-        android:layout_marginTop="@dimen/number_picker_title_margin_top"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/number_picker_title_margin_top"
+        android:layout_marginLeft="@dimen/number_picker_content_margin_horizontal"
+        android:layout_marginRight="@dimen/number_picker_content_margin_horizontal"
+        android:textSize="@dimen/number_picker_title_text_size"
+        android:textColor="@color/number_picker_title_text"/>
 
     <NumberPicker
-        android:id="@+id/npNumberPickerDialog"
+        android:id="@+id/npNumberPicker"
         android:layout_marginTop="@dimen/number_picker_content_margin_top"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/txvNumberPickerTitle"
         android:layout_centerHorizontal="true"/>
 
     <com.example.pdedio.sendsnap.ui.views.BaseButton_
@@ -23,7 +28,8 @@
         android:layout_marginBottom="@dimen/number_picker_buttons_margin_bottom"
         android:layout_marginRight="@dimen/number_picker_buttons_margin_right"
         android:text="@string/number_picker_dialog_btn_positive"
-        android:layout_below="@id/npNumberPickerDialog"
+        android:layout_below="@id/npNumberPicker"
         android:layout_alignParentRight="true"
-        android:background="@null"/>
+        android:background="@null"
+        android:textSize="@dimen/number_picker_buttons_text_size"/>
 </RelativeLayout>

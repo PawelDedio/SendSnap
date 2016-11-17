@@ -1,8 +1,6 @@
 package com.example.pdedio.sendsnap.presenters.fragments;
 
 import android.app.ActivityManager;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.SurfaceTexture;
 import android.media.AudioManager;
@@ -16,8 +14,9 @@ import android.view.View;
 import android.widget.RelativeLayout;
 
 import com.example.pdedio.sendsnap.R;
+import com.example.pdedio.sendsnap.databinding.FragmentEditSnapBinding;
 import com.example.pdedio.sendsnap.logic.helpers.Consts;
-import com.example.pdedio.sendsnap.logic.helpers.SharedPrefHelper_;
+import com.example.pdedio.sendsnap.logic.helpers.SharedPreferenceManager;
 import com.example.pdedio.sendsnap.ui.activities.BaseFragmentActivity;
 import com.example.pdedio.sendsnap.ui.dialogs.NumberPickerDialog;
 import com.example.pdedio.sendsnap.ui.views.BaseImageButton;
@@ -27,9 +26,9 @@ import com.example.pdedio.sendsnap.ui.views.DrawingView;
 import com.example.pdedio.sendsnap.ui.views.MovableEditText;
 import com.thebluealliance.spectrum.SpectrumDialog;
 
+import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EBean;
 import org.androidannotations.annotations.res.ColorRes;
-import org.androidannotations.annotations.sharedpreferences.Pref;
 
 import java.io.File;
 
@@ -44,15 +43,18 @@ public class EditSnapPresenter extends BaseFragmentPresenter {
 
     private MediaPlayer mediaPlayer;
 
-    @Pref
-    protected SharedPrefHelper_ sharedPrefHelper;
+    @Bean
+    protected SharedPreferenceManager sharedPreferenceManager;
 
     private boolean isDrawing;
 
-    private SpectrumDialog colorPicker;
-
     @ColorRes(R.color.edit_snap_default_draw)
     protected int defaultDrawColor;
+
+    private NumberPickerDialog numberPickerDialog;
+
+    private FragmentEditSnapBinding editSnapBinding;
+
 
 
     // Lifecycle
@@ -82,6 +84,9 @@ public class EditSnapPresenter extends BaseFragmentPresenter {
                 this.showVideo();
                 break;
         }
+        this.editSnapBinding = this.presenterCallback.getBinding();
+
+        this.editSnapBinding.setPrefs(this.sharedPreferenceManager);
 
         this.presenterCallback.getCloseButton().setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,14 +100,12 @@ public class EditSnapPresenter extends BaseFragmentPresenter {
             }
         });
 
-        this.presenterCallback.getTimerButton().setText(this.sharedPrefHelper.snapDuration().get().toString());
+        //this.presenterCallback.getTimerButton().setText(this.sharedPrefHelper.snapDuration().get().toString());
 
         this.presenterCallback.getTimerButton().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                NumberPickerDialog builder = new NumberPickerDialog(presenterCallback.getBaseFragmentActivity());
-                builder.show();
-                builder.setButton(AlertDialog.BUTTON_POSITIVE, "Ok", (DialogInterface.OnClickListener) null);
+                showNumberPicker();
             }
         });
 
@@ -246,6 +249,29 @@ public class EditSnapPresenter extends BaseFragmentPresenter {
         builder.build().show(this.presenterCallback.getBaseFragmentActivity().getSupportFragmentManager(), "Dialog");
     }
 
+    private void showNumberPicker() {
+        if(this.numberPickerDialog == null) {
+            this.numberPickerDialog = new NumberPickerDialog(presenterCallback.getBaseFragmentActivity());
+            this.numberPickerDialog.setTitle(R.string.edit_snap_number_picker_title);
+            this.numberPickerDialog.setMinValue(Consts.MIN_SNAP_DURATION);
+            this.numberPickerDialog.setMaxValue(Consts.MAX_SNAP_DURATION);
+            this.numberPickerDialog.setWrapSelectorWheel(false);
+            this.numberPickerDialog.setResultListener(new NumberPickerDialog.ResultListener() {
+                @Override
+                public void onValueSet(int value) {
+                    updateSnapDuration(value);
+                }
+            });
+        }
+
+        this.numberPickerDialog.setSelectedValue(this.sharedPreferenceManager.getSnapDuration());
+        this.numberPickerDialog.show();
+    }
+
+    private void updateSnapDuration(int value) {
+        this.sharedPreferenceManager.setSnapDuration(value);
+    }
+
 
     public interface PresenterCallback {
         BaseFragmentActivity getBaseFragmentActivity();
@@ -281,5 +307,7 @@ public class EditSnapPresenter extends BaseFragmentPresenter {
         BaseImageButton getUndoButton();
 
         View getColorSelectorButton();
+
+        FragmentEditSnapBinding getBinding();
     }
 }

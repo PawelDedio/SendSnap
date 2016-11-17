@@ -41,7 +41,10 @@
 
     <!-- Number Picker Dialog -->
     <dimen name="number_picker_title_margin_top">24dp</dimen>
+    <dimen name="number_picker_title_text_size">20dp</dimen>
     <dimen name="number_picker_content_margin_top">20dp</dimen>
+    <dimen name="number_picker_content_margin_horizontal">24dp</dimen>
     <dimen name="number_picker_buttons_margin_right">8dp</dimen>
     <dimen name="number_picker_buttons_margin_bottom">8dp</dimen>
+    <dimen name="number_picker_buttons_text_size">14dp</dimen>
 </resources>

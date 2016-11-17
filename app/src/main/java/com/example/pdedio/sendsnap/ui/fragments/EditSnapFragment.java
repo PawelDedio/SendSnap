@@ -1,11 +1,16 @@
 package com.example.pdedio.sendsnap.ui.fragments;
 
+import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
+import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.TextureView;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
 import com.example.pdedio.sendsnap.R;
+import com.example.pdedio.sendsnap.databinding.FragmentEditSnapBinding;
 import com.example.pdedio.sendsnap.logic.helpers.Consts;
 import com.example.pdedio.sendsnap.presenters.fragments.EditSnapPresenter;
 import com.example.pdedio.sendsnap.ui.views.BaseImageButton;
@@ -26,7 +31,7 @@ import java.io.File;
 /**
  * Created by pawel on 19.09.2016.
  */
-@EFragment(R.layout.fragment_edit_snap)
+@EFragment
 public class EditSnapFragment extends BaseFragment implements EditSnapPresenter.PresenterCallback {
 
     @Bean
@@ -77,6 +82,9 @@ public class EditSnapFragment extends BaseFragment implements EditSnapPresenter.
     @ViewById(R.id.btnEditSnapColorSelector)
     protected View btnColorSelector;
 
+    private FragmentEditSnapBinding editSnapBinding;
+
+
 
 
     // Lifecycle
@@ -95,6 +103,13 @@ public class EditSnapFragment extends BaseFragment implements EditSnapPresenter.
         this.editSnapPresenter.destroy();
         this.editSnapPresenter = null;
         super.onDestroy();
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        this.editSnapBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_edit_snap, container, false);
+        View rootView = this.editSnapBinding.getRoot();
+        return rootView;
     }
 
 
@@ -177,5 +192,10 @@ public class EditSnapFragment extends BaseFragment implements EditSnapPresenter.
     @Override
     public View getColorSelectorButton() {
         return this.btnColorSelector;
+    }
+
+    @Override
+    public FragmentEditSnapBinding getBinding() {
+        return this.editSnapBinding;
     }
 }

@@ -1,106 +1,112 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable name="prefs" type="com.example.pdedio.sendsnap.logic.helpers.SharedPreferenceManager"/>
+    </data>
 
-    <com.example.pdedio.sendsnap.ui.views.BaseImageView_
-        android:id="@+id/ivEditSnapPhoto"
+    <RelativeLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent">
 
-    <TextureView
-        android:id="@+id/tvEditSnapVideo"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        <com.example.pdedio.sendsnap.ui.views.BaseImageView_
+            android:id="@+id/ivEditSnapPhoto"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
 
-    <com.example.pdedio.sendsnap.ui.views.DrawingView_
-        android:id="@+id/vEditSnapDraw"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="visible"/>
+        <TextureView
+            android:id="@+id/tvEditSnapVideo"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
-    <com.example.pdedio.sendsnap.ui.views.MovableEditText_
-        android:id="@+id/etEditSnapText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="@dimen/edit_snap_et_text_padding_vertical"
-        android:paddingBottom="@dimen/edit_snap_et_text_padding_vertical"
-        android:paddingLeft="@dimen/edit_snap_et_text_padding_horizontal"
-        android:paddingRight="@dimen/edit_snap_et_text_padding_horizontal"
-        android:gravity="center"
-        android:textSize="@dimen/edit_snap_et_text_text_size"
-        android:textColor="@color/edit_snap_et_text_color"
-        android:background="@color/edit_snap_et_text_background"
-        android:visibility="invisible"
-        android:maxLines="1"
-        android:inputType="textVisiblePassword"/>
+        <com.example.pdedio.sendsnap.ui.views.DrawingView_
+            android:id="@+id/vEditSnapDraw"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="visible"/>
 
-    <com.example.pdedio.sendsnap.ui.views.BaseImageButton_
-        android:id="@+id/btnEditSnapClose"
-        android:layout_marginLeft="@dimen/edit_snap_btn_content_margin_left"
-        android:layout_alignParentLeft="true"
-        android:src="@drawable/btn_close"
-        style="@style/EditSnapTopButtons"/>
+        <com.example.pdedio.sendsnap.ui.views.MovableEditText_
+            android:id="@+id/etEditSnapText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/edit_snap_et_text_padding_vertical"
+            android:paddingBottom="@dimen/edit_snap_et_text_padding_vertical"
+            android:paddingLeft="@dimen/edit_snap_et_text_padding_horizontal"
+            android:paddingRight="@dimen/edit_snap_et_text_padding_horizontal"
+            android:gravity="center"
+            android:textSize="@dimen/edit_snap_et_text_text_size"
+            android:textColor="@color/edit_snap_et_text_color"
+            android:background="@color/edit_snap_et_text_background"
+            android:visibility="invisible"
+            android:maxLines="1"
+            android:inputType="textVisiblePassword"/>
 
-    <com.example.pdedio.sendsnap.ui.views.BaseImageButton_
-        android:id="@+id/btnEditSnapDraw"
-        android:layout_marginRight="@dimen/edit_snap_btn_content_margin_right"
-        android:layout_alignParentRight="true"
-        android:src="@drawable/btn_draw"
-        style="@style/EditSnapTopButtons"/>
+        <com.example.pdedio.sendsnap.ui.views.BaseImageButton_
+            android:id="@+id/btnEditSnapClose"
+            android:layout_marginLeft="@dimen/edit_snap_btn_content_margin_left"
+            android:layout_alignParentLeft="true"
+            android:src="@drawable/btn_close"
+            style="@style/EditSnapTopButtons"/>
 
-    <com.example.pdedio.sendsnap.ui.views.BaseImageButton_
-        android:id="@+id/btnEditSnapAddText"
-        android:layout_marginRight="@dimen/edit_snap_margin_between_buttons"
-        android:layout_toLeftOf="@+id/btnEditSnapDraw"
-        android:src="@drawable/btn_add_text"
-        style="@style/EditSnapTopButtons"/>
+        <com.example.pdedio.sendsnap.ui.views.BaseImageButton_
+            android:id="@+id/btnEditSnapDraw"
+            android:layout_marginRight="@dimen/edit_snap_btn_content_margin_right"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/btn_draw"
+            style="@style/EditSnapTopButtons"/>
 
-    <com.example.pdedio.sendsnap.ui.views.BaseImageButton_
-        android:id="@+id/btnEditSnapUndoDraw"
-        android:layout_marginRight="@dimen/edit_snap_margin_between_buttons"
-        android:layout_toLeftOf="@id/btnEditSnapDraw"
-        android:src="@drawable/btn_undo"
-        style="@style/EditSnapTopButtons"
-        android:visibility="gone"/>
-    
-    <View
-        android:id="@+id/btnEditSnapColorSelector"
-        android:layout_width="@dimen/edit_snap_btn_color_selector_size"
-        android:layout_height="@dimen/edit_snap_btn_color_selector_size"
-        android:layout_marginTop="@dimen/edit_snap_btn_color_selector_margin_top"
-        android:layout_marginRight="@dimen/edit_snap_btn_color_selector_margin_right"
-        android:layout_alignParentRight="true"
-        android:layout_below="@id/btnEditSnapDraw"
-        android:visibility="invisible"/>
+        <com.example.pdedio.sendsnap.ui.views.BaseImageButton_
+            android:id="@+id/btnEditSnapAddText"
+            android:layout_marginRight="@dimen/edit_snap_margin_between_buttons"
+            android:layout_toLeftOf="@+id/btnEditSnapDraw"
+            android:src="@drawable/btn_add_text"
+            style="@style/EditSnapTopButtons"/>
 
-    <com.example.pdedio.sendsnap.ui.views.BaseTextView_
-        android:id="@+id/btnEditSnapTimer"
-        android:layout_marginLeft="@dimen/edit_snap_btn_content_margin_left"
-        android:layout_alignParentLeft="true"
-        android:textSize="@dimen/edit_snap_btn_timer_text_size"
-        android:textColor="@color/edit_snap_btn_timer_text"
-        android:gravity="center"
-        android:background="@drawable/btn_timer"
-        style="@style/EditSnapBottomButtons"/>
+        <com.example.pdedio.sendsnap.ui.views.BaseImageButton_
+            android:id="@+id/btnEditSnapUndoDraw"
+            android:layout_marginRight="@dimen/edit_snap_margin_between_buttons"
+            android:layout_toLeftOf="@id/btnEditSnapDraw"
+            android:src="@drawable/btn_undo"
+            style="@style/EditSnapTopButtons"
+            android:visibility="gone"/>
 
-    <com.example.pdedio.sendsnap.ui.views.BaseImageButton_
-        android:id="@+id/btnEditSnapSaveImage"
-        android:layout_toRightOf="@id/btnEditSnapTimer"
-        android:layout_marginLeft="@dimen/edit_snap_margin_between_buttons"
-        android:src="@drawable/btn_save_image"
-        style="@style/EditSnapBottomButtons"/>
+        <View
+            android:id="@+id/btnEditSnapColorSelector"
+            android:layout_width="@dimen/edit_snap_btn_color_selector_size"
+            android:layout_height="@dimen/edit_snap_btn_color_selector_size"
+            android:layout_marginTop="@dimen/edit_snap_btn_color_selector_margin_top"
+            android:layout_marginRight="@dimen/edit_snap_btn_color_selector_margin_right"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/btnEditSnapDraw"
+            android:visibility="invisible"/>
 
-    <com.example.pdedio.sendsnap.ui.views.BaseImageButton_
-        android:id="@+id/btnEditSnapSend"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/edit_snap_btn_content_margin_bottom"
-        android:layout_marginRight="@dimen/edit_snap_btn_content_margin_right"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:src="@drawable/btn_accept_snap"
-        android:background="@android:color/transparent"/>
-</RelativeLayout>
+        <com.example.pdedio.sendsnap.ui.views.BaseTextView_
+            android:id="@+id/btnEditSnapTimer"
+            android:layout_marginLeft="@dimen/edit_snap_btn_content_margin_left"
+            android:layout_alignParentLeft="true"
+            android:text="@{prefs.getSnapDuration().toString()}"
+            android:textSize="@dimen/edit_snap_btn_timer_text_size"
+            android:textColor="@color/edit_snap_btn_timer_text"
+            android:gravity="center"
+            android:background="@drawable/btn_timer"
+            style="@style/EditSnapBottomButtons"/>
+
+        <com.example.pdedio.sendsnap.ui.views.BaseImageButton_
+            android:id="@+id/btnEditSnapSaveImage"
+            android:layout_toRightOf="@id/btnEditSnapTimer"
+            android:layout_marginLeft="@dimen/edit_snap_margin_between_buttons"
+            android:src="@drawable/btn_save_image"
+            style="@style/EditSnapBottomButtons"/>
+
+        <com.example.pdedio.sendsnap.ui.views.BaseImageButton_
+            android:id="@+id/btnEditSnapSend"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/edit_snap_btn_content_margin_bottom"
+            android:layout_marginRight="@dimen/edit_snap_btn_content_margin_right"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/btn_accept_snap"
+            android:background="@android:color/transparent"/>
+    </RelativeLayout>
+</layout>
