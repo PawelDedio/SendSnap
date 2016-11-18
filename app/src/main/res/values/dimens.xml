@@ -37,7 +37,7 @@
 
     <dimen name="edit_snap_btn_color_selector_size">25dp</dimen>
     <dimen name="edit_snap_btn_color_selector_margin_top">10dp</dimen>
-    <dimen name="edit_snap_btn_color_selector_margin_right">10dp</dimen>
+    <dimen name="edit_snap_btn_color_selector_margin_right">20dp</dimen>
 
     <!-- Number Picker Dialog -->
     <dimen name="number_picker_title_margin_top">24dp</dimen>

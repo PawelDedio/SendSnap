@@ -3,7 +3,6 @@ package com.example.pdedio.sendsnap.presenters.activities;
 import android.content.Context;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.view.View;
 
 import com.example.pdedio.sendsnap.R;
@@ -13,6 +12,7 @@ import com.example.pdedio.sendsnap.ui.adapters.VpMainAdapter;
 import com.example.pdedio.sendsnap.ui.fragments.BaseFragment;
 import com.example.pdedio.sendsnap.ui.fragments.CameraFragment;
 import com.example.pdedio.sendsnap.ui.fragments.CameraFragment_;
+import com.example.pdedio.sendsnap.ui.views.BaseViewPager;
 
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EBean;
@@ -108,7 +108,7 @@ public class MainPresenter extends BasePresenter {
 
         void showFrameLayout();
 
-        ViewPager getMainViewPager();
+        BaseViewPager getMainViewPager();
 
         void finish();
     }

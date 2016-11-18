@@ -16,6 +16,7 @@ import com.example.pdedio.sendsnap.presenters.fragments.EditSnapPresenter;
 import com.example.pdedio.sendsnap.ui.views.BaseImageButton;
 import com.example.pdedio.sendsnap.ui.views.BaseImageView;
 import com.example.pdedio.sendsnap.ui.views.BaseTextView;
+import com.example.pdedio.sendsnap.ui.views.BaseViewPager;
 import com.example.pdedio.sendsnap.ui.views.DrawingView;
 import com.example.pdedio.sendsnap.ui.views.MovableEditText;
 
@@ -81,6 +82,9 @@ public class EditSnapFragment extends BaseFragment implements EditSnapPresenter.
 
     @ViewById(R.id.btnEditSnapColorSelector)
     protected View btnColorSelector;
+
+    @ViewById(R.id.vpEditSnapFilters)
+    protected BaseViewPager vpFilters;
 
     private FragmentEditSnapBinding editSnapBinding;
 
@@ -197,5 +201,10 @@ public class EditSnapFragment extends BaseFragment implements EditSnapPresenter.
     @Override
     public FragmentEditSnapBinding getBinding() {
         return this.editSnapBinding;
+    }
+
+    @Override
+    public BaseViewPager getFiltersVP() {
+        return this.vpFilters;
     }
 }

@@ -22,6 +22,7 @@ import com.example.pdedio.sendsnap.ui.dialogs.NumberPickerDialog;
 import com.example.pdedio.sendsnap.ui.views.BaseImageButton;
 import com.example.pdedio.sendsnap.ui.views.BaseImageView;
 import com.example.pdedio.sendsnap.ui.views.BaseTextView;
+import com.example.pdedio.sendsnap.ui.views.BaseViewPager;
 import com.example.pdedio.sendsnap.ui.views.DrawingView;
 import com.example.pdedio.sendsnap.ui.views.MovableEditText;
 import com.thebluealliance.spectrum.SpectrumDialog;
@@ -88,6 +89,8 @@ public class EditSnapPresenter extends BaseFragmentPresenter {
 
         this.editSnapBinding.setPrefs(this.sharedPreferenceManager);
 
+        this.configureFilters();
+
         this.presenterCallback.getCloseButton().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -99,8 +102,6 @@ public class EditSnapPresenter extends BaseFragmentPresenter {
                 }
             }
         });
-
-        //this.presenterCallback.getTimerButton().setText(this.sharedPrefHelper.snapDuration().get().toString());
 
         this.presenterCallback.getTimerButton().setOnClickListener(new View.OnClickListener() {
             @Override
@@ -210,6 +211,10 @@ public class EditSnapPresenter extends BaseFragmentPresenter {
         });
     }
 
+    private void configureFilters() {
+
+    }
+
     private void startDrawing() {
         this.isDrawing = true;
 
@@ -309,5 +314,7 @@ public class EditSnapPresenter extends BaseFragmentPresenter {
         View getColorSelectorButton();
 
         FragmentEditSnapBinding getBinding();
+
+        BaseViewPager getFiltersVP();
     }
 }

@@ -2,7 +2,6 @@ package com.example.pdedio.sendsnap.ui.activities;
 
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -11,6 +10,7 @@ import com.example.pdedio.sendsnap.R;
 import com.example.pdedio.sendsnap.presenters.BasePresenter;
 import com.example.pdedio.sendsnap.presenters.activities.MainPresenter;
 import com.example.pdedio.sendsnap.ui.fragments.BaseFragment;
+import com.example.pdedio.sendsnap.ui.views.BaseViewPager;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
@@ -25,7 +25,7 @@ public class MainActivity extends BaseFragmentActivity implements MainPresenter.
     protected MainPresenter presenter;
 
     @ViewById(R.id.vpMain)
-    protected ViewPager vpMain;
+    protected BaseViewPager vpMain;
 
     @ViewById(R.id.flMain)
     protected FrameLayout flMain;
@@ -77,7 +77,7 @@ public class MainActivity extends BaseFragmentActivity implements MainPresenter.
     }
 
     @Override
-    public ViewPager getMainViewPager() {
+    public BaseViewPager getMainViewPager() {
         return this.vpMain;
     }
 

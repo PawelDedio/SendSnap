@@ -3,14 +3,12 @@ package com.example.pdedio.sendsnap.logic.helpers;
 import android.content.Context;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
-import android.databinding.DataBindingUtil;
 
 import com.example.pdedio.sendsnap.BR;
 
 import org.androidannotations.annotations.EBean;
 import org.androidannotations.annotations.RootContext;
 import org.androidannotations.annotations.sharedpreferences.Pref;
-import org.androidannotations.api.sharedpreferences.IntPrefField;
 
 /**
  * Created by p.dedio on 17.11.16.
