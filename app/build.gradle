@@ -46,7 +46,6 @@ dependencies {
     compile 'com.github.lzyzsd:CircleProgress:v1.1.1'
     compile 'com.karumi:dexter:2.3.1'
     compile 'com.thebluealliance:spectrum:0.6.0'
-    compile 'com.github.zomato:androidphotofilters:1.0.1'
 
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'

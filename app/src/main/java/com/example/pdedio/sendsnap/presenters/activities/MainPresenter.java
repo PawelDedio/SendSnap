@@ -8,7 +8,7 @@ import android.view.View;
 import com.example.pdedio.sendsnap.R;
 import com.example.pdedio.sendsnap.logic.helpers.FragmentStackManager;
 import com.example.pdedio.sendsnap.presenters.BasePresenter;
-import com.example.pdedio.sendsnap.ui.adapters.VpMainAdapter;
+import com.example.pdedio.sendsnap.ui.adapters.VpBaseFragmentAdapter;
 import com.example.pdedio.sendsnap.ui.fragments.BaseFragment;
 import com.example.pdedio.sendsnap.ui.fragments.CameraFragment;
 import com.example.pdedio.sendsnap.ui.fragments.CameraFragment_;
@@ -29,7 +29,7 @@ public class MainPresenter extends BasePresenter {
 
     protected PresenterCallback presenterCallback;
 
-    protected VpMainAdapter vpMainAdapter;
+    protected VpBaseFragmentAdapter vpMainAdapter;
 
     @Bean
     protected FragmentStackManager fragmentStackManager;
@@ -85,7 +85,7 @@ public class MainPresenter extends BasePresenter {
 
     ///Private methods
     private void setFragmentsToViewPager() {
-        this.vpMainAdapter = new VpMainAdapter(this.presenterCallback.getActivityFragmentManager());
+        this.vpMainAdapter = new VpBaseFragmentAdapter(this.presenterCallback.getActivityFragmentManager());
         this.vpMainAdapter.setFragments(this.prepareFragments());
         this.presenterCallback.initViewPager(this.vpMainAdapter);
     }

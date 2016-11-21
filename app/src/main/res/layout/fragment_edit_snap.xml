@@ -18,9 +18,9 @@
             android:id="@+id/tvEditSnapVideo"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
-
-        <com.example.pdedio.sendsnap.ui.views.BaseViewPager_
-            android:id="@+id/vpEditSnapFilters"
+        
+        <com.example.pdedio.sendsnap.ui.views.FiltersView_
+            android:id="@+id/sipEditSnapFilters"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
 

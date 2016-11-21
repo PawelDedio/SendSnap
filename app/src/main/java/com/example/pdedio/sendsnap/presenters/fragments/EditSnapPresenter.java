@@ -22,8 +22,8 @@ import com.example.pdedio.sendsnap.ui.dialogs.NumberPickerDialog;
 import com.example.pdedio.sendsnap.ui.views.BaseImageButton;
 import com.example.pdedio.sendsnap.ui.views.BaseImageView;
 import com.example.pdedio.sendsnap.ui.views.BaseTextView;
-import com.example.pdedio.sendsnap.ui.views.BaseViewPager;
 import com.example.pdedio.sendsnap.ui.views.DrawingView;
+import com.example.pdedio.sendsnap.ui.views.FiltersView;
 import com.example.pdedio.sendsnap.ui.views.MovableEditText;
 import com.thebluealliance.spectrum.SpectrumDialog;
 
@@ -121,6 +121,7 @@ public class EditSnapPresenter extends BaseFragmentPresenter {
                 }
                 return false;
             }
+            //TODO: Merge this with ViewPager logic
         });
 
         this.presenterCallback.getAddTextButton().setOnClickListener(new View.OnClickListener() {
@@ -315,6 +316,6 @@ public class EditSnapPresenter extends BaseFragmentPresenter {
 
         FragmentEditSnapBinding getBinding();
 
-        BaseViewPager getFiltersVP();
+        FiltersView getFiltersView();
     }
 }

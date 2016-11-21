@@ -14,7 +14,7 @@ import org.androidannotations.annotations.EView;
 @EView
 public class BaseViewPager extends ViewPager {
 
-    private boolean isScrollingEnabled;
+    private boolean isScrollingEnabled = true;
 
 
     public BaseViewPager(Context context) {
