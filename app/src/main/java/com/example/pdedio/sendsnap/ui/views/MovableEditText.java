@@ -55,8 +55,6 @@ public class MovableEditText extends BaseEditText {
         this.init(context, null);
     }
 
-    //TODO: Logic for moving view to destination after back click
-
     //Events
     @Override
     public boolean onTouchEvent(MotionEvent event) {
@@ -85,7 +83,7 @@ public class MovableEditText extends BaseEditText {
             case MotionEvent.ACTION_UP :
                 long currentTime = System.currentTimeMillis();
                 if(currentTime - touchTime < TIME_TO_MOVE && (Math.abs(this.touchY - event.getRawY()) < DISTANCE_TO_MOVE) && !this.isTyping) {
-                    this.startTyping(touchY);
+                    this.startTyping(this.getTranslationY());
                 }
 
                 if(this.isFocused()) {

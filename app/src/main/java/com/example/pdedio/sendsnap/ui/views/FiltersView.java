@@ -67,6 +67,10 @@ public class FiltersView extends LinearLayout {
         }
     }
 
+    public BaseViewPager getViewPager() {
+        return this.vpMain;
+    }
+
 
     //Private methods
     private ArrayList<Bitmap> prepareBitmapsList(Context context) {

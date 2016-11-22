@@ -56,6 +56,8 @@ public class EditSnapPresenter extends BaseFragmentPresenter {
 
     private FragmentEditSnapBinding editSnapBinding;
 
+    private static final int MAX_DISTANCE_FOR_CLICK = 15;
+
 
 
     // Lifecycle
@@ -110,18 +112,33 @@ public class EditSnapPresenter extends BaseFragmentPresenter {
             }
         });
 
-        this.presenterCallback.getMainLayout().setOnTouchListener(new View.OnTouchListener() {
+        this.presenterCallback.getFiltersView().getViewPager().setOnTouchListener(new View.OnTouchListener() {
+            float touchY;
+            float touchX;
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                MovableEditText editText = presenterCallback.getTextEt();
-                if(editText.isTyping()) {
-                    editText.stopTyping();
-                } else if(editText.getText().length() == 0) {
-                    editText.startTyping(event.getRawY());
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                switch(motionEvent.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        touchY = motionEvent.getRawY();
+                        touchX = motionEvent.getRawX();
+                        break;
+
+                    case MotionEvent.ACTION_UP:
+                        float currentY = motionEvent.getRawY();
+                        float currentX = motionEvent.getRawX();
+
+                        if(Math.abs(touchY - currentY) <= MAX_DISTANCE_FOR_CLICK && Math.abs(touchX - currentX) <= MAX_DISTANCE_FOR_CLICK) {
+                            MovableEditText editText = presenterCallback.getTextEt();
+                            if(editText.isTyping()) {
+                                editText.stopTyping();
+                            } else if(editText.getText().length() == 0) {
+                                editText.startTyping(touchY);
+                            }
+                        }
+                        break;
                 }
                 return false;
             }
-            //TODO: Merge this with ViewPager logic
         });
 
         this.presenterCallback.getAddTextButton().setOnClickListener(new View.OnClickListener() {
