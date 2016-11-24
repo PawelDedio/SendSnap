@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">SendSnap</string>
+    <string name="snap_directory_name">Send Snap</string>
+    <string name="snap_saved_file_name">SendSnap-%1$d</string>
+    <string name="snap_sent_file_name">tmp_photo</string>
 
     <!-- Camera Fragment -->
     <string name="camera_permissions_denied_title">Permissions denied</string>

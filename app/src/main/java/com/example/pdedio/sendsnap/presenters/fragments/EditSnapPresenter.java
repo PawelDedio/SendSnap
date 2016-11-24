@@ -1,6 +1,7 @@
 package com.example.pdedio.sendsnap.presenters.fragments;
 
 import android.app.ActivityManager;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.SurfaceTexture;
 import android.media.AudioManager;
@@ -182,6 +183,20 @@ public class EditSnapPresenter extends BaseFragmentPresenter {
                 showColorPicker();
             }
         });
+
+        this.presenterCallback.getSaveImageButton().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                saveSnap();
+            }
+        });
+
+        this.presenterCallback.getSendButton().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sendSnap();
+            }
+        });
     }
 
     private void showPhoto() {
@@ -293,6 +308,45 @@ public class EditSnapPresenter extends BaseFragmentPresenter {
 
     private void updateSnapDuration(int value) {
         this.sharedPreferenceManager.setSnapDuration(value);
+    }
+
+    private void saveSnap() {
+        String directory = this.presenterCallback.getBaseFragmentActivity().getString(R.string.snap_directory_name);
+        Long timeStamp = System.currentTimeMillis() / 1000;
+        String name = this.presenterCallback.getBaseFragmentActivity().getString(R.string.snap_saved_file_name, timeStamp);
+
+        File snap = this.generateSnapFile(directory, name);
+    }
+
+    private void sendSnap() {
+        String directory = this.presenterCallback.getBaseFragmentActivity().getDir("media", Context.MODE_PRIVATE).getAbsolutePath();
+        String fileName = this.presenterCallback.getBaseFragmentActivity().getString(R.string.snap_sent_file_name);
+
+        File snap = this.generateSnapFile(directory, fileName);
+    }
+
+    private File generateSnapFile(String directory, String fileName) {
+
+        //TODO: Uzywanie tych samych plikow do ktorych zapisalismy zdjecie
+        File path = new File(directory);
+
+        if(!path.exists()) {
+            path.mkdir();
+        }
+
+
+        File savedSnap = new File(directory, fileName);
+
+        if(this.presenterCallback.getSnapType() == Consts.SnapType.PHOTO) {
+            Bitmap bitmap = this.makeViewsScreenshot();
+        }
+
+        return savedSnap;
+    }
+
+    private Bitmap makeViewsScreenshot() {
+        float width = this.presenterCallback.getBaseFragmentActivity().getResources().getDisplayMetrics().widthPixels;
+        float height = this.presenterCallback.getBaseFragmentActivity().getResources().getDisplayMetrics().heightPixels;
     }
 
 
