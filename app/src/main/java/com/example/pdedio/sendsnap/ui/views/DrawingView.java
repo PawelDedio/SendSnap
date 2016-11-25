@@ -14,10 +14,7 @@ import com.example.pdedio.sendsnap.R;
 import org.androidannotations.annotations.EView;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 
 /**
@@ -85,7 +82,9 @@ public class DrawingView extends View {
             canvas.drawPath(path, paint);
         }
 
-        canvas.drawPath(this.drawPath, this.drawPaint);
+        if(this.drawPath != null && this.drawPaint != null) {
+            canvas.drawPath(this.drawPath, this.drawPaint);
+        }
     }
 
     @Override

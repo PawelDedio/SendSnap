@@ -1,11 +1,13 @@
 package com.example.pdedio.sendsnap.presenters.fragments;
 
 import android.app.ActivityManager;
-import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.SurfaceTexture;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.media.MediaScannerConnection;
+import android.os.Environment;
 import android.support.annotation.ColorInt;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -13,6 +15,7 @@ import android.view.Surface;
 import android.view.TextureView;
 import android.view.View;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.example.pdedio.sendsnap.R;
 import com.example.pdedio.sendsnap.databinding.FragmentEditSnapBinding;
@@ -33,6 +36,9 @@ import org.androidannotations.annotations.EBean;
 import org.androidannotations.annotations.res.ColorRes;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.nio.channels.FileChannel;
 
 /**
  * Created by pawel on 19.09.2016.
@@ -75,6 +81,13 @@ public class EditSnapPresenter extends BaseFragmentPresenter {
     @Override
     public void destroy() {
         this.presenterCallback = null;
+    }
+
+    @Override
+    public void onResume() {
+        if(this.presenterCallback != null && this.presenterCallback.getSnapType() == Consts.SnapType.VIDEO) {
+            this.showVideo();
+        }
     }
 
 
@@ -316,37 +329,90 @@ public class EditSnapPresenter extends BaseFragmentPresenter {
         String name = this.presenterCallback.getBaseFragmentActivity().getString(R.string.snap_saved_file_name, timeStamp);
 
         File snap = this.generateSnapFile(directory, name);
+
+        Toast.makeText(this.presenterCallback.getBaseFragmentActivity(), R.string.edit_snap_snap_saved_message, Toast.LENGTH_SHORT).show();
+        MediaScannerConnection.scanFile(this.presenterCallback.getBaseFragmentActivity(), new String[] { snap.getAbsolutePath()}, null, null);
     }
 
     private void sendSnap() {
-        String directory = this.presenterCallback.getBaseFragmentActivity().getDir("media", Context.MODE_PRIVATE).getAbsolutePath();
-        String fileName = this.presenterCallback.getBaseFragmentActivity().getString(R.string.snap_sent_file_name);
+        File snap = this.generateSnapFile();
 
-        File snap = this.generateSnapFile(directory, fileName);
+        //TODO: Connections with api and sending file
+    }
+
+    private File generateSnapFile() {
+        return this.generateSnapFile(null, null);
     }
 
     private File generateSnapFile(String directory, String fileName) {
 
-        //TODO: Uzywanie tych samych plikow do ktorych zapisalismy zdjecie
-        File path = new File(directory);
+        File snap;
 
-        if(!path.exists()) {
-            path.mkdir();
+        if(directory == null || fileName == null) {
+            snap = this.presenterCallback.getSnapFile();
+        } else {
+            File path = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM) + directory);
+
+            if(!path.exists()) {
+                path.mkdir();
+            }
+
+            String format = this.presenterCallback.getSnapType() == Consts.SnapType.PHOTO ? ".jpg" : ".mp4";
+            snap = new File(path, fileName + format);
         }
-
-
-        File savedSnap = new File(directory, fileName);
 
         if(this.presenterCallback.getSnapType() == Consts.SnapType.PHOTO) {
             Bitmap bitmap = this.makeViewsScreenshot();
+            this.saveBitmapToFile(bitmap, snap);
+        } else if(snap.length() == 0) {
+            File takenSNap  = this.presenterCallback.getSnapFile();
+            this.copyFile(takenSNap, snap);
+            takenSNap.delete();
         }
 
-        return savedSnap;
+        return snap;
     }
 
     private Bitmap makeViewsScreenshot() {
-        float width = this.presenterCallback.getBaseFragmentActivity().getResources().getDisplayMetrics().widthPixels;
-        float height = this.presenterCallback.getBaseFragmentActivity().getResources().getDisplayMetrics().heightPixels;
+        int width = this.presenterCallback.getPreviewImageView().getWidth();
+        int height = this.presenterCallback.getPreviewImageView().getHeight();
+
+        Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        final Canvas canvas = new Canvas(bitmap);
+        this.presenterCallback.getPreviewImageView().draw(canvas);
+        this.presenterCallback.getDrawingView().draw(canvas);
+        MovableEditText etText = this.presenterCallback.getTextEt();
+        etText.setDrawingCacheEnabled(true);
+        Bitmap text = etText.getDrawingCache();
+        canvas.drawBitmap(text, 0, etText.getTranslationY(), null);
+
+        return bitmap;
+    }
+
+    private void saveBitmapToFile(Bitmap bitmap, File file) {
+        try {
+            FileOutputStream out = new FileOutputStream(file.getAbsolutePath());
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
+            out.flush();
+            out.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void copyFile(File source, File destination) {
+        try {
+            FileInputStream in = new FileInputStream(source);
+            FileOutputStream out = new FileOutputStream(destination);
+            FileChannel inChannel = in.getChannel();
+            FileChannel outChannel = out.getChannel();
+
+            inChannel.transferTo(0, inChannel.size(), outChannel);
+            in.close();
+            out.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 

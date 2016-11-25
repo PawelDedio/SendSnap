@@ -23,6 +23,8 @@ import android.view.Surface;
 import android.view.TextureView;
 import android.view.WindowManager;
 
+import com.example.pdedio.sendsnap.R;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -296,6 +298,8 @@ public class Camera2Impl implements CameraHelper {
             int rotation = windowManager.getDefaultDisplay().getRotation();
             captureBuilder.set(CaptureRequest.JPEG_ORIENTATION, rotation);
 
+            String directory = context.getDir("media", Context.MODE_PRIVATE).getAbsolutePath();
+            String fileName = context.getString(R.string.snap_sent_file_name);
             file = new File(Environment.getExternalStorageDirectory() + "/pic.jpg");
             if(file.exists()) {
                 try {

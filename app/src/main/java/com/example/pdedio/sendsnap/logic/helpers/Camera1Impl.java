@@ -5,8 +5,9 @@ import android.graphics.SurfaceTexture;
 import android.hardware.Camera;
 import android.media.CamcorderProfile;
 import android.media.MediaRecorder;
-import android.os.Environment;
 import android.view.TextureView;
+
+import com.example.pdedio.sendsnap.R;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -44,7 +45,9 @@ public class Camera1Impl implements CameraHelper, TextureView.SurfaceTextureList
 
     @Override
     public void takePicture(Context context, TextureView textureView, final PhotoCallback callback) {
-        this.photo = new File(Environment.getExternalStorageDirectory() + "/pic.jpg");
+        String directory = context.getDir("media", Context.MODE_PRIVATE).getAbsolutePath();
+        String fileName = context.getString(R.string.snap_sent_file_name);
+        this.photo = new File(directory, fileName);
         if(this.photo.exists()) {
             this.photo.delete();
         }
