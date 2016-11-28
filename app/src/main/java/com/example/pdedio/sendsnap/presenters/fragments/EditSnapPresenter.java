@@ -23,6 +23,8 @@ import com.example.pdedio.sendsnap.logic.helpers.Consts;
 import com.example.pdedio.sendsnap.logic.helpers.SharedPreferenceManager;
 import com.example.pdedio.sendsnap.ui.activities.BaseFragmentActivity;
 import com.example.pdedio.sendsnap.ui.dialogs.NumberPickerDialog;
+import com.example.pdedio.sendsnap.ui.fragments.SelectSnapRecipientFragment;
+import com.example.pdedio.sendsnap.ui.fragments.SelectSnapRecipientFragment_;
 import com.example.pdedio.sendsnap.ui.views.BaseImageButton;
 import com.example.pdedio.sendsnap.ui.views.BaseImageView;
 import com.example.pdedio.sendsnap.ui.views.BaseTextView;
@@ -337,7 +339,7 @@ public class EditSnapPresenter extends BaseFragmentPresenter {
     private void sendSnap() {
         File snap = this.generateSnapFile();
 
-        //TODO: Connections with api and sending file
+        this.openFragment(snap);
     }
 
     private File generateSnapFile() {
@@ -414,6 +416,11 @@ public class EditSnapPresenter extends BaseFragmentPresenter {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void openFragment(File file) {
+        SelectSnapRecipientFragment fragment = SelectSnapRecipientFragment_.builder().snapFile(file).build();
+        this.openFragment(this.presenterCallback.getBaseFragmentActivity(), fragment);
     }
 
 
