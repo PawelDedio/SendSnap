@@ -10,8 +10,11 @@
 
     <!-- Edit Snap Fragment -->
     <string name="edit_snap_number_picker_title">Select Snap duration</string>
-    <string name="edit_snap_snap_saved_message">Zapisano Snapa</string>
+    <string name="edit_snap_snap_saved_message">Snap saved</string>
 
     <!-- Number Picker Dialog -->
     <string name="number_picker_dialog_btn_positive">Ok</string>
+
+    <!-- Select Snap Recipient Fragment -->
+    <string name="select_snap_recipient_title">Select recipient</string>
 </resources>

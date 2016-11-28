@@ -9,6 +9,7 @@ import android.widget.FrameLayout;
 import com.example.pdedio.sendsnap.R;
 import com.example.pdedio.sendsnap.presenters.BasePresenter;
 import com.example.pdedio.sendsnap.presenters.activities.MainPresenter;
+import com.example.pdedio.sendsnap.ui.communication.StatusBarManager;
 import com.example.pdedio.sendsnap.ui.fragments.BaseFragment;
 import com.example.pdedio.sendsnap.ui.views.BaseViewPager;
 
@@ -19,7 +20,7 @@ import org.androidannotations.annotations.KeyUp;
 import org.androidannotations.annotations.ViewById;
 
 @EActivity(R.layout.activity_main)
-public class MainActivity extends BaseFragmentActivity implements MainPresenter.PresenterCallback {
+public class MainActivity extends BaseFragmentActivity implements MainPresenter.PresenterCallback, StatusBarManager {
 
     @Bean
     protected MainPresenter presenter;
@@ -96,5 +97,17 @@ public class MainActivity extends BaseFragmentActivity implements MainPresenter.
     @Override
     public void popFragment() {
         this.presenter.popFragment();
+    }
+
+
+    // Status Bar manager methods
+    @Override
+    public void hideStatusBar() {
+
+    }
+
+    @Override
+    public void showStatusBar() {
+
     }
 }

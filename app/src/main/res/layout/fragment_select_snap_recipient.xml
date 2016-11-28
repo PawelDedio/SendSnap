@@ -3,4 +3,23 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <RelativeLayout
+        style="@style/ActionBarBlue">
+
+        <com.example.pdedio.sendsnap.ui.views.BaseImageButton_
+            android:id="@+id/btnSelectSnapRecipientBack"
+            style="@style/ActionBarBlueBtnBack"/>
+
+        <com.example.pdedio.sendsnap.ui.views.BaseImageButton_
+            android:id="@+id/btnSelectSnapRecipientSearch"
+            android:src="@drawable/btn_search_white"
+            android:layout_alignParentRight="true"
+            style="@style/ActionBarBlueBtn"/>
+        
+        <com.example.pdedio.sendsnap.ui.views.BaseTextView_
+            android:id="@+id/btnSelectSnapRecipientTitle"
+            android:text="@string/select_snap_recipient_title"
+            android:layout_toRightOf="@id/btnSelectSnapRecipientBack"
+            style="@style/ActionBarBlueTitle"/>
+    </RelativeLayout>
 </LinearLayout>
