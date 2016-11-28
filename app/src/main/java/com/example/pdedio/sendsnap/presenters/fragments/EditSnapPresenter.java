@@ -380,6 +380,7 @@ public class EditSnapPresenter extends BaseFragmentPresenter {
         Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         final Canvas canvas = new Canvas(bitmap);
         this.presenterCallback.getPreviewImageView().draw(canvas);
+        this.presenterCallback.getFiltersView().draw(canvas);
         this.presenterCallback.getDrawingView().draw(canvas);
         MovableEditText etText = this.presenterCallback.getTextEt();
         etText.setDrawingCacheEnabled(true);
