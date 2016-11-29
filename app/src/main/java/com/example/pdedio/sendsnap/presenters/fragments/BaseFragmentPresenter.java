@@ -17,4 +17,8 @@ public abstract class BaseFragmentPresenter extends BasePresenter{
     public void popFragment(BaseFragmentActivity activity) {
         activity.popFragment();
     }
+
+    public void onDestroyView() {}
+
+    public void onVisibilityChanged(boolean isVisible) {}
 }

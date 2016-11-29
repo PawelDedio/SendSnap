@@ -4,6 +4,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.view.PagerAdapter;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
 
 import com.example.pdedio.sendsnap.R;
@@ -103,11 +104,12 @@ public class MainActivity extends BaseFragmentActivity implements MainPresenter.
     // Status Bar manager methods
     @Override
     public void hideStatusBar() {
-
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
     }
 
     @Override
     public void showStatusBar() {
-
+        this.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
     }
 }

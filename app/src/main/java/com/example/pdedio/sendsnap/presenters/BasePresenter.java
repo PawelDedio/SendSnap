@@ -9,7 +9,7 @@ public abstract class BasePresenter {
 
     public abstract void destroy();
 
-    public void onPause(){};
+    public void onPause(){}
 
-    public void onResume(){};
+    public void onResume(){}
 }

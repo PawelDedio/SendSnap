@@ -57,7 +57,9 @@ public class MainPresenter extends BasePresenter {
     ///Public methods
     public void showFragment(BaseFragment fragment) {
         if(this.presenterCallback.getMainViewPager().getVisibility() == View.VISIBLE) {
+
             this.presenterCallback.showFrameLayout();
+            this.stopFragmentInVp();
         }
 
         this.fragmentStackManager.replaceFragmentWithAddingToBackStack(R.id.flMain, fragment);
@@ -78,6 +80,7 @@ public class MainPresenter extends BasePresenter {
                 return;
             }
             this.fragmentStackManager.popBackStack();
+            this.restoreFragmentInVp();
             this.presenterCallback.showViewPager();
         }
     }
@@ -96,6 +99,20 @@ public class MainPresenter extends BasePresenter {
         CameraFragment fragment = CameraFragment_.builder().build();
         list.add(fragment);
         return list;
+    }
+
+    private void stopFragmentInVp() {
+        BaseFragment fragment = (BaseFragment) this.vpMainAdapter.getItem(this.presenterCallback.getMainViewPager().getCurrentItem());
+        fragment.onPause();
+        fragment.onStop();
+        fragment.onVisibilityChanged(false);
+    }
+
+    private void restoreFragmentInVp() {
+        BaseFragment fragment = (BaseFragment) this.vpMainAdapter.getItem(this.presenterCallback.getMainViewPager().getCurrentItem());
+        fragment.onStart();
+        fragment.onResume();
+        fragment.onVisibilityChanged(true);
     }
 
 

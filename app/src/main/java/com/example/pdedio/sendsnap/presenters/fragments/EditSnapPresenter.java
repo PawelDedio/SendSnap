@@ -14,7 +14,6 @@ import android.view.MotionEvent;
 import android.view.Surface;
 import android.view.TextureView;
 import android.view.View;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.example.pdedio.sendsnap.R;
@@ -77,6 +76,7 @@ public class EditSnapPresenter extends BaseFragmentPresenter {
 
     @Override
     public void afterViews() {
+        this.presenterCallback.hideStatusBar();
         this.configureViews();
     }
 
@@ -451,8 +451,6 @@ public class EditSnapPresenter extends BaseFragmentPresenter {
 
         MovableEditText getTextEt();
 
-        RelativeLayout getMainLayout();
-
         DrawingView getDrawingView();
 
         BaseImageButton getUndoButton();
@@ -462,5 +460,7 @@ public class EditSnapPresenter extends BaseFragmentPresenter {
         FragmentEditSnapBinding getBinding();
 
         FiltersView getFiltersView();
+
+        void hideStatusBar();
     }
 }

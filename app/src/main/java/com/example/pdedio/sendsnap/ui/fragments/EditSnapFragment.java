@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
 
 import com.example.pdedio.sendsnap.R;
 import com.example.pdedio.sendsnap.databinding.FragmentEditSnapBinding;
@@ -176,11 +175,6 @@ public class EditSnapFragment extends BaseFragment implements EditSnapPresenter.
     @Override
     public MovableEditText getTextEt() {
         return this.etText;
-    }
-
-    @Override
-    public RelativeLayout getMainLayout() {
-        return (RelativeLayout) this.getView();
     }
 
     @Override

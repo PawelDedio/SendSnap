@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 
 import com.example.pdedio.sendsnap.SendSnapApplication;
 import com.example.pdedio.sendsnap.ui.activities.BaseFragmentActivity;
+import com.example.pdedio.sendsnap.ui.communication.StatusBarManager;
 import com.squareup.leakcanary.RefWatcher;
 
 /**
@@ -28,4 +29,21 @@ public class BaseFragment extends Fragment {
         RefWatcher refWatcher = SendSnapApplication.getRefWatcher(this.getContext());
         refWatcher.watch(this);
     }
+
+
+    public void showStatusBar() {
+        if(this.getActivity() instanceof StatusBarManager) {
+            StatusBarManager manager = (StatusBarManager) this.getActivity();
+            manager.showStatusBar();
+        }
+    }
+
+    public void hideStatusBar() {
+        if(this.getActivity() instanceof StatusBarManager) {
+            StatusBarManager manager = (StatusBarManager) this.getActivity();
+            manager.hideStatusBar();
+        }
+    }
+
+    public void onVisibilityChanged(boolean isVisible) {}
 }

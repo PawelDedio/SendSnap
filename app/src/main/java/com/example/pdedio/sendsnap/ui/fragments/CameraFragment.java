@@ -79,6 +79,11 @@ public class CameraFragment extends BaseFragment implements CameraPresenter.Pres
         super.onDestroy();
     }
 
+    @Override
+    public void onVisibilityChanged(boolean isVisible) {
+        this.cameraPresenter.onVisibilityChanged(isVisible);
+    }
+
 
     //PresenterCallback methods
     @Override

@@ -2,12 +2,15 @@ package com.example.pdedio.sendsnap.ui.fragments;
 
 import com.example.pdedio.sendsnap.R;
 import com.example.pdedio.sendsnap.presenters.fragments.SelectSnapRecipientPresenter;
+import com.example.pdedio.sendsnap.ui.activities.BaseFragmentActivity;
+import com.example.pdedio.sendsnap.ui.views.BaseImageButton;
 
 import org.androidannotations.annotations.AfterInject;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.FragmentArg;
+import org.androidannotations.annotations.ViewById;
 
 import java.io.File;
 
@@ -22,6 +25,12 @@ public class SelectSnapRecipientFragment extends BaseFragment implements SelectS
 
     @FragmentArg
     protected File snapFile;
+
+    @ViewById(R.id.btnSelectSnapRecipientBack)
+    protected BaseImageButton btnBack;
+
+    @ViewById(R.id.btnSelectSnapRecipientSearch)
+    protected BaseImageButton btnSearch;
 
 
 
@@ -41,5 +50,20 @@ public class SelectSnapRecipientFragment extends BaseFragment implements SelectS
         this.presenter.destroy();
         this.presenter = null;
         super.onDestroy();
+    }
+
+    @Override
+    public BaseFragmentActivity getBaseFragmentActivity() {
+        return (BaseFragmentActivity) this.getActivity();
+    }
+
+    @Override
+    public BaseImageButton getBtnBack() {
+        return this.btnBack;
+    }
+
+    @Override
+    public BaseImageButton getBtnSearch() {
+        return this.btnSearch;
     }
 }

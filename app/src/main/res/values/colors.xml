@@ -6,6 +6,7 @@
 
     <!-- Action bar blue -->
     <color name="action_bar_blue_background">#03A9F4</color>
+    <color name="action_bar_blue_color_dark">#0288D1</color>
     <color name="action_bar_blue_text">#FFFFFF</color>
 
     <!-- Camera Fragment -->

@@ -82,6 +82,8 @@ public class CameraPresenter extends BaseFragmentPresenter {
 
     @Override
     public void afterViews() {
+        this.presenterCallback.hideStatusBar();
+        this.prepareLogic();
         this.checkPermissions();
     }
 
@@ -94,6 +96,13 @@ public class CameraPresenter extends BaseFragmentPresenter {
     public void onResume() {
         if(this.cameraHelper != null && this.presenterCallback != null && !this.isCameraConfigured) {
             this.initCameraHelper();
+        }
+    }
+
+    @Override
+    public void onVisibilityChanged(boolean isVisible) {
+        if(isVisible) {
+            this.presenterCallback.hideStatusBar();
         }
     }
 
@@ -396,5 +405,9 @@ public class CameraPresenter extends BaseFragmentPresenter {
         BaseFragmentActivity getBaseFragmentActivity();
 
         View getFrontFlashView();
+
+        void showStatusBar();
+
+        void hideStatusBar();
     }
 }
