@@ -34,4 +34,6 @@ public class SendSnapApplication extends Application {
         SendSnapApplication application = (SendSnapApplication) context.getApplicationContext();
         return application.refWatcher;
     }
+
+    //TODO: Package per feature and proper MVP similar by google  TODO sample
 }
