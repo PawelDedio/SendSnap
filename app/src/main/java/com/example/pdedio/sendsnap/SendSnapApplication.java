@@ -36,4 +36,5 @@ public class SendSnapApplication extends Application {
     }
 
     //TODO: Package per feature and proper MVP similar by google  TODO sample
+    //TODO: Wrap external libraries
 }

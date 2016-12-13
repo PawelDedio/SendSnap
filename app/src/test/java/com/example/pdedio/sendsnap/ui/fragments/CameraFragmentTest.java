@@ -4,7 +4,7 @@ import android.graphics.drawable.Drawable;
 
 import com.example.pdedio.sendsnap.BuildConfig;
 import com.example.pdedio.sendsnap.R;
-import com.example.pdedio.sendsnap.ui.views.BaseImageButton;
+import com.example.pdedio.sendsnap.common.views.BaseImageButton;
 
 import org.junit.Assert;
 import org.junit.Test;
