@@ -19,33 +19,21 @@ public class CameraContract {
     public interface CameraPresenter extends BaseFragmentContract.BaseFragmentPresenter {
         void init(CameraView view);
 
-        void startRecording();
+        void startRecording(Context context, TextureView textureView);
 
         void stopRecording();
 
         void takePicture(Context context, TextureView textureView);
+
+        void switchCamera(Context context, TextureView textureView);
+
+        void initCameraHelper(Context context, TextureView textureView)
     }
 
     public interface CameraView extends BaseFragmentContract.BaseFragmentView {
 
-        DonutProgress getCameraProgressBar();
+        void startFrontFlash();
 
-        BaseButton getCameraButton();
-
-        Context getActivityContext();
-
-        TextureView getPreviewTextureView();
-
-        BaseImageButton getChangeCameraButton();
-
-        BaseImageButton getFlashButton();
-
-        BaseFragmentActivity getBaseFragmentActivity();
-
-        View getFrontFlashView();
-
-        void showStatusBar();
-
-        void hideStatusBar();
+        void stopFrontFlash();
     }
 }

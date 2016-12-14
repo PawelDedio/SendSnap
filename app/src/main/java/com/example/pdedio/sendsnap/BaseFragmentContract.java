@@ -8,16 +8,12 @@ public class BaseFragmentContract {
 
     public interface BaseFragmentPresenter extends BaseContract.BasePresenter {
 
-        void openFragment(BaseFragmentActivity activity, BaseFragment fragment);
-
-        void popFragment(BaseFragmentActivity activity);
-
         void onDestroyView();
 
         void onVisibilityChanged(boolean isVisible);
     }
 
-    public interface BaseFragmentView {
+    public interface BaseFragmentView extends BaseContract.BaseView {
 
         void showStatusBar();
 

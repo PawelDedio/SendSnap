@@ -44,4 +44,20 @@ public class BaseFragment extends Fragment implements BaseFragmentContract.BaseF
     }
 
     public void onVisibilityChanged(boolean isVisible) {}
+
+    @Override
+    public void showFragment(BaseFragment fragment) {
+        if(this.getActivity() instanceof BaseFragmentActivity) {
+            BaseFragmentActivity activity = (BaseFragmentActivity) this.getActivity();
+            activity.showFragment(fragment);
+        }
+    }
+
+    @Override
+    public void popFragment() {
+        if(this.getActivity() instanceof BaseFragmentActivity) {
+            BaseFragmentActivity activity = (BaseFragmentActivity) this.getActivity();
+            activity.popFragment();
+        }
+    }
 }
