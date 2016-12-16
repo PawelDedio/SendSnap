@@ -1,19 +1,18 @@
 package com.example.pdedio.sendsnap.common;
 
-import android.content.Context;
+import android.support.v4.app.FragmentManager;
 import android.view.View;
 
 import com.example.pdedio.sendsnap.BaseFragment;
 import com.example.pdedio.sendsnap.BasePresenter;
 import com.example.pdedio.sendsnap.R;
+import com.example.pdedio.sendsnap.camera.CameraFragment;
 import com.example.pdedio.sendsnap.camera.CameraFragment_;
 import com.example.pdedio.sendsnap.common.adapters.VpBaseFragmentAdapter;
 import com.example.pdedio.sendsnap.helpers.FragmentStackManager;
-import com.example.pdedio.sendsnap.camera.CameraFragment;
 
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EBean;
-import org.androidannotations.annotations.RootContext;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,15 +33,10 @@ public class MainPresenter extends BasePresenter implements MainContract.MainPre
 
 
     ///Lifecycle
-    @RootContext
-    public void setContext(Context context) {
-        if(context instanceof MainContract.MainView) {
-            this.mainView = (MainContract.MainView) context;
-        }
-    }
-     @Override
-    public void afterViews() {
-        this.setFragmentsToViewPager();
+    @Override
+    public void init(MainContract.MainView mainView, FragmentManager fragmentManager) {
+        this.mainView = mainView;
+        this.setFragmentsToViewPager(fragmentManager);
     }
 
     @Override
@@ -53,7 +47,7 @@ public class MainPresenter extends BasePresenter implements MainContract.MainPre
 
     ///Public methods
     public void showFragment(BaseFragment fragment) {
-        if(this.mainView.getMainViewPager().getVisibility() == View.VISIBLE) {
+        if(this.mainView.getMainViewPagerVisibility() == View.VISIBLE) {
 
             this.mainView.showFrameLayout();
             this.stopFragmentInVp();
@@ -84,8 +78,11 @@ public class MainPresenter extends BasePresenter implements MainContract.MainPre
 
 
     ///Private methods
-    private void setFragmentsToViewPager() {
-        this.vpMainAdapter = new VpBaseFragmentAdapter(this.mainView.getActivityFragmentManager());
+    private void setFragmentsToViewPager(FragmentManager fragmentManager) {
+        if(this.vpMainAdapter == null) {
+            this.vpMainAdapter = new VpBaseFragmentAdapter(fragmentManager);
+        }
+
         this.vpMainAdapter.setFragments(this.prepareFragments());
         this.mainView.initViewPager(this.vpMainAdapter);
     }
@@ -99,14 +96,14 @@ public class MainPresenter extends BasePresenter implements MainContract.MainPre
     }
 
     private void stopFragmentInVp() {
-        BaseFragment fragment = (BaseFragment) this.vpMainAdapter.getItem(this.mainView.getMainViewPager().getCurrentItem());
+        BaseFragment fragment = (BaseFragment) this.vpMainAdapter.getItem(this.mainView.getCurrentItemInViewPager());
         fragment.onPause();
         fragment.onStop();
         fragment.onVisibilityChanged(false);
     }
 
     private void restoreFragmentInVp() {
-        BaseFragment fragment = (BaseFragment) this.vpMainAdapter.getItem(this.mainView.getMainViewPager().getCurrentItem());
+        BaseFragment fragment = (BaseFragment) this.vpMainAdapter.getItem(this.mainView.getCurrentItemInViewPager());
         fragment.onStart();
         fragment.onResume();
         fragment.onVisibilityChanged(true);

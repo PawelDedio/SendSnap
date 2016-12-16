@@ -9,8 +9,6 @@ public class BaseContract {
 
     public interface BasePresenter {
 
-        void afterViews();
-
         void destroy();
 
         void onPause();

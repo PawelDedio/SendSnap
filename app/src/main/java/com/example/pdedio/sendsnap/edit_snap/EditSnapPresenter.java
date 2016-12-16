@@ -113,7 +113,7 @@ public class EditSnapPresenter extends BaseFragmentPresenter {
                     presenterCallback.getDrawingView().clearArea();
                     stopDrawing();
                 } else {
-                    //popFragment(presenterCallback.getBaseFragmentActivity());
+                    //popFragment(mainView.getBaseFragmentActivity());
                 }
             }
         });
@@ -417,7 +417,7 @@ public class EditSnapPresenter extends BaseFragmentPresenter {
 
     private void openFragment(File file) {
         SelectSnapRecipientFragment fragment = SelectSnapRecipientFragment_.builder().snapFile(file).build();
-        //this.openFragment(this.presenterCallback.getBaseFragmentActivity(), fragment);
+        //this.openFragment(this.mainView.getBaseFragmentActivity(), fragment);
     }
 
 

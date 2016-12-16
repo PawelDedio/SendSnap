@@ -35,5 +35,11 @@ public class SharedPreferenceManager extends BaseObservable {
         this.notifyPropertyChanged(BR._all);
     }
 
+    public Integer getCameraId() {
+        return sharedPrefHelper.cameraId().get();
+    }
 
+    public void setCameraId(Integer value) {
+        this.sharedPrefHelper.cameraId().put(value);
+    }
 }

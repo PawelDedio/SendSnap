@@ -2,8 +2,6 @@ package com.example.pdedio.sendsnap.camera;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
 import android.view.TextureView;
 
 import com.example.pdedio.sendsnap.BaseFragmentPresenter;
@@ -12,14 +10,13 @@ import com.example.pdedio.sendsnap.edit_snap.EditSnapFragment;
 import com.example.pdedio.sendsnap.edit_snap.EditSnapFragment_;
 import com.example.pdedio.sendsnap.helpers.BitmapsManager;
 import com.example.pdedio.sendsnap.helpers.Consts;
-import com.example.pdedio.sendsnap.helpers.SharedPrefHelper_;
+import com.example.pdedio.sendsnap.helpers.SharedPreferenceManager;
 import com.example.pdedio.sendsnap.permissions.PermissionManager;
 import com.example.pdedio.sendsnap.permissions.PermissionSession;
 import com.example.pdedio.sendsnap.permissions.PermissionsResult;
 
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EBean;
-import org.androidannotations.annotations.sharedpreferences.Pref;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -39,16 +36,16 @@ public class CameraPresenter extends BaseFragmentPresenter implements CameraCont
     @Bean
     protected BitmapsManager bitmapsManager;
 
-    @Pref
-    protected SharedPrefHelper_ sharedPrefHelper;
+    @Bean
+    protected SharedPreferenceManager sharedPreferenceManager;
 
-    private CameraContract.CameraView cameraView;
+    protected CameraContract.CameraView cameraView;
 
     protected CameraHelper cameraHelper;
 
     protected boolean isFlashEnabled;
 
-    private boolean isCameraConfigured;
+    protected boolean isCameraConfigured;
 
 
     //Lifecycle
@@ -86,7 +83,7 @@ public class CameraPresenter extends BaseFragmentPresenter implements CameraCont
         if(this.cameraHelper == null || this.cameraView == null || this.isCameraConfigured) {
             return;
         }
-        int cameraId = this.sharedPrefHelper.cameraId().get();
+        int cameraId = this.sharedPreferenceManager.getCameraId();
 
         this.cameraHelper.init(context, textureView, cameraId);
     }
@@ -142,7 +139,7 @@ public class CameraPresenter extends BaseFragmentPresenter implements CameraCont
         if(!cameraHelper.isFrontCamera()) {
             cameraHelper.setFlashLight(isFlashEnabled);
         }
-        this.sharedPrefHelper.cameraId().put(this.cameraHelper.getCurrentCameraId());
+        this.sharedPreferenceManager.setCameraId(this.cameraHelper.getCurrentCameraId());
     }
 
     @Override

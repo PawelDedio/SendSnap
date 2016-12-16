@@ -5,6 +5,7 @@ import android.support.v4.view.PagerAdapter;
 
 import com.example.pdedio.sendsnap.BaseContract;
 import com.example.pdedio.sendsnap.BaseFragment;
+import com.example.pdedio.sendsnap.camera.CameraContract;
 import com.example.pdedio.sendsnap.common.views.BaseViewPager;
 
 /**
@@ -15,6 +16,8 @@ public class MainContract {
 
     public interface MainPresenter extends BaseContract.BasePresenter {
 
+        void init(MainView cameraView, FragmentManager fragmentManager);
+
         void showFragment(BaseFragment fragment);
 
         boolean onBackKeyClick();
@@ -24,16 +27,15 @@ public class MainContract {
 
     public interface MainView extends BaseContract.BaseView {
 
-
-        FragmentManager getActivityFragmentManager();
-
         void initViewPager(PagerAdapter adapter);
 
         void showViewPager();
 
         void showFrameLayout();
 
-        BaseViewPager getMainViewPager();
+        int getMainViewPagerVisibility();
+
+        int getCurrentItemInViewPager();
 
         void finish();
     }
