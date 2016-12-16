@@ -4,22 +4,23 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.media.MediaPlayer;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.view.MotionEvent;
 import android.view.TextureView;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.ImageButton;
 
 import com.example.pdedio.sendsnap.R;
 import com.example.pdedio.sendsnap.logic.helpers.CameraHelper;
 import com.example.pdedio.sendsnap.logic.helpers.Consts;
-import com.example.pdedio.sendsnap.presenters.BasePresenter;
+import com.example.pdedio.sendsnap.logic.helpers.SharedPrefHelper_;
 import com.example.pdedio.sendsnap.ui.activities.BaseFragmentActivity;
-import com.example.pdedio.sendsnap.ui.activities.MainActivity;
 import com.example.pdedio.sendsnap.ui.fragments.EditSnapFragment;
 import com.example.pdedio.sendsnap.ui.fragments.EditSnapFragment_;
+import com.example.pdedio.sendsnap.ui.views.BaseButton;
+import com.example.pdedio.sendsnap.ui.views.BaseImageButton;
 import com.github.lzyzsd.circleprogress.DonutProgress;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
@@ -28,8 +29,10 @@ import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 
 import org.androidannotations.annotations.EBean;
+import org.androidannotations.annotations.sharedpreferences.Pref;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -46,7 +49,10 @@ import static android.Manifest.permission;
  * Created by p.dedio on 31.08.16.
  */
 @EBean
-public class CameraPresenter extends BasePresenter {
+public class CameraPresenter extends BaseFragmentPresenter {
+
+    @Pref
+    protected SharedPrefHelper_ sharedPrefHelper;
 
     private PresenterCallback presenterCallback;
 
@@ -59,8 +65,6 @@ public class CameraPresenter extends BasePresenter {
     private static final int MAX_RECORD_TIME = 1000;
 
     private CameraHelper cameraHelper;
-
-    private MediaPlayer mediaPlayer;
 
     private boolean isFlashEnabled;
 
@@ -83,15 +87,13 @@ public class CameraPresenter extends BasePresenter {
 
     @Override
     public void destroy() {
-        if(this.cameraHelper != null) {
-            this.cameraHelper.release();
-        }
+        this.presenterCallback = null;
     }
 
     @Override
     public void onResume() {
         if(this.cameraHelper != null && this.presenterCallback != null && !this.isCameraConfigured) {
-            this.cameraHelper.init(this.presenterCallback.getActivityContext(), this.presenterCallback.getPreviewTextureView());
+            this.initCameraHelper();
         }
     }
 
@@ -135,14 +137,16 @@ public class CameraPresenter extends BasePresenter {
 
     private void prepareLogic() {
         this.configureViews();
-        this.cameraHelper = CameraHelper.Factory.create();
-        this.cameraHelper.init(this.presenterCallback.getActivityContext(), this.presenterCallback.getPreviewTextureView());
+        if(this.cameraHelper == null) {
+            this.cameraHelper = CameraHelper.Factory.create();
+        }
+        this.initCameraHelper();
         this.isCameraConfigured = true;
     }
 
     private void configureViews() {
         DonutProgress progress = this.presenterCallback.getCameraProgressBar();
-        progress.setRotation(270);
+        progress.setStartingDegree(270);
         progress.setMax(MAX_RECORD_TIME);
 
 
@@ -184,16 +188,16 @@ public class CameraPresenter extends BasePresenter {
         this.presenterCallback.getFlashButton().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ImageButton button = (ImageButton) v;
-                if(isFlashEnabled) {
-                    button.setImageResource(R.drawable.flash_disabled);
-                    cameraHelper.setFlashLight(false);
-                } else {
-                    button.setImageResource(R.drawable.flash_enabled);
-                    cameraHelper.setFlashLight(true);
+                BaseImageButton button = (BaseImageButton) v;
+                isFlashEnabled = !isFlashEnabled;
+                int resourceId = isFlashEnabled ? R.drawable.btn_flash_enabled : R.drawable.btn_flash_disabled;
+                button.setImageResource(resourceId);
+
+                if(!cameraHelper.isFrontCamera()) {
+                    cameraHelper.setFlashLight(isFlashEnabled);
                 }
 
-                isFlashEnabled = !isFlashEnabled;
+
             }
         });
 
@@ -204,6 +208,14 @@ public class CameraPresenter extends BasePresenter {
                 return false;
             }
         });
+    }
+
+    private void initCameraHelper() {
+        Context context = this.presenterCallback.getActivityContext();
+        TextureView textureView = this.presenterCallback.getPreviewTextureView();
+        int cameraId = this.sharedPrefHelper.cameraId().get();
+
+        this.cameraHelper.init(context, textureView, cameraId);
     }
 
     private void startCameraButtonEvent() {
@@ -235,7 +247,8 @@ public class CameraPresenter extends BasePresenter {
                 if(isFlashEnabled && cameraHelper.isFrontCamera()) {
                     stopFrontFlash();
                 }
-                openFragment(photo, Consts.SnapType.PHOTO);
+                Bitmap rotatedBitmap = rotateAndSaveImage(photo);
+                openFragment(photo, Consts.SnapType.PHOTO, rotatedBitmap);
             }
 
             @Override
@@ -245,6 +258,31 @@ public class CameraPresenter extends BasePresenter {
                 }
             }
         });
+    }
+
+    private Bitmap rotateAndSaveImage(File file) {
+        Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+        Matrix matrix = new Matrix();
+        matrix.postRotate(90);
+
+        if(this.cameraHelper.isFrontCamera()) {
+            matrix.preScale(-1.0f, 1.0f);
+        }
+
+        bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+
+        FileOutputStream stream;
+        try {
+            file.createNewFile();
+            stream = new FileOutputStream(file);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+            stream.flush();
+            stream.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return bitmap;
     }
 
     private void startRecording() {
@@ -259,13 +297,17 @@ public class CameraPresenter extends BasePresenter {
         }
         this.stopProgress();
         File videoFile = this.cameraHelper.stopRecording();
-        openFragment(videoFile, Consts.SnapType.VIDEO);
+        openFragment(videoFile, Consts.SnapType.VIDEO, null);
         isRecording = false;
         this.presenterCallback.getCameraButton().setPressed(false);
     }
 
     private void switchCamera() {
         this.cameraHelper.switchCamera(this.presenterCallback.getActivityContext(), this.presenterCallback.getPreviewTextureView());
+        if(!cameraHelper.isFrontCamera()) {
+            cameraHelper.setFlashLight(isFlashEnabled);
+        }
+        this.sharedPrefHelper.cameraId().put(this.cameraHelper.getCurrentCameraId());
     }
 
     private void startFrontFlash() {
@@ -331,32 +373,25 @@ public class CameraPresenter extends BasePresenter {
         this.presenterCallback.getCameraProgressBar().setProgress(0);
     }
 
-    private void openFragment(File file, Consts.SnapType snapType) {
-        BaseFragmentActivity activity = this.presenterCallback.getBaseFragmentActivity();
-
-        if(activity instanceof MainActivity) {
-            MainActivity mainActivity = (MainActivity) activity;
-
-            EditSnapFragment fragment = EditSnapFragment_.builder().snapFile(file).snapType(snapType).build();
-            mainActivity.showFragment(fragment);
-        }
+    private void openFragment(File file, Consts.SnapType snapType, Bitmap bitmap) {
+        EditSnapFragment fragment = EditSnapFragment_.builder().snapFile(file).snapType(snapType)
+                .snapBitmap(bitmap).build();
+        this.openFragment(this.presenterCallback.getBaseFragmentActivity(), fragment);
     }
 
 
     public interface PresenterCallback {
         DonutProgress getCameraProgressBar();
 
-        Button getCameraButton();
+        BaseButton getCameraButton();
 
         Context getActivityContext();
 
         TextureView getPreviewTextureView();
 
-        TextureView getPlayingTextureView();
+        BaseImageButton getChangeCameraButton();
 
-        ImageButton getChangeCameraButton();
-
-        ImageButton getFlashButton();
+        BaseImageButton getFlashButton();
 
         BaseFragmentActivity getBaseFragmentActivity();
 

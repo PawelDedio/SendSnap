@@ -5,11 +5,13 @@ import android.graphics.SurfaceTexture;
 import android.hardware.Camera;
 import android.media.CamcorderProfile;
 import android.media.MediaRecorder;
-import android.os.Environment;
 import android.view.TextureView;
+
+import com.example.pdedio.sendsnap.R;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.List;
 
 /**
  * Created by p.dedio on 05.09.16.
@@ -22,15 +24,17 @@ public class Camera1Impl implements CameraHelper, TextureView.SurfaceTextureList
 
     private String videoPath;
 
-    private String[] cameraIds;
-
     private int currentCameraId;
 
     private File photo;
 
+    private static final int REQUIRED_WIDTH = 1920;
+    private static final int REQUIRED_HEIGHT = 1080;
+
 
     @Override
-    public void init(Context context, TextureView textureView) {
+    public void init(Context context, TextureView textureView, int cameraId) {
+        this.currentCameraId = cameraId;
         this.openCamera(this.currentCameraId, textureView);
     }
 
@@ -41,7 +45,12 @@ public class Camera1Impl implements CameraHelper, TextureView.SurfaceTextureList
 
     @Override
     public void takePicture(Context context, TextureView textureView, final PhotoCallback callback) {
-        this.photo = new File(Environment.getExternalStorageDirectory() + "/pic.jpg");
+        String directory = context.getDir("media", Context.MODE_PRIVATE).getAbsolutePath();
+        String fileName = context.getString(R.string.snap_sent_file_name);
+        this.photo = new File(directory, fileName);
+        if(this.photo.exists()) {
+            this.photo.delete();
+        }
         this.camera.takePicture(null, null, new Camera.PictureCallback() {
             @Override
             public void onPictureTaken(byte[] bytes, Camera camera) {
@@ -113,6 +122,11 @@ public class Camera1Impl implements CameraHelper, TextureView.SurfaceTextureList
         this.camera.autoFocus(null);
     }
 
+    @Override
+    public int getCurrentCameraId() {
+        return this.currentCameraId;
+    }
+
 
     // TextureView.SurfaceTextureListener methods
     @Override
@@ -139,6 +153,11 @@ public class Camera1Impl implements CameraHelper, TextureView.SurfaceTextureList
     private void openCamera(int cameraId, TextureView textureView) {
         this.camera = Camera.open(cameraId);
         this.camera.setDisplayOrientation(90);
+        Camera.Parameters params = this.camera.getParameters();
+        List<Camera.Size> sizes = params.getSupportedPictureSizes();
+        Camera.Size size = this.getClosestDimension(sizes, REQUIRED_WIDTH, REQUIRED_HEIGHT);
+        params.setPictureSize(size.width, size.height);
+        this.camera.setParameters(params);
 
         if(textureView.getSurfaceTextureListener() == null) {
             if(textureView.isAvailable()) {
@@ -180,6 +199,31 @@ public class Camera1Impl implements CameraHelper, TextureView.SurfaceTextureList
             this.videoPath = context.getExternalFilesDir(null).getAbsolutePath() + "/photo.mp4";
         }
         this.mediaRecorder.setOutputFile(this.videoPath);
-        this.mediaRecorder.setOrientationHint(90);
+        if(this.isFrontCamera()) {
+            this.mediaRecorder.setOrientationHint(270);
+        } else {
+            this.mediaRecorder.setOrientationHint(90);
+        }
+    }
+
+    private Camera.Size getClosestDimension(List<Camera.Size> dimensions, int requiredWidth, int requiredHeight) {
+        Camera.Size closestSize = dimensions.get(0);
+        int lastWidthResult = Integer.MAX_VALUE;
+        int lastHeightResult = Integer.MAX_VALUE;
+
+        for(Camera.Size size : dimensions) {
+            int width = Math.max(size.height, size.width);
+            int height = Math.min(size.height, size.width);
+            int widthResult = Math.abs(requiredWidth - width);
+            int heightResult = Math.abs(requiredHeight - height);
+
+            if(widthResult < lastWidthResult && heightResult < lastHeightResult) {
+                closestSize = size;
+                lastWidthResult = widthResult;
+                lastHeightResult = heightResult;
+            }
+        }
+
+        return closestSize;
     }
 }

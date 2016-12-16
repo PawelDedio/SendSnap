@@ -11,7 +11,7 @@ import java.io.File;
  */
 public interface CameraHelper {
 
-    void init(Context context, TextureView textureView);
+    void init(Context context, TextureView textureView, int cameraId);
 
     void release();
 
@@ -29,11 +29,14 @@ public interface CameraHelper {
 
     void enableAutoFocus();
 
+    int getCurrentCameraId();
+
 
     class Factory {
         public static CameraHelper create() {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                return new Camera2Impl();
+                return new Camera1Impl();
+                //return new Camera2Impl();
             } else {
                 return new Camera1Impl();
             }

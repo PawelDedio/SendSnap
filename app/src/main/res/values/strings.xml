@@ -1,7 +1,17 @@
 <resources>
     <string name="app_name">SendSnap</string>
+    <string name="snap_directory_name">/Send Snap</string>
+    <string name="snap_saved_file_name">SendSnap-%1$d</string>
+    <string name="snap_sent_file_name">tmp_photo</string>
 
     <!-- Camera Fragment -->
     <string name="camera_permissions_denied_title">Permissions denied</string>
     <string name="camera_permissions_denied_message">We need all of these permissions to record and save your snaps. Please grant all permissions in settings and open app again.</string>
+
+    <!-- Edit Snap Fragment -->
+    <string name="edit_snap_number_picker_title">Select Snap duration</string>
+    <string name="edit_snap_snap_saved_message">Zapisano Snapa</string>
+
+    <!-- Number Picker Dialog -->
+    <string name="number_picker_dialog_btn_positive">Ok</string>
 </resources>

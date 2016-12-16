@@ -2,20 +2,20 @@ package com.example.pdedio.sendsnap.ui.activities;
 
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 
 import com.example.pdedio.sendsnap.R;
-import com.example.pdedio.sendsnap.logic.helpers.FragmentStackManager;
 import com.example.pdedio.sendsnap.presenters.BasePresenter;
 import com.example.pdedio.sendsnap.presenters.activities.MainPresenter;
 import com.example.pdedio.sendsnap.ui.fragments.BaseFragment;
+import com.example.pdedio.sendsnap.ui.views.BaseViewPager;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.EBean;
+import org.androidannotations.annotations.KeyUp;
 import org.androidannotations.annotations.ViewById;
 
 @EActivity(R.layout.activity_main)
@@ -25,13 +25,10 @@ public class MainActivity extends BaseFragmentActivity implements MainPresenter.
     protected MainPresenter presenter;
 
     @ViewById(R.id.vpMain)
-    protected ViewPager vpMain;
+    protected BaseViewPager vpMain;
 
     @ViewById(R.id.flMain)
     protected FrameLayout flMain;
-
-    @Bean
-    protected FragmentStackManager fragmentStackManager;
 
 
 
@@ -39,6 +36,20 @@ public class MainActivity extends BaseFragmentActivity implements MainPresenter.
     @AfterViews
     protected void afterViewsMainActivity() {
         this.presenter.afterViews();
+    }
+
+    @Override
+    public void onDestroy() {
+        this.presenter.destroy();
+        this.presenter = null;
+        super.onDestroy();
+    }
+
+
+    // Events
+    @KeyUp(KeyEvent.KEYCODE_BACK)
+    protected boolean onBackClick() {
+        return this.presenter.onBackKeyClick();
     }
 
 
@@ -60,19 +71,15 @@ public class MainActivity extends BaseFragmentActivity implements MainPresenter.
     }
 
     @Override
-    public void showFragment(BaseFragment fragment) {
-        if(this.vpMain.getVisibility() == View.VISIBLE) {
-            this.showFrameLayout();
-        }
-
-        this.fragmentStackManager.replaceFragmentWithAddingToBackStack(R.id.flMain, fragment);
+    public void showFrameLayout() {
+        this.flMain.setVisibility(View.VISIBLE);
+        this.vpMain.setVisibility(View.GONE);
     }
 
     @Override
-    public void popFragment() {
-
+    public BaseViewPager getMainViewPager() {
+        return this.vpMain;
     }
-
 
 
     // BaseFragmentActivity methods
@@ -81,10 +88,13 @@ public class MainActivity extends BaseFragmentActivity implements MainPresenter.
         return this.presenter;
     }
 
+    @Override
+    public void showFragment(BaseFragment fragment) {
+        this.presenter.showFragment(fragment);
+    }
 
-    //Private methods
-    private void showFrameLayout() {
-        this.flMain.setVisibility(View.VISIBLE);
-        this.vpMain.setVisibility(View.GONE);
+    @Override
+    public void popFragment() {
+        this.presenter.popFragment();
     }
 }

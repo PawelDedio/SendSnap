@@ -10,4 +10,28 @@
     <color name="camera_btn_record_progress_stroke">#d22323</color>
     <color name="camera_btn_record_progress_border">#bfbfbf</color>
     <color name="camera_v_front_camera_flash">#caffffff</color>
+
+    <!-- Edit Snap Fragment -->
+    <color name="edit_snap_btn_timer_text">#ffffff</color>
+    <color name="edit_snap_et_text_background">#87000000</color>
+    <color name="edit_snap_et_text_color">#ffffff</color>
+    <color name="edit_snap_default_draw">#F44336</color>
+
+    <array name="edit_snap_draw_colors">
+        <item>@color/edit_snap_default_draw</item>
+        <item>#E91E63</item>
+        <item>#9C27B0</item>
+        <item>#2196F3</item>
+        <item>#4CAF50</item>
+        <item>#8BC34A</item>
+        <item>#FFEB3B</item>
+        <item>#795548</item>
+        <item>#9E9E9E</item>
+        <item>#FFFFFF</item>
+        <item>#000000</item>
+        <item>#EC407A</item>
+    </array>
+
+    <!-- Number Picker Dialog -->
+    <color name="number_picker_title_text">#000000</color>
 </resources>

@@ -23,6 +23,8 @@ import android.view.Surface;
 import android.view.TextureView;
 import android.view.WindowManager;
 
+import com.example.pdedio.sendsnap.R;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -31,10 +33,12 @@ import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.Semaphore;
 
 /**
  * Created by p.dedio on 05.09.16.
  */
+@Deprecated
 public class Camera2Impl implements CameraHelper {
 
     private CameraDevice cameraDevice;
@@ -71,14 +75,16 @@ public class Camera2Impl implements CameraHelper {
 
     private boolean isFalshEnabled;
 
+    private Semaphore cameraOpenCloseLock = new Semaphore(1);
+
 
 
 
     @Override
-    public void init(final Context context, final TextureView textureView) {
+    public void init(final Context context, final TextureView textureView, int cameraId) {
 
+        this.currentCameraId = cameraId;
         if(textureView.isAvailable()) {
-            currentCameraId = 0;
             openCamera(context, currentCameraId, textureView);
             return;
         }
@@ -97,7 +103,7 @@ public class Camera2Impl implements CameraHelper {
 
             @Override
             public boolean onSurfaceTextureDestroyed(SurfaceTexture surfaceTexture) {
-                ActivityManager.isUserAMonkey();
+                release();
                 return false;
             }
 
@@ -106,19 +112,33 @@ public class Camera2Impl implements CameraHelper {
                 ActivityManager.isUserAMonkey();
             }
         });
-    }
 
+    }
     @Override
     public void release() {
-        if(cameraDevice != null) {
-            cameraDevice.close();
-            cameraDevice = null;
+        try {
+            this.cameraOpenCloseLock.acquire();
+
+            if(this.cameraDevice != null) {
+                this.cameraDevice.close();
+                this.cameraDevice = null;
+            }
+
+            if(this.imageReader != null) {
+                this.imageReader.close();
+                this.imageReader = null;
+            }
+
+            if(this.cameraCaptureSession != null) {
+                this.cameraCaptureSession.close();
+                this.cameraCaptureSession = null;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            cameraOpenCloseLock.release();
         }
 
-        if(imageReader != null) {
-            imageReader.close();
-            imageReader = null;
-        }
 
         this.stopBackgroundThread();
     }
@@ -278,7 +298,16 @@ public class Camera2Impl implements CameraHelper {
             int rotation = windowManager.getDefaultDisplay().getRotation();
             captureBuilder.set(CaptureRequest.JPEG_ORIENTATION, rotation);
 
+            String directory = context.getDir("media", Context.MODE_PRIVATE).getAbsolutePath();
+            String fileName = context.getString(R.string.snap_sent_file_name);
             file = new File(Environment.getExternalStorageDirectory() + "/pic.jpg");
+            if(file.exists()) {
+                try {
+                    file.createNewFile();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
             ImageReader.OnImageAvailableListener readerListener = new ImageReader.OnImageAvailableListener() {
 
                 @Override
@@ -339,9 +368,15 @@ public class Camera2Impl implements CameraHelper {
 
     @Override
     public void switchCamera(Context context, TextureView textureView) {
-        if(cameraDevice != null) {
-            cameraDevice.close();
-            cameraDevice = null;
+        if(this.cameraDevice != null) {
+            this.cameraDevice.close();
+            this.cameraDevice = null;
+            this.captureRequestBuilder = null;
+        }
+
+        if(this.cameraCaptureSession != null) {
+            this.cameraCaptureSession.close();
+            this.cameraCaptureSession = null;
         }
         this.currentCameraId = this.currentCameraId == 0 ? 1 : 0;
 
@@ -427,9 +462,14 @@ public class Camera2Impl implements CameraHelper {
                     CameraMetadata.CONTROL_AF_MODE_AUTO);
 
             this.cameraCaptureSession.capture(captureRequestBuilder.build(), null, backgroundHandler);
-        } catch (CameraAccessException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public int getCurrentCameraId() {
+        return this.currentCameraId;
     }
 
     private void setUpMediaRecorder(Context context) {
