@@ -23,10 +23,10 @@ import com.example.pdedio.sendsnap.helpers.Consts;
 import com.example.pdedio.sendsnap.helpers.SharedPreferenceManager;
 import com.example.pdedio.sendsnap.BaseFragmentActivity;
 import com.example.pdedio.sendsnap.select_recipient.SelectSnapRecipientFragment;
-import com.example.pdedio.sendsnap.ui.fragments.SelectSnapRecipientFragment_;
 import com.example.pdedio.sendsnap.common.views.BaseImageButton;
 import com.example.pdedio.sendsnap.common.views.BaseImageView;
 import com.example.pdedio.sendsnap.common.views.BaseTextView;
+import com.example.pdedio.sendsnap.select_recipient.SelectSnapRecipientFragment_;
 import com.thebluealliance.spectrum.SpectrumDialog;
 
 import org.androidannotations.annotations.Bean;
@@ -113,7 +113,7 @@ public class EditSnapPresenter extends BaseFragmentPresenter {
                     presenterCallback.getDrawingView().clearArea();
                     stopDrawing();
                 } else {
-                    popFragment(presenterCallback.getBaseFragmentActivity());
+                    //popFragment(presenterCallback.getBaseFragmentActivity());
                 }
             }
         });
@@ -417,7 +417,7 @@ public class EditSnapPresenter extends BaseFragmentPresenter {
 
     private void openFragment(File file) {
         SelectSnapRecipientFragment fragment = SelectSnapRecipientFragment_.builder().snapFile(file).build();
-        this.openFragment(this.presenterCallback.getBaseFragmentActivity(), fragment);
+        //this.openFragment(this.presenterCallback.getBaseFragmentActivity(), fragment);
     }
 
 

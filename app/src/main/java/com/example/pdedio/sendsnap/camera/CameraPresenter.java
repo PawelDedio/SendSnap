@@ -1,31 +1,23 @@
 package com.example.pdedio.sendsnap.camera;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
-import android.view.MotionEvent;
 import android.view.TextureView;
-import android.view.View;
 
-import com.example.pdedio.sendsnap.BaseFragmentActivity;
 import com.example.pdedio.sendsnap.BaseFragmentPresenter;
 import com.example.pdedio.sendsnap.R;
-import com.example.pdedio.sendsnap.common.views.BaseButton;
-import com.example.pdedio.sendsnap.common.views.BaseImageButton;
 import com.example.pdedio.sendsnap.edit_snap.EditSnapFragment;
+import com.example.pdedio.sendsnap.edit_snap.EditSnapFragment_;
+import com.example.pdedio.sendsnap.helpers.BitmapsManager;
 import com.example.pdedio.sendsnap.helpers.Consts;
 import com.example.pdedio.sendsnap.helpers.SharedPrefHelper_;
-import com.example.pdedio.sendsnap.ui.fragments.EditSnapFragment_;
-import com.github.lzyzsd.circleprogress.DonutProgress;
-import com.karumi.dexter.Dexter;
-import com.karumi.dexter.MultiplePermissionsReport;
-import com.karumi.dexter.PermissionToken;
-import com.karumi.dexter.listener.PermissionRequest;
-import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
+import com.example.pdedio.sendsnap.permissions.PermissionManager;
+import com.example.pdedio.sendsnap.permissions.PermissionSession;
+import com.example.pdedio.sendsnap.permissions.PermissionsResult;
 
+import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EBean;
 import org.androidannotations.annotations.sharedpreferences.Pref;
 
@@ -41,41 +33,35 @@ import static android.Manifest.permission;
 @EBean
 public class CameraPresenter extends BaseFragmentPresenter implements CameraContract.CameraPresenter {
 
+    @Bean
+    protected PermissionManager permissionManager;
+
+    @Bean
+    protected BitmapsManager bitmapsManager;
+
     @Pref
     protected SharedPrefHelper_ sharedPrefHelper;
 
     private CameraContract.CameraView cameraView;
 
-    private CameraHelper cameraHelper;
+    protected CameraHelper cameraHelper;
 
-    private boolean isFlashEnabled;
-
-    private float oldBrightnessLevel;
+    protected boolean isFlashEnabled;
 
     private boolean isCameraConfigured;
 
 
     //Lifecycle
-    public void init(CameraContract.CameraView view) {
-        this.cameraView = view;
-    }
-
     @Override
-    public void afterViews() {
+    public void init(CameraContract.CameraView view, Context context, TextureView textureView) {
+        this.cameraView = view;
         this.cameraView.hideStatusBar();
-        this.checkPermissions();
+        this.checkPermissions(context, textureView);
     }
 
     @Override
     public void destroy() {
         this.cameraView = null;
-    }
-
-    @Override
-    public void onResume() {
-        if(this.cameraHelper != null && this.cameraView != null && !this.isCameraConfigured) {
-            this.initCameraHelper();
-        }
     }
 
     @Override
@@ -90,121 +76,27 @@ public class CameraPresenter extends BaseFragmentPresenter implements CameraCont
         if(this.cameraHelper != null) {
             this.cameraHelper.release();
             this.isCameraConfigured = false;
-            this.isRecording = false;
         }
     }
 
 
-    //Private methods
-    private void checkPermissions() {
-        Dexter.checkPermissions(new MultiplePermissionsListener() {
-            @Override
-            public void onPermissionsChecked(MultiplePermissionsReport report) {
-                if(report.areAllPermissionsGranted()) {
-                    prepareLogic();
-                } else {
-                    new AlertDialog.Builder(cameraView.getActivityContext())
-                            .setTitle(R.string.camera_permissions_denied_title)
-                            .setMessage(R.string.camera_permissions_denied_message)
-                            .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int buttonId) {
-                                    cameraView.getBaseFragmentActivity().finish();
-                                }
-                            })
-                            .show();
-                }
-            }
-
-            @Override
-            public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
-                token.continuePermissionRequest();
-            }
-        }, permission.RECORD_AUDIO, permission.CAMERA, permission.WRITE_EXTERNAL_STORAGE);
-    }
-
-    private void prepareLogic() {
-        this.configureViews();
-        if(this.cameraHelper == null) {
-            this.cameraHelper = CameraHelper.Factory.create();
-        }
-        this.initCameraHelper();
-        this.isCameraConfigured = true;
-    }
-
-    private void configureViews() {
-        DonutProgress progress = this.cameraView.getCameraProgressBar();
-        progress.setStartingDegree(270);
-        progress.setMax(MAX_RECORD_TIME);
-
-
-        this.cameraView.getCameraButton().setOnTouchListener(new View.OnTouchListener() {
-            long downTime = 0;
-
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-
-                if(isFlashEnabled && cameraHelper.isFrontCamera()) {
-                    cameraView.startFrontFlash();
-                }
-
-                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-                    this.downTime = System.currentTimeMillis();
-                    startCameraButtonEvent();
-                } else if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
-                    long upTime = System.currentTimeMillis();
-
-                    if(upTime - this.downTime < TIME_TO_START_RECORDING) {
-                        recordingSubscription.unsubscribe();
-                        takePicture();
-                    } else {
-                        stopRecording();
-                    }
-                }
-
-                return false;
-            }
-        });
-
-        this.cameraView.getChangeCameraButton().setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                switchCamera();
-            }
-        });
-
-        this.cameraView.getFlashButton().setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                BaseImageButton button = (BaseImageButton) v;
-                isFlashEnabled = !isFlashEnabled;
-                int resourceId = isFlashEnabled ? R.drawable.btn_flash_enabled : R.drawable.btn_flash_disabled;
-                button.setImageResource(resourceId);
-
-                if(!cameraHelper.isFrontCamera()) {
-                    cameraHelper.setFlashLight(isFlashEnabled);
-                }
-
-
-            }
-        });
-
-        this.cameraView.getPreviewTextureView().setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                cameraHelper.enableAutoFocus();
-                return false;
-            }
-        });
-    }
-
+    //CameraPresenter methods
+    @Override
     public void initCameraHelper(Context context, TextureView textureView) {
+        if(this.cameraHelper == null || this.cameraView == null || this.isCameraConfigured) {
+            return;
+        }
         int cameraId = this.sharedPrefHelper.cameraId().get();
 
         this.cameraHelper.init(context, textureView, cameraId);
     }
 
+    @Override
     public void takePicture(Context context, TextureView textureView) {
+        if(isFlashEnabled && cameraHelper.isFrontCamera()) {
+            this.cameraView.startFrontFlash();
+        }
+
         this.cameraHelper.takePicture(context, textureView, new CameraHelper.PhotoCallback() {
             @Override
             public void onPhotoTaken(File photo) {
@@ -224,16 +116,92 @@ public class CameraPresenter extends BaseFragmentPresenter implements CameraCont
         });
     }
 
-    private Bitmap rotateAndSaveImage(File file) {
-        Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
-        Matrix matrix = new Matrix();
-        matrix.postRotate(90);
-
-        if(this.cameraHelper.isFrontCamera()) {
-            matrix.preScale(-1.0f, 1.0f);
+    @Override
+    public void startRecording(Context context, TextureView textureView) {
+        if(isFlashEnabled && cameraHelper.isFrontCamera()) {
+            this.cameraView.startFrontFlash();
         }
 
-        bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+        this.cameraHelper.startRecording(context, textureView);
+    }
+
+    @Override
+    public void stopRecording() {
+        File videoFile = this.cameraHelper.stopRecording();
+
+        if(isFlashEnabled && cameraHelper.isFrontCamera()) {
+            this.cameraView.stopFrontFlash();
+        }
+
+        openFragment(videoFile, Consts.SnapType.VIDEO, null);
+    }
+
+    @Override
+    public void switchCamera(Context context, TextureView textureView) {
+        this.cameraHelper.switchCamera(context, textureView);
+        if(!cameraHelper.isFrontCamera()) {
+            cameraHelper.setFlashLight(isFlashEnabled);
+        }
+        this.sharedPrefHelper.cameraId().put(this.cameraHelper.getCurrentCameraId());
+    }
+
+    @Override
+    public void changeFlashState() {
+        isFlashEnabled = !isFlashEnabled;
+        int resourceId = isFlashEnabled ? R.drawable.btn_flash_enabled : R.drawable.btn_flash_disabled;
+        this.cameraView.changeBtnFlashDrawableId(resourceId);
+
+        if(!cameraHelper.isFrontCamera()) {
+            cameraHelper.setFlashLight(isFlashEnabled);
+        }
+    }
+
+    @Override
+    public void enableAutoFocus() {
+        this.cameraHelper.enableAutoFocus();
+    }
+
+
+    //Private methods
+    private void checkPermissions(final Context context, final TextureView textureView) {
+        String[] permissions = {permission.RECORD_AUDIO, permission.CAMERA, permission.WRITE_EXTERNAL_STORAGE};
+        if(this.permissionManager.isHavePermission(context, permissions)) {
+            this.prepareLogic(context, textureView);
+        } else {
+            this.permissionManager.requestForPermission(new PermissionManager.PermissionCallback() {
+                @Override
+                public void onPermissionChecked(PermissionsResult result) {
+                    if(result.areAllPermissionGranted()) {
+                        prepareLogic(context, textureView);
+                    } else {
+                        cameraView.showDeniedPermissionDialog();
+                    }
+                }
+
+                @Override
+                public void onPermissionRationaleShouldBeShown(List<com.example.pdedio.sendsnap.permissions.PermissionRequest> permissions, PermissionSession session) {
+                    session.continuePermissionRequest();
+                }
+            }, permissions);
+        }
+    }
+
+    private void prepareLogic(Context context, TextureView textureView) {
+        if(this.cameraHelper == null) {
+            this.cameraHelper = CameraHelper.Factory.create();
+        }
+        this.initCameraHelper(context, textureView);
+        this.isCameraConfigured = true;
+    }
+
+    private Bitmap rotateAndSaveImage(File file) {
+        Bitmap bitmap = this.bitmapsManager.getBitmapFromFile(file);
+
+        if(this.cameraHelper.isFrontCamera()) {
+            bitmap = this.bitmapsManager.rotateAndScale(bitmap, 90, -1.0f, 1.0f);
+        } else {
+            bitmap = this.bitmapsManager.rotate(bitmap, 90);
+        }
 
         FileOutputStream stream;
         try {
@@ -249,51 +217,9 @@ public class CameraPresenter extends BaseFragmentPresenter implements CameraCont
         return bitmap;
     }
 
-    public void startRecording(Context context, TextureView textureView) {
-        this.cameraHelper.startRecording(context, textureView);
-    }
-
-    public void stopRecording() {
-        File videoFile = this.cameraHelper.stopRecording();
-        openFragment(videoFile, Consts.SnapType.VIDEO, null);
-    }
-
-    public void switchCamera(Context context, TextureView textureView) {
-        this.cameraHelper.switchCamera(context, textureView);
-        if(!cameraHelper.isFrontCamera()) {
-            cameraHelper.setFlashLight(isFlashEnabled);
-        }
-        this.sharedPrefHelper.cameraId().put(this.cameraHelper.getCurrentCameraId());
-    }
-
     private void openFragment(File file, Consts.SnapType snapType, Bitmap bitmap) {
         EditSnapFragment fragment = EditSnapFragment_.builder().snapFile(file).snapType(snapType)
                 .snapBitmap(bitmap).build();
         this.cameraView.showFragment(fragment);
     }
-
-
-    public interface PresenterCallback {
-        DonutProgress getCameraProgressBar();
-
-        BaseButton getCameraButton();
-
-        Context getActivityContext();
-
-        TextureView getPreviewTextureView();
-
-        BaseImageButton getChangeCameraButton();
-
-        BaseImageButton getFlashButton();
-
-        BaseFragmentActivity getBaseFragmentActivity();
-
-        View getFrontFlashView();
-
-        void showStatusBar();
-
-        void hideStatusBar();
-    }
-
-    //TODO: Move clickListeners to view, change permission logic
 }

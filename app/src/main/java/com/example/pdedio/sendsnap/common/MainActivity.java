@@ -9,15 +9,15 @@ import android.view.WindowManager;
 import android.widget.FrameLayout;
 
 import com.example.pdedio.sendsnap.BaseContract;
-import com.example.pdedio.sendsnap.BaseFragmentActivity;
-import com.example.pdedio.sendsnap.R;
-import com.example.pdedio.sendsnap.BasePresenter;
-import com.example.pdedio.sendsnap.common.adapters.VpBaseFragmentAdapter;
-import com.example.pdedio.sendsnap.helpers.FragmentStackManager;
 import com.example.pdedio.sendsnap.BaseFragment;
+import com.example.pdedio.sendsnap.BaseFragmentActivity;
+import com.example.pdedio.sendsnap.BasePresenter;
+import com.example.pdedio.sendsnap.R;
 import com.example.pdedio.sendsnap.camera.CameraFragment;
-import com.example.pdedio.sendsnap.ui.fragments.CameraFragment_;
+import com.example.pdedio.sendsnap.camera.CameraFragment_;
+import com.example.pdedio.sendsnap.common.adapters.VpBaseFragmentAdapter;
 import com.example.pdedio.sendsnap.common.views.BaseViewPager;
+import com.example.pdedio.sendsnap.helpers.FragmentStackManager;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
@@ -34,7 +34,7 @@ import java.util.List;
 public class MainActivity extends BaseFragmentActivity implements MainContract.MainView, StatusBarManager {
 
     @Bean
-    protected MainContract.MainPresenter presenter;
+    protected MainPresenter presenter;
 
     @ViewById(R.id.vpMain)
     protected BaseViewPager vpMain;

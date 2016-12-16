@@ -1,7 +1,10 @@
 package com.example.pdedio.sendsnap.camera;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.support.annotation.DrawableRes;
 import android.view.MotionEvent;
 import android.view.TextureView;
 import android.view.View;
@@ -75,14 +78,10 @@ public class CameraFragment extends BaseFragment implements CameraContract.Camer
 
 
     //Lifecycle
-    @AfterInject
-    protected void afterInjectCameraFragment() {
-        this.cameraPresenter.init(this);
-    }
-
     @AfterViews
     protected void afterViewsCameraFragment() {
-        this.cameraPresenter.afterViews();
+        this.cameraPresenter.init(this, this.getContext(), this.tvCameraPreview);
+        this.configureViews();
     }
 
     @Override
@@ -97,7 +96,7 @@ public class CameraFragment extends BaseFragment implements CameraContract.Camer
     public void onResume() {
         super.onResume();
         if(this.cameraPresenter != null) {
-            this.cameraPresenter.onResume();
+            this.cameraPresenter.initCameraHelper(this.getContext(), this.tvCameraPreview);
         }
     }
 
@@ -116,7 +115,7 @@ public class CameraFragment extends BaseFragment implements CameraContract.Camer
 
     //Events
     @Touch(R.id.btnCameraRecord)
-    protected boolean onTouch(View view, MotionEvent motionEvent) {
+    protected boolean onBtnRecordTouch(View view, MotionEvent motionEvent) {
 
         if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
             this.btnCameraDownTime = System.currentTimeMillis();
@@ -135,9 +134,22 @@ public class CameraFragment extends BaseFragment implements CameraContract.Camer
         return false;
     }
 
+
     @Click(R.id.btnCameraChangeCamera)
     protected void onChangeCameraClick() {
         this.cameraPresenter.switchCamera(this.getContext(), this.tvCameraPreview);
+    }
+
+    @Click(R.id.btnCameraFlash)
+    protected void onFlashClick() {
+        this.cameraPresenter.changeFlashState();
+    }
+
+    @Touch(R.id.tvCameraPreview)
+    protected boolean onPreviewTextureTouch() {
+        this.cameraPresenter.enableAutoFocus();
+
+        return false;
     }
 
 
@@ -165,8 +177,32 @@ public class CameraFragment extends BaseFragment implements CameraContract.Camer
         activity.getWindow().addFlags(WindowManager.LayoutParams.FLAGS_CHANGED);
     }
 
+    @Override
+    public void changeBtnFlashDrawableId(@DrawableRes int drawableId) {
+        this.btnCameraFlash.setImageResource(drawableId);
+    }
+
+    @Override
+    public void showDeniedPermissionDialog() {
+        new AlertDialog.Builder(this.getContext())
+                .setTitle(R.string.camera_permissions_denied_title)
+                .setMessage(R.string.camera_permissions_denied_message)
+                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int buttonId) {
+                        getActivity().finish();
+                    }
+                })
+                .show();
+    }
+
 
     //Private methods
+    private void configureViews() {
+        this.pbRecordProgress.setStartingDegree(270);
+        this.pbRecordProgress.setMax(MAX_RECORD_TIME);
+    }
+
     private void startCameraButtonEvent() {
         this.recordingSubscription = Observable.timer(TIME_TO_START_RECORDING, TimeUnit.MILLISECONDS)
                 .subscribeOn(AndroidSchedulers.mainThread())
@@ -213,6 +249,7 @@ public class CameraFragment extends BaseFragment implements CameraContract.Camer
                     @Override
                     public void onCompleted() {
                         cameraPresenter.stopRecording();
+                        stopRecording();
                     }
 
                     @Override

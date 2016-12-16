@@ -32,6 +32,10 @@ android {
     dataBinding {
         enabled = true
     }
+
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
 }
 
 dependencies {
@@ -50,8 +54,6 @@ dependencies {
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
     testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
-    testCompile 'org.robolectric:robolectric:3.1.4'
-    testCompile 'org.robolectric:shadows-support-v4:3.0'
     testCompile 'org.mockito:mockito-core:2.0.31-beta'
     testCompile 'org.khronos:opengl-api:gl1.1-android-2.1_r1'
     androidTestCompile ('com.android.support.test:runner:+') {

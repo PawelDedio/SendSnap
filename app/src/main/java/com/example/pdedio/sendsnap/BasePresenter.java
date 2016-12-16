@@ -5,7 +5,7 @@ package com.example.pdedio.sendsnap;
  */
 public abstract class BasePresenter implements BaseContract.BasePresenter {
 
-    public abstract void afterViews();
+    public void afterViews(){}
 
     public abstract void destroy();
 

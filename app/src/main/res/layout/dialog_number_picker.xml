@@ -3,7 +3,7 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <com.example.pdedio.sendsnap.ui.views.BaseTextView_
+    <com.example.pdedio.sendsnap.common.views.BaseTextView_
         android:id="@+id/txvNumberPickerTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -21,7 +21,7 @@
         android:layout_below="@id/txvNumberPickerTitle"
         android:layout_centerHorizontal="true"/>
 
-    <com.example.pdedio.sendsnap.ui.views.BaseButton_
+    <com.example.pdedio.sendsnap.common.views.BaseButton
         android:id="@+id/btnNumberPickerDialogPositive"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

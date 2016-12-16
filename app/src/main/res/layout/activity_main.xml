@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     tools:context=".common.MainActivity">
 
-    <com.example.pdedio.sendsnap.ui.views.BaseViewPager_
+    <com.example.pdedio.sendsnap.common.views.BaseViewPager_
         android:id="@+id/vpMain"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

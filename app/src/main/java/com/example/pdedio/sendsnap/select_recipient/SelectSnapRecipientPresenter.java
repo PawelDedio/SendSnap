@@ -56,7 +56,7 @@ public class SelectSnapRecipientPresenter extends BaseFragmentPresenter {
         this.presenterCallback.getBtnBack().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                popFragment(presenterCallback.getBaseFragmentActivity());
+                //popFragment(presenterCallback.getBaseFragmentActivity());
             }
         });
     }

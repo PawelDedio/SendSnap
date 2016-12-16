@@ -1,6 +1,7 @@
 package com.example.pdedio.sendsnap.camera;
 
 import android.content.Context;
+import android.support.annotation.DrawableRes;
 import android.view.TextureView;
 import android.view.View;
 
@@ -17,7 +18,8 @@ import com.github.lzyzsd.circleprogress.DonutProgress;
 public class CameraContract {
 
     public interface CameraPresenter extends BaseFragmentContract.BaseFragmentPresenter {
-        void init(CameraView view);
+
+        void init(CameraView view, Context context, TextureView textureView);
 
         void startRecording(Context context, TextureView textureView);
 
@@ -27,7 +29,11 @@ public class CameraContract {
 
         void switchCamera(Context context, TextureView textureView);
 
-        void initCameraHelper(Context context, TextureView textureView)
+        void initCameraHelper(Context context, TextureView textureView);
+
+        void changeFlashState();
+
+        void enableAutoFocus();
     }
 
     public interface CameraView extends BaseFragmentContract.BaseFragmentView {
@@ -35,5 +41,9 @@ public class CameraContract {
         void startFrontFlash();
 
         void stopFrontFlash();
+
+        void changeBtnFlashDrawableId(@DrawableRes int drawableId);
+
+        void showDeniedPermissionDialog();
     }
 }

@@ -6,10 +6,10 @@ import android.view.View;
 import com.example.pdedio.sendsnap.BaseFragment;
 import com.example.pdedio.sendsnap.BasePresenter;
 import com.example.pdedio.sendsnap.R;
+import com.example.pdedio.sendsnap.camera.CameraFragment_;
 import com.example.pdedio.sendsnap.common.adapters.VpBaseFragmentAdapter;
 import com.example.pdedio.sendsnap.helpers.FragmentStackManager;
 import com.example.pdedio.sendsnap.camera.CameraFragment;
-import com.example.pdedio.sendsnap.ui.fragments.CameraFragment_;
 
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EBean;

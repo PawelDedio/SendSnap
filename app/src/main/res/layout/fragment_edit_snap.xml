@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
     <data>
-        <variable name="prefs" type="com.example.pdedio.sendsnap.logic.helpers.SharedPreferenceManager"/>
+        <variable name="prefs" type="com.example.pdedio.sendsnap.helpers.SharedPreferenceManager"/>
     </data>
 
     <RelativeLayout
@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.example.pdedio.sendsnap.ui.views.BaseImageView_
+        <com.example.pdedio.sendsnap.common.views.BaseImageView_
             android:id="@+id/ivEditSnapPhoto"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
@@ -19,18 +19,18 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
         
-        <com.example.pdedio.sendsnap.ui.views.FiltersView_
+        <com.example.pdedio.sendsnap.edit_snap.FiltersView_
             android:id="@+id/sipEditSnapFilters"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
 
-        <com.example.pdedio.sendsnap.ui.views.DrawingView_
+        <com.example.pdedio.sendsnap.edit_snap.DrawingView_
             android:id="@+id/vEditSnapDraw"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:visibility="visible"/>
 
-        <com.example.pdedio.sendsnap.ui.views.MovableEditText_
+        <com.example.pdedio.sendsnap.edit_snap.MovableEditText_
             android:id="@+id/etEditSnapText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -46,28 +46,28 @@
             android:maxLines="1"
             android:inputType="textVisiblePassword"/>
 
-        <com.example.pdedio.sendsnap.ui.views.BaseImageButton_
+        <com.example.pdedio.sendsnap.common.views.BaseImageButton_
             android:id="@+id/btnEditSnapClose"
             android:layout_marginLeft="@dimen/edit_snap_btn_content_margin_left"
             android:layout_alignParentLeft="true"
             android:src="@drawable/btn_close"
             style="@style/EditSnapTopButtons"/>
 
-        <com.example.pdedio.sendsnap.ui.views.BaseImageButton_
+        <com.example.pdedio.sendsnap.common.views.BaseImageButton_
             android:id="@+id/btnEditSnapDraw"
             android:layout_marginRight="@dimen/edit_snap_btn_content_margin_right"
             android:layout_alignParentRight="true"
             android:src="@drawable/btn_draw"
             style="@style/EditSnapTopButtons"/>
 
-        <com.example.pdedio.sendsnap.ui.views.BaseImageButton_
+        <com.example.pdedio.sendsnap.common.views.BaseImageButton_
             android:id="@+id/btnEditSnapAddText"
             android:layout_marginRight="@dimen/edit_snap_margin_between_buttons"
             android:layout_toLeftOf="@+id/btnEditSnapDraw"
             android:src="@drawable/btn_add_text"
             style="@style/EditSnapTopButtons"/>
 
-        <com.example.pdedio.sendsnap.ui.views.BaseImageButton_
+        <com.example.pdedio.sendsnap.common.views.BaseImageButton_
             android:id="@+id/btnEditSnapUndoDraw"
             android:layout_marginRight="@dimen/edit_snap_margin_between_buttons"
             android:layout_toLeftOf="@id/btnEditSnapDraw"
@@ -85,7 +85,7 @@
             android:layout_below="@id/btnEditSnapDraw"
             android:visibility="invisible"/>
 
-        <com.example.pdedio.sendsnap.ui.views.BaseTextView_
+        <com.example.pdedio.sendsnap.common.views.BaseTextView_
             android:id="@+id/btnEditSnapTimer"
             android:layout_marginLeft="@dimen/edit_snap_btn_content_margin_left"
             android:layout_alignParentLeft="true"
@@ -96,14 +96,14 @@
             android:background="@drawable/btn_timer"
             style="@style/EditSnapBottomButtons"/>
 
-        <com.example.pdedio.sendsnap.ui.views.BaseImageButton_
+        <com.example.pdedio.sendsnap.common.views.BaseImageButton_
             android:id="@+id/btnEditSnapSaveImage"
             android:layout_toRightOf="@id/btnEditSnapTimer"
             android:layout_marginLeft="@dimen/edit_snap_margin_between_buttons"
             android:src="@drawable/btn_save_image"
             style="@style/EditSnapBottomButtons"/>
 
-        <com.example.pdedio.sendsnap.ui.views.BaseImageButton_
+        <com.example.pdedio.sendsnap.common.views.BaseImageButton_
             android:id="@+id/btnEditSnapSend"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
