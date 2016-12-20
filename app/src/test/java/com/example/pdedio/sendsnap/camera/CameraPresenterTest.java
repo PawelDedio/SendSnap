@@ -13,7 +13,7 @@ import com.example.pdedio.sendsnap.permissions.PermissionManager;
 import org.junit.Assert;
 import org.junit.Test;
 import org.mockito.Mock;
-import org.mockito.Mockito;
+import static org.mockito.Mockito.*;
 import org.mockito.MockitoAnnotations;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
@@ -75,7 +75,7 @@ public class CameraPresenterTest {
     public void initShouldHideStatusBar() {
         CameraPresenter presenter = this.configureAndInitPresenter();
 
-        Mockito.verify(mockedView).hideStatusBar();
+        verify(mockedView).hideStatusBar();
     }
 
     @Test
@@ -83,31 +83,31 @@ public class CameraPresenterTest {
         CameraPresenter presenter = this.configureAndInitPresenter();
 
         String[] permissions = {Manifest.permission.RECORD_AUDIO, Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
-        Mockito.verify(mockedPermissionManager).isHavePermission(mockedContext, permissions);
+        verify(mockedPermissionManager).isHavePermission(mockedContext, permissions);
     }
 
     @Test
     public void shouldNotRequestForPermissionsWhenAllGranted() {
         CameraPresenter presenter = this.configureAndInitPresenter();
 
-        Mockito.when(mockedPermissionManager.isHavePermission(Mockito.any(Context.class), Mockito.any(String[].class)))
+        when(mockedPermissionManager.isHavePermission(any(Context.class), any(String[].class)))
                 .thenReturn(true);
 
-        Mockito.verify(mockedPermissionManager, Mockito.never())
-                .requestForPermission(Mockito.any(PermissionManager.PermissionCallback.class), Mockito.any(String[].class));
+        verify(mockedPermissionManager, never())
+                .requestForPermission(any(PermissionManager.PermissionCallback.class), any(String[].class));
     }
 
     @Test
     public void shouldRequestForPermissionsWhenDenied() {
         CameraPresenter presenter = this.configurePresenter();
 
-        Mockito.when(mockedPermissionManager.isHavePermission(Mockito.any(Context.class), Mockito.any(String[].class)))
+        when(mockedPermissionManager.isHavePermission(any(Context.class), any(String[].class)))
                 .thenReturn(false);
 
         presenter.init(mockedView, mockedContext, mockedTexture);
 
         String[] permissions = {Manifest.permission.RECORD_AUDIO, Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
-        Mockito.verify(mockedPermissionManager).requestForPermission(Mockito.any(PermissionManager.PermissionCallback.class), (String) Mockito.anyVararg());
+        verify(mockedPermissionManager).requestForPermission(any(PermissionManager.PermissionCallback.class), (String) anyVararg());
     }
 
 
@@ -118,7 +118,7 @@ public class CameraPresenterTest {
 
         presenter.startRecording(mockedContext, mockedTexture);
 
-        Mockito.verify(mockedCameraHelper).startRecording(Mockito.any(Context.class), Mockito.any(TextureView.class));
+        verify(mockedCameraHelper).startRecording(any(Context.class), any(TextureView.class));
     }
 
     @Test
@@ -126,11 +126,11 @@ public class CameraPresenterTest {
         CameraPresenter presenter = this.configureAndInitPresenter();
         presenter.isFlashEnabled = true;
 
-        Mockito.when(mockedCameraHelper.isFrontCamera()).thenReturn(true);
+        when(mockedCameraHelper.isFrontCamera()).thenReturn(true);
 
         presenter.startRecording(mockedContext, mockedTexture);
 
-        Mockito.verify(mockedView).startFrontFlash();
+        verify(mockedView).startFrontFlash();
     }
 
 
@@ -139,10 +139,10 @@ public class CameraPresenterTest {
     public void shouldStopRecording() {
         CameraPresenter presenter = this.configureAndInitPresenter();
 
-        Mockito.when(mockedCameraHelper.stopRecording()).thenReturn(templateFile);
+        when(mockedCameraHelper.stopRecording()).thenReturn(templateFile);
         presenter.stopRecording();
 
-        Mockito.verify(mockedCameraHelper).stopRecording();
+        verify(mockedCameraHelper).stopRecording();
     }
 
     @Test
@@ -150,11 +150,11 @@ public class CameraPresenterTest {
         CameraPresenter presenter = this.configureAndInitPresenter();
         presenter.isFlashEnabled = true;
 
-        Mockito.when(mockedCameraHelper.isFrontCamera()).thenReturn(true);
+        when(mockedCameraHelper.isFrontCamera()).thenReturn(true);
 
         presenter.stopRecording();
 
-        Mockito.verify(mockedView).stopFrontFlash();
+        verify(mockedView).stopFrontFlash();
     }
 
     @Test
@@ -163,7 +163,7 @@ public class CameraPresenterTest {
 
         presenter.stopRecording();
 
-        Mockito.verify(mockedView).showFragment(Mockito.any(BaseFragment.class));
+        verify(mockedView).showFragment(any(BaseFragment.class));
     }
 
 
@@ -174,7 +174,7 @@ public class CameraPresenterTest {
 
         presenter.takePicture(mockedContext, mockedTexture);
 
-        Mockito.verify(mockedCameraHelper).takePicture(Mockito.any(Context.class), Mockito.any(TextureView.class), Mockito.any(CameraHelper.PhotoCallback.class));
+        verify(mockedCameraHelper).takePicture(any(Context.class), any(TextureView.class), any(CameraHelper.PhotoCallback.class));
     }
 
     @Test
@@ -182,11 +182,11 @@ public class CameraPresenterTest {
         CameraPresenter presenter = this.configureAndInitPresenter();
         presenter.isFlashEnabled = true;
 
-        Mockito.when(mockedCameraHelper.isFrontCamera()).thenReturn(true);
+        when(mockedCameraHelper.isFrontCamera()).thenReturn(true);
 
         presenter.takePicture(mockedContext, mockedTexture);
 
-        Mockito.verify(mockedView).startFrontFlash();
+        verify(mockedView).startFrontFlash();
     }
 
     @Test
@@ -194,22 +194,22 @@ public class CameraPresenterTest {
         CameraPresenter presenter = this.configureAndInitPresenter();
         presenter.isFlashEnabled = true;
 
-        Mockito.when(mockedCameraHelper.isFrontCamera()).thenReturn(true);
-        Mockito.when(mockedBitmapsManager.getBitmapFromFile(Mockito.any(File.class))).thenReturn(Mockito.mock(Bitmap.class));
-        Mockito.when(mockedBitmapsManager.rotateAndScale(Mockito.any(Bitmap.class), Mockito.anyFloat(), Mockito.anyFloat(), Mockito.anyFloat())).thenReturn(Mockito.mock(Bitmap.class));
+        when(mockedCameraHelper.isFrontCamera()).thenReturn(true);
+        when(mockedBitmapsManager.getBitmapFromFile(any(File.class))).thenReturn(mock(Bitmap.class));
+        when(mockedBitmapsManager.rotateAndScale(any(Bitmap.class), anyFloat(), anyFloat(), anyFloat())).thenReturn(mock(Bitmap.class));
 
-        Mockito.doAnswer(new Answer() {
+        doAnswer(new Answer() {
             @Override
             public Object answer(InvocationOnMock invocation) throws Throwable {
                 CameraHelper.PhotoCallback callback = (CameraHelper.PhotoCallback) invocation.getArguments()[2];
                 callback.onPhotoTaken(templateFile);
                 return null;
             }
-        }).when(mockedCameraHelper).takePicture(Mockito.any(Context.class), Mockito.any(TextureView.class), Mockito.any(CameraHelper.PhotoCallback.class));
+        }).when(mockedCameraHelper).takePicture(any(Context.class), any(TextureView.class), any(CameraHelper.PhotoCallback.class));
 
         presenter.takePicture(mockedContext, mockedTexture);
 
-        Mockito.verify(mockedView).stopFrontFlash();
+        verify(mockedView).stopFrontFlash();
     }
 
 
@@ -220,7 +220,7 @@ public class CameraPresenterTest {
 
         presenter.switchCamera(mockedContext, mockedTexture);
 
-        Mockito.verify(mockedCameraHelper).switchCamera(Mockito.any(Context.class), Mockito.any(TextureView.class));
+        verify(mockedCameraHelper).switchCamera(any(Context.class), any(TextureView.class));
     }
 
     @Test
@@ -228,11 +228,11 @@ public class CameraPresenterTest {
         CameraPresenter presenter = this.configureAndInitPresenter();
         presenter.isFlashEnabled = true;
 
-        Mockito.when(mockedCameraHelper.isFrontCamera()).thenReturn(false);
+        when(mockedCameraHelper.isFrontCamera()).thenReturn(false);
 
         presenter.switchCamera(mockedContext, mockedTexture);
 
-        Mockito.verify(mockedCameraHelper).setFlashLight(presenter.isFlashEnabled);
+        verify(mockedCameraHelper).setFlashLight(presenter.isFlashEnabled);
     }
 
     @Test
@@ -241,7 +241,7 @@ public class CameraPresenterTest {
 
         presenter.switchCamera(mockedContext, mockedTexture);
 
-        Mockito.verify(mockedPreferenceManager).setCameraId(Mockito.any(Integer.class));
+        verify(mockedPreferenceManager).setCameraId(any(Integer.class));
     }
 
 
@@ -250,10 +250,10 @@ public class CameraPresenterTest {
     public void shouldInitCameraWithValueFromSharedPreferences() {
         CameraPresenter presenter = this.configureAndInitPresenter();
 
-        Mockito.when(mockedPreferenceManager.getCameraId()).thenReturn(1);
+        when(mockedPreferenceManager.getCameraId()).thenReturn(1);
         presenter.initCameraHelper(mockedContext, mockedTexture);
 
-        Mockito.verify(mockedCameraHelper).init(mockedContext, mockedTexture, 1);
+        verify(mockedCameraHelper).init(mockedContext, mockedTexture, 1);
     }
 
     @Test
@@ -261,7 +261,7 @@ public class CameraPresenterTest {
         CameraPresenter presenter = this.configureAndInitPresenter();
         presenter.cameraHelper = null;
 
-        Mockito.verify(mockedCameraHelper, Mockito.never()).init(mockedContext, mockedTexture, 1);
+        verify(mockedCameraHelper, never()).init(mockedContext, mockedTexture, 1);
     }
 
     @Test
@@ -269,7 +269,7 @@ public class CameraPresenterTest {
         CameraPresenter presenter = this.configureAndInitPresenter();
         presenter.cameraView = null;
 
-        Mockito.verify(mockedCameraHelper, Mockito.never()).init(mockedContext, mockedTexture, 1);
+        verify(mockedCameraHelper, never()).init(mockedContext, mockedTexture, 1);
     }
 
     @Test
@@ -277,7 +277,7 @@ public class CameraPresenterTest {
         CameraPresenter presenter = this.configureAndInitPresenter();
         presenter.isCameraConfigured = true;
 
-        Mockito.verify(mockedCameraHelper, Mockito.never()).init(mockedContext, mockedTexture, 1);
+        verify(mockedCameraHelper, never()).init(mockedContext, mockedTexture, 1);
     }
 
 
@@ -288,7 +288,7 @@ public class CameraPresenterTest {
 
         presenter.changeFlashState();
 
-        Mockito.verify(mockedView).changeBtnFlashDrawableId(Mockito.anyInt());
+        verify(mockedView).changeBtnFlashDrawableId(anyInt());
     }
 
     @Test
@@ -307,11 +307,11 @@ public class CameraPresenterTest {
         CameraPresenter presenter = this.configureAndInitPresenter();
         presenter.isFlashEnabled = true;
 
-        Mockito.when(mockedCameraHelper.isFrontCamera()).thenReturn(false);
+        when(mockedCameraHelper.isFrontCamera()).thenReturn(false);
 
         presenter.changeFlashState();
 
-        Mockito.verify(mockedCameraHelper).setFlashLight(presenter.isFlashEnabled);
+        verify(mockedCameraHelper).setFlashLight(presenter.isFlashEnabled);
     }
 
 
@@ -323,6 +323,6 @@ public class CameraPresenterTest {
 
         presenter.enableAutoFocus();
 
-        Mockito.verify(mockedCameraHelper).enableAutoFocus();
+        verify(mockedCameraHelper).enableAutoFocus();
     }
 }

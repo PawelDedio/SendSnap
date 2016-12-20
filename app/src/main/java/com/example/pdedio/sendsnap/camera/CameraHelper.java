@@ -33,12 +33,12 @@ public interface CameraHelper {
 
 
     class Factory {
-        public static CameraHelper create() {
+        public static CameraHelper create(Context context) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                return new Camera1Impl();
+                return Camera1Impl_.getInstance_(context);
                 //return new Camera2Impl();
             } else {
-                return new Camera1Impl();
+                return Camera1Impl_.getInstance_(context);
             }
         }
     }

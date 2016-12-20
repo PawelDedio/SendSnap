@@ -185,7 +185,7 @@ public class CameraPresenter extends BaseFragmentPresenter implements CameraCont
 
     private void prepareLogic(Context context, TextureView textureView) {
         if(this.cameraHelper == null) {
-            this.cameraHelper = CameraHelper.Factory.create();
+            this.cameraHelper = CameraHelper.Factory.create(context);
         }
         this.initCameraHelper(context, textureView);
         this.isCameraConfigured = true;

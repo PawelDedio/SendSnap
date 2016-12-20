@@ -9,7 +9,7 @@ import com.example.pdedio.sendsnap.helpers.FragmentStackManager;
 
 import org.junit.Test;
 import org.mockito.Mock;
-import org.mockito.Mockito;
+import static org.mockito.Mockito.*;
 import org.mockito.MockitoAnnotations;
 
 /**
@@ -54,14 +54,14 @@ public class MainPresenterTest {
     public void shouldSetFragmentsToAdapter() {
         MainPresenter presenter = configureAndInitPresenter();
 
-        Mockito.verify(mockedMainAdapter).setFragments(Mockito.anyList());
+        verify(mockedMainAdapter).setFragments(anyList());
     }
 
     @Test
     public void shouldInitViewPager() {
         MainPresenter presenter = configureAndInitPresenter();
 
-        Mockito.verify(mockedView).initViewPager(Mockito.any(VpBaseFragmentAdapter.class));
+        verify(mockedView).initViewPager(any(VpBaseFragmentAdapter.class));
     }
 
 
@@ -70,24 +70,24 @@ public class MainPresenterTest {
     public void shouldOnlyReplaceFragmentOnStackWhenViewPagerIsNotVisible() {
         MainPresenter presenter = configureAndInitPresenter();
 
-        Mockito.when(mockedView.getMainViewPagerVisibility()).thenReturn(View.GONE);
+        when(mockedView.getMainViewPagerVisibility()).thenReturn(View.GONE);
 
-        presenter.showFragment(Mockito.mock(BaseFragment.class));
+        presenter.showFragment(mock(BaseFragment.class));
 
-        Mockito.verify(mockedView, Mockito.never()).showFrameLayout();
-        Mockito.verify(mockedStackManager).replaceFragmentWithAddingToBackStack(Mockito.anyInt(), Mockito.any(BaseFragment.class));
+        verify(mockedView, never()).showFrameLayout();
+        verify(mockedStackManager).replaceFragmentWithAddingToBackStack(anyInt(), any(BaseFragment.class));
     }
 
     @Test
     public void shouldShowFrameLayoutWhenViewPagerIsVisible() {
         MainPresenter presenter = configureAndInitPresenter();
 
-        Mockito.when(mockedView.getMainViewPagerVisibility()).thenReturn(View.VISIBLE);
-        Mockito.when(mockedMainAdapter.getItem(Mockito.anyInt())).thenReturn(Mockito.mock(BaseFragment.class));
+        when(mockedView.getMainViewPagerVisibility()).thenReturn(View.VISIBLE);
+        when(mockedMainAdapter.getItem(anyInt())).thenReturn(mock(BaseFragment.class));
 
-        presenter.showFragment(Mockito.mock(BaseFragment.class));
+        presenter.showFragment(mock(BaseFragment.class));
 
-        Mockito.verify(mockedView).showFrameLayout();
+        verify(mockedView).showFrameLayout();
     }
 
 
@@ -96,34 +96,34 @@ public class MainPresenterTest {
     public void shouldPopBackStackWhenThereIsMoreThanOneFragments() {
         MainPresenter presenter = configureAndInitPresenter();
 
-        Mockito.when(mockedStackManager.getBackStackCount()).thenReturn(2);
+        when(mockedStackManager.getBackStackCount()).thenReturn(2);
 
         presenter.popFragment();
 
-        Mockito.verify(mockedStackManager).popBackStack();
+        verify(mockedStackManager).popBackStack();
     }
 
     @Test
     public void shouldFinishViewWhenThereIsZeroFragments() {
         MainPresenter presenter = configureAndInitPresenter();
 
-        Mockito.when(mockedStackManager.getBackStackCount()).thenReturn(0);
+        when(mockedStackManager.getBackStackCount()).thenReturn(0);
 
         presenter.popFragment();
 
-        Mockito.verify(mockedView).finish();
+        verify(mockedView).finish();
     }
 
     @Test
     public void shouldPopBackStackAndShowViewPagerWhenIsOneFragment() {
         MainPresenter presenter = configureAndInitPresenter();
 
-        Mockito.when(mockedStackManager.getBackStackCount()).thenReturn(1);
-        Mockito.when(mockedMainAdapter.getItem(Mockito.anyInt())).thenReturn(Mockito.mock(BaseFragment.class));
+        when(mockedStackManager.getBackStackCount()).thenReturn(1);
+        when(mockedMainAdapter.getItem(anyInt())).thenReturn(mock(BaseFragment.class));
 
         presenter.popFragment();
 
-        Mockito.verify(mockedStackManager).popBackStack();
-        Mockito.verify(mockedView).showViewPager();
+        verify(mockedStackManager).popBackStack();
+        verify(mockedView).showViewPager();
     }
 }

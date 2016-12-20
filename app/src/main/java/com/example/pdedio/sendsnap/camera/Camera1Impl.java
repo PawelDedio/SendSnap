@@ -9,6 +9,9 @@ import android.view.TextureView;
 
 import com.example.pdedio.sendsnap.R;
 
+import org.androidannotations.annotations.Bean;
+import org.androidannotations.annotations.EBean;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.List;
@@ -16,11 +19,15 @@ import java.util.List;
 /**
  * Created by p.dedio on 05.09.16.
  */
+@EBean
 public class Camera1Impl implements CameraHelper, TextureView.SurfaceTextureListener {
 
-    private Camera camera;
+    protected Camera camera;
 
-    private MediaRecorder mediaRecorder;
+    protected MediaRecorder mediaRecorder;
+
+    @Bean
+    protected CameraFactory cameraFactory;
 
     private String videoPath;
 
@@ -151,13 +158,16 @@ public class Camera1Impl implements CameraHelper, TextureView.SurfaceTextureList
 
     //Private methods
     private void openCamera(int cameraId, TextureView textureView) {
-        this.camera = Camera.open(cameraId);
+        this.camera = this.cameraFactory.getOldCamera(cameraId);
         this.camera.setDisplayOrientation(90);
         Camera.Parameters params = this.camera.getParameters();
-        List<Camera.Size> sizes = params.getSupportedPictureSizes();
-        Camera.Size size = this.getClosestDimension(sizes, REQUIRED_WIDTH, REQUIRED_HEIGHT);
-        params.setPictureSize(size.width, size.height);
-        this.camera.setParameters(params);
+
+        if(params != null) {
+            List<Camera.Size> sizes = params.getSupportedPictureSizes();
+            Camera.Size size = this.getClosestDimension(sizes, REQUIRED_WIDTH, REQUIRED_HEIGHT);
+            params.setPictureSize(size.width, size.height);
+            this.camera.setParameters(params);
+        }
 
         if(textureView.getSurfaceTextureListener() == null) {
             if(textureView.isAvailable()) {
@@ -186,7 +196,10 @@ public class Camera1Impl implements CameraHelper, TextureView.SurfaceTextureList
     }
 
     private void initMediaRecorder(Context context) {
-        this.mediaRecorder = new MediaRecorder();
+        if(this.mediaRecorder == null) {
+            this.mediaRecorder = new MediaRecorder();
+        }
+
         this.camera.unlock();
         this.mediaRecorder.setCamera(this.camera);
         this.mediaRecorder.setAudioSource(MediaRecorder.AudioSource.DEFAULT);
