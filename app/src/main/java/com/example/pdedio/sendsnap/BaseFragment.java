@@ -1,7 +1,9 @@
 package com.example.pdedio.sendsnap;
 
 import android.app.Activity;
+import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
+import android.widget.Toast;
 
 import com.example.pdedio.sendsnap.common.StatusBarManager;
 import com.squareup.leakcanary.RefWatcher;
@@ -59,5 +61,10 @@ public class BaseFragment extends Fragment implements BaseFragmentContract.BaseF
             BaseFragmentActivity activity = (BaseFragmentActivity) this.getActivity();
             activity.popFragment();
         }
+    }
+
+    @Override
+    public void showToast(@StringRes int stringId, int length) {
+        Toast.makeText(this.getContext(), stringId, length).show();
     }
 }

@@ -37,4 +37,12 @@ public class BitmapsManager {
     public Bitmap createWithMatrix(Bitmap bitmap, Matrix matrix) {
         return Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
     }
+
+    public Bitmap createEmptyBitmap(int width, int height) {
+        return this.createEmptyBitmap(width, height, Bitmap.Config.ARGB_8888);
+    }
+
+    public Bitmap createEmptyBitmap(int width, int height, Bitmap.Config config) {
+        return Bitmap.createBitmap(width, height, config);
+    }
 }

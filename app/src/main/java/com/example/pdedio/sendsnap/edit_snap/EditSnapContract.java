@@ -1,11 +1,15 @@
 package com.example.pdedio.sendsnap.edit_snap;
 
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.support.annotation.ColorInt;
+import android.support.annotation.StringRes;
 import android.view.MotionEvent;
 import android.view.TextureView;
 import android.view.View;
 import android.widget.NumberPicker;
 
+import com.example.pdedio.sendsnap.BaseFragment;
 import com.example.pdedio.sendsnap.BaseFragmentActivity;
 import com.example.pdedio.sendsnap.BaseFragmentContract;
 import com.example.pdedio.sendsnap.common.views.BaseImageButton;
@@ -14,6 +18,7 @@ import com.example.pdedio.sendsnap.common.views.BaseTextView;
 import com.example.pdedio.sendsnap.databinding.FragmentEditSnapBinding;
 import com.example.pdedio.sendsnap.helpers.Consts;
 import com.example.pdedio.sendsnap.helpers.SharedPreferenceManager;
+import com.thebluealliance.spectrum.SpectrumDialog;
 
 import java.io.File;
 
@@ -38,34 +43,22 @@ public class EditSnapContract {
         void onAddTextClick();
 
         void onDrawClick();
+
+        void onUndoClick();
+
+        void onColorSelectorCLick();
+
+        void onSaveClick();
+
+        void onSendClick();
     }
 
     public interface EditSnapView extends BaseFragmentContract.BaseFragmentView {
-        BaseFragmentActivity getBaseFragmentActivity();
-
-        TextureView getPreviewTextureView();
-
         BaseImageView getPreviewImageView();
 
         File getSnapFile();
 
         int getSnapType();
-
-        Bitmap getSnapBitmap();
-
-        BaseImageButton getSaveImageButton();
-
-        BaseImageButton getSendButton();
-
-        MovableEditText getTextEt();
-
-        DrawingView getDrawingView();
-
-        BaseImageButton getUndoButton();
-
-        View getColorSelectorButton();
-
-        FiltersView getFiltersView();
 
         void hideStatusBar();
 
@@ -92,5 +85,23 @@ public class EditSnapContract {
         void clearSnapText();
 
         boolean isDrawingEnabled();
+
+        void undoLastDrawChange();
+
+        void showColorSelector(SpectrumDialog.OnColorSelectedListener listener);
+
+        void setDrawingColor(@ColorInt int color);
+
+        void showPhoto();
+
+        void showVideo();
+
+        String getStringFromRes(@StringRes int string);
+
+        String getStringFromRes(int stringId, Object... args);
+
+        void scanImageFiles(String path);
+
+        void drawViewsOnCanvas(Canvas canvas);
     }
 }

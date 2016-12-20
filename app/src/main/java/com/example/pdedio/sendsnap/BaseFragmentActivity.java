@@ -1,6 +1,8 @@
 package com.example.pdedio.sendsnap;
 
+import android.support.annotation.StringRes;
 import android.support.v4.app.FragmentActivity;
+import android.widget.Toast;
 
 import com.example.pdedio.sendsnap.SendSnapApplication;
 import com.example.pdedio.sendsnap.BasePresenter;
@@ -23,5 +25,10 @@ public abstract class BaseFragmentActivity extends FragmentActivity implements B
         super.onDestroy();
         RefWatcher refWatcher = SendSnapApplication.getRefWatcher(this);
         refWatcher.watch(this);
+    }
+
+    @Override
+    public void showToast(@StringRes int stringId, int length) {
+        Toast.makeText(this, stringId, length).show();
     }
 }

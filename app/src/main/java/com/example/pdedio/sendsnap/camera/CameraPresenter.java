@@ -101,7 +101,7 @@ public class CameraPresenter extends BaseFragmentPresenter implements CameraCont
                     cameraView.stopFrontFlash();
                 }
                 Bitmap rotatedBitmap = rotateAndSaveImage(photo);
-                openFragment(photo, Consts.SnapType.PHOTO, rotatedBitmap);
+                openFragment(photo, Consts.SNAP_TYPE_PHOTO, rotatedBitmap);
             }
 
             @Override
@@ -130,7 +130,7 @@ public class CameraPresenter extends BaseFragmentPresenter implements CameraCont
             this.cameraView.stopFrontFlash();
         }
 
-        openFragment(videoFile, Consts.SnapType.VIDEO, null);
+        openFragment(videoFile, Consts.SNAP_TYPE_VIDEO, null);
     }
 
     @Override
@@ -214,7 +214,7 @@ public class CameraPresenter extends BaseFragmentPresenter implements CameraCont
         return bitmap;
     }
 
-    private void openFragment(File file, Consts.SnapType snapType, Bitmap bitmap) {
+    private void openFragment(File file, int snapType, Bitmap bitmap) {
         EditSnapFragment fragment = EditSnapFragment_.builder().snapFile(file).snapType(snapType)
                 .snapBitmap(bitmap).build();
         this.cameraView.showFragment(fragment);
