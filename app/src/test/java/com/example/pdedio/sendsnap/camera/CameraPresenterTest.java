@@ -318,11 +318,21 @@ public class CameraPresenterTest {
     //enableAutoFocus()
     @Test
     public void shouldEnableAutoFocus() {
-
         CameraPresenter presenter = this.configureAndInitPresenter();
 
         presenter.enableAutoFocus();
 
         verify(mockedCameraHelper).enableAutoFocus();
+    }
+
+
+    //destroy()
+    @Test
+    public void shouldSetViewToNull() {
+        CameraPresenter presenter = this.configureAndInitPresenter();
+
+        presenter.destroy();
+
+        Assert.assertNull(presenter.cameraView);
     }
 }

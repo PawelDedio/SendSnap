@@ -7,6 +7,7 @@ import com.example.pdedio.sendsnap.BaseFragment;
 import com.example.pdedio.sendsnap.common.adapters.VpBaseFragmentAdapter;
 import com.example.pdedio.sendsnap.helpers.FragmentStackManager;
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.mockito.Mock;
 import static org.mockito.Mockito.*;
@@ -125,5 +126,16 @@ public class MainPresenterTest {
 
         verify(mockedStackManager).popBackStack();
         verify(mockedView).showViewPager();
+    }
+
+
+    //destroy()
+    @Test
+    public void shouldSetViewToNull() {
+        MainPresenter presenter = configureAndInitPresenter();
+
+        presenter.destroy();
+
+        Assert.assertNull(presenter.mainView);
     }
 }

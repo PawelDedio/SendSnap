@@ -4,6 +4,7 @@ import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,9 +20,13 @@ import com.example.pdedio.sendsnap.common.views.BaseTextView;
 import org.androidannotations.annotations.AfterInject;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
+import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.FragmentArg;
+import org.androidannotations.annotations.InstanceState;
+import org.androidannotations.annotations.Touch;
 import org.androidannotations.annotations.ViewById;
+import org.androidannotations.annotations.res.ColorRes;
 
 import java.io.File;
 
@@ -29,15 +34,17 @@ import java.io.File;
  * Created by pawel on 19.09.2016.
  */
 @EFragment
-public class EditSnapFragment extends BaseFragment implements EditSnapPresenter.PresenterCallback {
+public class EditSnapFragment extends BaseFragment implements EditSnapContract.EditSnapView {
 
-    @Bean
-    protected EditSnapPresenter editSnapPresenter;
-
-    @FragmentArg
-    protected Consts.SnapType snapType;
+    @Bean(EditSnapPresenter.class)
+    protected EditSnapContract.EditSnapPresenter editSnapPresenter;
 
     @FragmentArg
+    @InstanceState
+    protected int snapType;
+
+    @FragmentArg
+    @InstanceState
     protected File snapFile;
 
     @FragmentArg
@@ -84,18 +91,19 @@ public class EditSnapFragment extends BaseFragment implements EditSnapPresenter.
 
     private FragmentEditSnapBinding editSnapBinding;
 
+    private NumberPickerDialog numberPickerDialog;
+
+    @ColorRes(R.color.edit_snap_default_draw)
+    protected int defaultDrawColor;
+
 
 
 
     // Lifecycle
-    @AfterInject
-    protected void afterInjectEditSnapFragment() {
-        this.editSnapPresenter.init(this);
-    }
-
     @AfterViews
     protected void afterViewsEditSnapFragment() {
-        this.editSnapPresenter.afterViews();
+        this.editSnapPresenter.init(this);
+        this.configureViews();
     }
 
     @Override
@@ -110,6 +118,33 @@ public class EditSnapFragment extends BaseFragment implements EditSnapPresenter.
         this.editSnapBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_edit_snap, container, false);
         View rootView = this.editSnapBinding.getRoot();
         return rootView;
+    }
+
+
+    //Events
+    @Click(R.id.btnEditSnapClose)
+    protected void onBtnCloseClick() {
+        this.editSnapPresenter.onCloseButtonClick();
+    }
+
+    @Click(R.id.btnEditSnapTimer)
+    protected void onBtnTimerClick() {
+        this.editSnapPresenter.onTimerButtonClick();
+    }
+
+    @Touch(R.id.sipEditSnapFilters)
+    protected boolean onSipFiltersTouch(View view, MotionEvent motionEvent) {
+        return editSnapPresenter.onFiltersClick(motionEvent);
+    }
+
+    @Click(R.id.btnEditSnapAddText)
+    protected void onBtnAddTextClick() {
+        this.editSnapPresenter.onAddTextClick();
+    }
+
+    @Click(R.id.btnEditSnapDraw)
+    protected void onBtnDrawClick() {
+        this.editSnapPresenter.onDrawClick();
     }
 
 
@@ -130,33 +165,13 @@ public class EditSnapFragment extends BaseFragment implements EditSnapPresenter.
     }
 
     @Override
-    public Consts.SnapType getSnapType() {
+    public int getSnapType() {
         return this.snapType;
     }
 
     @Override
     public Bitmap getSnapBitmap() {
         return this.snapBitmap;
-    }
-
-    @Override
-    public BaseImageButton getCloseButton() {
-        return this.btnClose;
-    }
-
-    @Override
-    public BaseImageButton getDrawButton() {
-        return this.btnDraw;
-    }
-
-    @Override
-    public BaseImageButton getAddTextButton() {
-        return btnAddText;
-    }
-
-    @Override
-    public BaseTextView getTimerButton() {
-        return btnTimer;
     }
 
     @Override
@@ -190,12 +205,91 @@ public class EditSnapFragment extends BaseFragment implements EditSnapPresenter.
     }
 
     @Override
-    public FragmentEditSnapBinding getBinding() {
-        return this.editSnapBinding;
+    public FiltersView getFiltersView() {
+        return this.filtersView;
     }
 
     @Override
-    public FiltersView getFiltersView() {
-        return this.filtersView;
+    public void clearDrawingArea() {
+        this.vDraw.clearArea();
+    }
+
+    @Override
+    public void startDrawing() {
+        this.btnAddText.setVisibility(View.GONE);
+        this.btnUndoDraw.setVisibility(View.VISIBLE);
+        this.vDraw.startDrawing();
+        this.btnColorSelector.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void stopDrawing() {
+        this.btnAddText.setVisibility(View.VISIBLE);
+        this.btnUndoDraw.setVisibility(View.GONE);
+        this.vDraw.stopDrawing();
+        this.btnColorSelector.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public void showNumberPicker(int selectedValue, NumberPickerDialog.ResultListener listener) {
+        if(this.numberPickerDialog == null) {
+            this.numberPickerDialog = new NumberPickerDialog(this.getContext());
+            this.numberPickerDialog.setTitle(R.string.edit_snap_number_picker_title);
+            this.numberPickerDialog.setMinValue(Consts.MIN_SNAP_DURATION);
+            this.numberPickerDialog.setMaxValue(Consts.MAX_SNAP_DURATION);
+            this.numberPickerDialog.setWrapSelectorWheel(false);
+            this.numberPickerDialog.setResultListener(listener);
+        }
+
+        this.numberPickerDialog.setSelectedValue(selectedValue);
+        this.numberPickerDialog.show();
+    }
+
+    @Override
+    public boolean isTextTyping() {
+        return this.etText.isTyping();
+    }
+
+    @Override
+    public void startTypingText(float yPosition) {
+        this.etText.startTyping(yPosition);
+    }
+
+    @Override
+    public void startTypingTextFromCenter() {
+        this.etText.startTypingFromCenter();
+    }
+
+    @Override
+    public void stopTypingText() {
+        this.etText.stopTyping();
+    }
+
+    @Override
+    public String getSnapText() {
+        return null;
+    }
+
+    @Override
+    public int getTextVisibility() {
+        return this.etText.getVisibility();
+    }
+
+    @Override
+    public void clearSnapText() {
+        this.etText.setText("");
+    }
+
+    @Override
+    public boolean isDrawingEnabled() {
+        return this.vDraw.isDrawingEnabled();
+    }
+
+
+    //Private methods
+    private void configureViews() {
+        this.editSnapBinding.setPrefs(this.editSnapPresenter.getSharedPrefManager());
+
+        this.vDraw.setColor(this.defaultDrawColor);
     }
 }
