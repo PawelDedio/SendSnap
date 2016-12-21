@@ -1,22 +1,12 @@
 package com.example.pdedio.sendsnap.edit_snap;
 
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.support.annotation.ColorInt;
 import android.support.annotation.StringRes;
 import android.view.MotionEvent;
-import android.view.TextureView;
-import android.view.View;
-import android.widget.NumberPicker;
 
-import com.example.pdedio.sendsnap.BaseFragment;
-import com.example.pdedio.sendsnap.BaseFragmentActivity;
 import com.example.pdedio.sendsnap.BaseFragmentContract;
-import com.example.pdedio.sendsnap.common.views.BaseImageButton;
 import com.example.pdedio.sendsnap.common.views.BaseImageView;
-import com.example.pdedio.sendsnap.common.views.BaseTextView;
-import com.example.pdedio.sendsnap.databinding.FragmentEditSnapBinding;
-import com.example.pdedio.sendsnap.helpers.Consts;
 import com.example.pdedio.sendsnap.helpers.SharedPreferenceManager;
 import com.thebluealliance.spectrum.SpectrumDialog;
 
@@ -46,7 +36,7 @@ public class EditSnapContract {
 
         void onUndoClick();
 
-        void onColorSelectorCLick();
+        void onColorSelectorClick();
 
         void onSaveClick();
 

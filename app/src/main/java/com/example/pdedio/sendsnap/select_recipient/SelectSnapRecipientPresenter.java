@@ -1,75 +1,57 @@
 package com.example.pdedio.sendsnap.select_recipient;
 
 import android.os.Build;
-import android.support.v4.content.ContextCompat;
-import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 
 import com.example.pdedio.sendsnap.BaseFragmentPresenter;
 import com.example.pdedio.sendsnap.R;
-import com.example.pdedio.sendsnap.BaseFragmentActivity;
-import com.example.pdedio.sendsnap.common.views.BaseImageButton;
+import com.example.pdedio.sendsnap.helpers.AndroidManager;
 
+import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EBean;
 
 /**
  * Created by p.dedio on 28.11.16.
  */
 @EBean
-public class SelectSnapRecipientPresenter extends BaseFragmentPresenter {
+public class SelectSnapRecipientPresenter extends BaseFragmentPresenter implements SelectSnapRecipientContract.SelectSnapRecipientPresenter {
 
-    private PresenterCallback presenterCallback;
+    private SelectSnapRecipientContract.SelectSnapRecipientView selectRecipientView;
+
+    @Bean
+    protected AndroidManager androidManager;
 
 
 
     //Lifecycle
-    public void init(PresenterCallback presenterCallback) {
-        this.presenterCallback = presenterCallback;
-    }
-
     @Override
-    public void afterViews() {
-        this.presenterCallback.showStatusBar();
-        this.setNotificationColor();
+    public void init(SelectSnapRecipientContract.SelectSnapRecipientView selectRecipientView) {
+        this.selectRecipientView = selectRecipientView;
         this.configureViews();
     }
 
     @Override
     public void destroy() {
-        this.presenterCallback = null;
+        this.selectRecipientView = null;
+    }
+
+
+    //SelectSnapRecipient methods
+    @Override
+    public void onBackClick() {
+        this.selectRecipientView.popFragment();
     }
 
 
     //Private methods
-    private void setNotificationColor() {
-        if(android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
-            BaseFragmentActivity activity = this.presenterCallback.getBaseFragmentActivity();
-            Window window = activity.getWindow();
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            window.setStatusBarColor(ContextCompat.getColor(activity, R.color.action_bar_blue_color_dark));
-        }
-    }
-
     private void configureViews() {
-        this.presenterCallback.getBtnBack().setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //popFragment(mainView.getBaseFragmentActivity());
-            }
-        });
+        this.selectRecipientView.showStatusBar();
+        this.setNotificationColor();
     }
 
 
-
-    public interface PresenterCallback {
-        void showStatusBar();
-
-        BaseFragmentActivity getBaseFragmentActivity();
-
-        BaseImageButton getBtnBack();
-
-        BaseImageButton getBtnSearch();
+    private void setNotificationColor() {
+        if(this.androidManager.getSdkCode() >= Build.VERSION_CODES.LOLLIPOP){
+            this.selectRecipientView.setNotificationColor(R.color.action_bar_blue_color_dark);
+        }
     }
 }

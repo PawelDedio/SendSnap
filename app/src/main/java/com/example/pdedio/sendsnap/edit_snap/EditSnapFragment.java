@@ -142,7 +142,7 @@ public class EditSnapFragment extends BaseFragment implements EditSnapContract.E
     }
 
     @Touch(R.id.sipEditSnapFilters)
-    protected boolean onSipFiltersTouch(View view, MotionEvent motionEvent) {
+    protected boolean onSipFiltersTouch(MotionEvent motionEvent) {
         return editSnapPresenter.onFiltersClick(motionEvent);
     }
 
@@ -163,7 +163,7 @@ public class EditSnapFragment extends BaseFragment implements EditSnapContract.E
 
     @Click(R.id.btnEditSnapColorSelector)
     protected void onColorSelectorClick() {
-        this.editSnapPresenter.onColorSelectorCLick();
+        this.editSnapPresenter.onColorSelectorClick();
     }
 
     @Click(R.id.btnEditSnapSaveImage)

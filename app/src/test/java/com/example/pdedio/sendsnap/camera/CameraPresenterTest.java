@@ -13,12 +13,21 @@ import com.example.pdedio.sendsnap.permissions.PermissionManager;
 import org.junit.Assert;
 import org.junit.Test;
 import org.mockito.Mock;
-import static org.mockito.Mockito.*;
 import org.mockito.MockitoAnnotations;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
 import java.io.File;
+
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.anyFloat;
+import static org.mockito.Mockito.anyInt;
+import static org.mockito.Mockito.anyVararg;
+import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 /**
  * Created by pawel on 16.12.2016.
@@ -133,11 +142,22 @@ public class CameraPresenterTest {
         verify(mockedView).startFrontFlash();
     }
 
+    @Test
+    public void shouldNotStartRecordingWhenIsCurrentRecording() {
+        CameraPresenter presenter = this.configureAndInitPresenter();
+        presenter.isRecording = true;
+
+        presenter.startRecording(mockedContext, mockedTexture);
+
+        verify(mockedCameraHelper, never()).startRecording(any(Context.class), any(TextureView.class));
+    }
+
 
     //stopRecording()
     @Test
     public void shouldStopRecording() {
         CameraPresenter presenter = this.configureAndInitPresenter();
+        presenter.isRecording = true;
 
         when(mockedCameraHelper.stopRecording()).thenReturn(templateFile);
         presenter.stopRecording();
@@ -148,6 +168,7 @@ public class CameraPresenterTest {
     @Test
     public void shouldStopFrontFlashIfEnabled() {
         CameraPresenter presenter = this.configureAndInitPresenter();
+        presenter.isRecording = true;
         presenter.isFlashEnabled = true;
 
         when(mockedCameraHelper.isFrontCamera()).thenReturn(true);
@@ -160,10 +181,19 @@ public class CameraPresenterTest {
     @Test
     public void showOpenFragment() {
         CameraPresenter presenter = this.configureAndInitPresenter();
+        presenter.isRecording = true;
 
         presenter.stopRecording();
 
         verify(mockedView).showFragment(any(BaseFragment.class));
+    }
+
+    @Test
+    public void shouldNotStopRecordingWhenIsNotRecording() {
+        CameraPresenter presenter = this.configureAndInitPresenter();
+        presenter.isRecording = false;
+
+        presenter.stopRecording();
     }
 
 
@@ -203,6 +233,7 @@ public class CameraPresenterTest {
             public Object answer(InvocationOnMock invocation) throws Throwable {
                 CameraHelper.PhotoCallback callback = (CameraHelper.PhotoCallback) invocation.getArguments()[2];
                 callback.onPhotoTaken(templateFile);
+
                 return null;
             }
         }).when(mockedCameraHelper).takePicture(any(Context.class), any(TextureView.class), any(CameraHelper.PhotoCallback.class));

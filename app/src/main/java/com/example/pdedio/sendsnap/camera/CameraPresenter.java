@@ -47,6 +47,8 @@ public class CameraPresenter extends BaseFragmentPresenter implements CameraCont
 
     protected boolean isCameraConfigured;
 
+    protected boolean isRecording;
+
 
     //Lifecycle
     @Override
@@ -115,6 +117,11 @@ public class CameraPresenter extends BaseFragmentPresenter implements CameraCont
 
     @Override
     public void startRecording(Context context, TextureView textureView) {
+        if(this.isRecording) {
+            return;
+        }
+        this.isRecording = true;
+
         if(isFlashEnabled && cameraHelper.isFrontCamera()) {
             this.cameraView.startFrontFlash();
         }
@@ -124,6 +131,11 @@ public class CameraPresenter extends BaseFragmentPresenter implements CameraCont
 
     @Override
     public void stopRecording() {
+        if(!this.isRecording) {
+            return;
+        }
+        this.isRecording = false;
+
         File videoFile = this.cameraHelper.stopRecording();
 
         if(isFlashEnabled && cameraHelper.isFrontCamera()) {

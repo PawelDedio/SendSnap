@@ -1,13 +1,17 @@
 package com.example.pdedio.sendsnap.select_recipient;
 
+import android.support.annotation.ColorRes;
+import android.support.v4.content.ContextCompat;
+import android.view.Window;
+import android.view.WindowManager;
+
 import com.example.pdedio.sendsnap.BaseFragment;
 import com.example.pdedio.sendsnap.R;
-import com.example.pdedio.sendsnap.BaseFragmentActivity;
 import com.example.pdedio.sendsnap.common.views.BaseImageButton;
 
-import org.androidannotations.annotations.AfterInject;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
+import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.FragmentArg;
 import org.androidannotations.annotations.ViewById;
@@ -18,7 +22,7 @@ import java.io.File;
  * Created by p.dedio on 28.11.16.
  */
 @EFragment(R.layout.fragment_select_snap_recipient)
-public class SelectSnapRecipientFragment extends BaseFragment implements SelectSnapRecipientPresenter.PresenterCallback {
+public class SelectSnapRecipientFragment extends BaseFragment implements SelectSnapRecipientContract.SelectSnapRecipientView {
 
     @Bean
     protected SelectSnapRecipientPresenter presenter;
@@ -35,14 +39,9 @@ public class SelectSnapRecipientFragment extends BaseFragment implements SelectS
 
 
     // Lifecycle
-    @AfterInject
-    protected void afterInjectSelectSnapRecipientFragment() {
-        this.presenter.init(this);
-    }
-
     @AfterViews
     protected void afterViewsSelectSnapRecipientFragment() {
-        this.presenter.afterViews();
+        this.presenter.init(this);
     }
 
     @Override
@@ -52,18 +51,20 @@ public class SelectSnapRecipientFragment extends BaseFragment implements SelectS
         super.onDestroy();
     }
 
-    @Override
-    public BaseFragmentActivity getBaseFragmentActivity() {
-        return (BaseFragmentActivity) this.getActivity();
+
+    //Events
+    @Click(R.id.btnSelectSnapRecipientBack)
+    public void onBackClick() {
+        this.presenter.onBackClick();
     }
 
-    @Override
-    public BaseImageButton getBtnBack() {
-        return this.btnBack;
-    }
 
+    //SelectSnapView methods
     @Override
-    public BaseImageButton getBtnSearch() {
-        return this.btnSearch;
+    public void setNotificationColor(@ColorRes int colorId) {
+        Window window = this.getActivity().getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        window.setStatusBarColor(ContextCompat.getColor(this.getActivity(), colorId));
     }
 }

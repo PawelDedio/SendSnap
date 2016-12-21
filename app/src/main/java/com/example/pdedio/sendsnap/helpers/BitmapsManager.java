@@ -8,6 +8,8 @@ import org.androidannotations.annotations.EBean;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 /**
  * Created by pawel on 16.12.2016.
@@ -44,5 +46,13 @@ public class BitmapsManager {
 
     public Bitmap createEmptyBitmap(int width, int height, Bitmap.Config config) {
         return Bitmap.createBitmap(width, height, config);
+    }
+
+    public void saveBitmapToFile(Bitmap bitmap, File file) throws IOException {
+        FileOutputStream out = new FileOutputStream(file.getAbsolutePath());
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
+        out.flush();
+        out.close();
+
     }
 }

@@ -13,6 +13,7 @@ import com.example.pdedio.sendsnap.BaseFragmentPresenter;
 import com.example.pdedio.sendsnap.R;
 import com.example.pdedio.sendsnap.helpers.BitmapsManager;
 import com.example.pdedio.sendsnap.helpers.Consts;
+import com.example.pdedio.sendsnap.helpers.FilesManager;
 import com.example.pdedio.sendsnap.helpers.SharedPreferenceManager;
 import com.example.pdedio.sendsnap.select_recipient.SelectSnapRecipientFragment;
 import com.example.pdedio.sendsnap.select_recipient.SelectSnapRecipientFragment_;
@@ -22,9 +23,6 @@ import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EBean;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.nio.channels.FileChannel;
 
 /**
  * Created by pawel on 19.09.2016.
@@ -33,21 +31,24 @@ import java.nio.channels.FileChannel;
 public class EditSnapPresenter extends BaseFragmentPresenter implements EditSnapContract.EditSnapPresenter {
 
 
-    private EditSnapContract.EditSnapView editSnapView;
+    protected EditSnapContract.EditSnapView editSnapView;
 
     @Bean
     protected SharedPreferenceManager sharedPreferenceManager;
 
-    private boolean isDrawing;
+    protected boolean isDrawing;
 
     float touchY;
 
     float touchX;
 
-    private static final int MAX_DISTANCE_FOR_CLICK = 15;
+    public static final int MAX_DISTANCE_FOR_CLICK = 15;
 
     @Bean
     protected BitmapsManager bitmapsManager;
+
+    @Bean
+    protected FilesManager filesManager;
 
 
 
@@ -74,16 +75,16 @@ public class EditSnapPresenter extends BaseFragmentPresenter implements EditSnap
     //EditSnapPresenter methods
     @Override
     public SharedPreferenceManager getSharedPrefManager() {
-        return null;
+        return this.sharedPreferenceManager;
     }
 
     @Override
     public void onCloseButtonClick() {
-        if(isDrawing) {
-            editSnapView.clearDrawingArea();
-            stopDrawing();
+        if(this.isDrawing) {
+            this.editSnapView.clearDrawingArea();
+            this.stopDrawing();
         } else {
-            //popFragment(mainView.getBaseFragmentActivity());
+            this.editSnapView.popFragment();
         }
     }
 
@@ -103,20 +104,20 @@ public class EditSnapPresenter extends BaseFragmentPresenter implements EditSnap
     public boolean onFiltersClick(MotionEvent event) {
         switch(event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                touchY = event.getRawY();
-                touchX = event.getRawX();
+                this.touchY = event.getRawY();
+                this.touchX = event.getRawX();
                 break;
 
             case MotionEvent.ACTION_UP:
                 float currentY = event.getRawY();
                 float currentX = event.getRawX();
 
-                if(Math.abs(touchY - currentY) <= MAX_DISTANCE_FOR_CLICK && Math.abs(touchX - currentX) <= MAX_DISTANCE_FOR_CLICK) {
+                if(Math.abs(this.touchY - currentY) <= MAX_DISTANCE_FOR_CLICK && Math.abs(this.touchX - currentX) <= MAX_DISTANCE_FOR_CLICK) {
 
                     if(this.editSnapView.isTextTyping()) {
                         this.editSnapView.stopTypingText();
                     } else if(this.editSnapView.getSnapText().length() == 0) {
-                        this.editSnapView.startTypingText(touchY);
+                        this.editSnapView.startTypingText(this.touchY);
                     }
                 }
                 break;
@@ -149,7 +150,7 @@ public class EditSnapPresenter extends BaseFragmentPresenter implements EditSnap
     }
 
     @Override
-    public void onColorSelectorCLick() {
+    public void onColorSelectorClick() {
         this.showColorPicker();
     }
 
@@ -269,10 +270,7 @@ public class EditSnapPresenter extends BaseFragmentPresenter implements EditSnap
 
     private void saveBitmapToFile(Bitmap bitmap, File file) {
         try {
-            FileOutputStream out = new FileOutputStream(file.getAbsolutePath());
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
-            out.flush();
-            out.close();
+            this.bitmapsManager.saveBitmapToFile(bitmap, file);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -280,14 +278,7 @@ public class EditSnapPresenter extends BaseFragmentPresenter implements EditSnap
 
     private void copyFile(File source, File destination) {
         try {
-            FileInputStream in = new FileInputStream(source);
-            FileOutputStream out = new FileOutputStream(destination);
-            FileChannel inChannel = in.getChannel();
-            FileChannel outChannel = out.getChannel();
-
-            inChannel.transferTo(0, inChannel.size(), outChannel);
-            in.close();
-            out.close();
+            this.filesManager.copyFile(source, destination);
         } catch (Exception e) {
             e.printStackTrace();
         }

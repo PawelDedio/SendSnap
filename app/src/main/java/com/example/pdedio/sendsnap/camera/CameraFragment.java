@@ -2,7 +2,6 @@ package com.example.pdedio.sendsnap.camera;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.support.annotation.DrawableRes;
 import android.view.MotionEvent;
@@ -16,7 +15,6 @@ import com.example.pdedio.sendsnap.common.views.BaseButton;
 import com.example.pdedio.sendsnap.common.views.BaseImageButton;
 import com.github.lzyzsd.circleprogress.DonutProgress;
 
-import org.androidannotations.annotations.AfterInject;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.Click;
@@ -115,7 +113,7 @@ public class CameraFragment extends BaseFragment implements CameraContract.Camer
 
     //Events
     @Touch(R.id.btnCameraRecord)
-    protected boolean onBtnRecordTouch(View view, MotionEvent motionEvent) {
+    protected boolean onBtnRecordTouch(MotionEvent motionEvent) {
 
         if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
             this.btnCameraDownTime = System.currentTimeMillis();
@@ -127,7 +125,7 @@ public class CameraFragment extends BaseFragment implements CameraContract.Camer
                 recordingSubscription.unsubscribe();
                 this.cameraPresenter.takePicture(this.getContext(), this.tvCameraPreview);
             } else {
-                this.cameraPresenter.stopRecording();
+                this.stopRecording();
             }
         }
 
