@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_auth"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.pdedio.sendsnap.authorization.AuthActivity"
+    android:background="@color/auth_background">
+
+
+    <com.example.pdedio.sendsnap.common.views.BaseImageView_
+        android:id="@+id/ivAuthLogo"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="@dimen/auth_logo_margin_top"
+        app:srcCompat="@drawable/main_logo"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <com.example.pdedio.sendsnap.common.views.BaseButton_
+        android:id="@+id/btnAuthLogIn"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/auth_button_height"
+        app:layout_constraintBottom_toTopOf="@+id/btnAuthSignUp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:background="@color/auth_btn_log_in_background"
+        android:text="@string/auth_btn_log_in"
+        android:textSize="@dimen/auth_button_text_size"
+        android:textColor="@color/auth_btn_text"/>
+
+    <com.example.pdedio.sendsnap.common.views.BaseButton_
+        android:id="@+id/btnAuthSignUp"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/auth_button_height"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:background="@color/auth_btn_sign_up_background"
+        android:text="@string/auth_btn_sign_up"
+        android:textSize="@dimen/auth_button_text_size"
+        android:textColor="@color/auth_btn_text"/>
+</android.support.constraint.ConstraintLayout>

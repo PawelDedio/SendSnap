@@ -1,8 +1,8 @@
 package com.example.pdedio.sendsnap.common.views;
 
 import android.content.Context;
+import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
-import android.widget.ImageView;
 
 import org.androidannotations.annotations.EView;
 
@@ -10,7 +10,7 @@ import org.androidannotations.annotations.EView;
  * Created by p.dedio on 03.11.16.
  */
 @EView
-public class BaseImageView extends ImageView {
+public class BaseImageView extends AppCompatImageView {
 
     public BaseImageView(Context context) {
         super(context);

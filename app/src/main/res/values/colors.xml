@@ -9,6 +9,12 @@
     <color name="action_bar_blue_color_dark">#0288D1</color>
     <color name="action_bar_blue_text">#FFFFFF</color>
 
+    <!-- Auth Activity -->
+    <color name="auth_background">#EC407A</color>
+    <color name="auth_btn_text">#000000</color>
+    <color name="auth_btn_log_in_background">#FFFF00</color>
+    <color name="auth_btn_sign_up_background">#2196F3</color>
+
     <!-- Camera Fragment -->
     <color name="camera_btn_record_stroke">#ffffff</color>
     <color name="camera_btn_record_solid">#d22323</color>

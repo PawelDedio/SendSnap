@@ -4,6 +4,10 @@
     <string name="snap_saved_file_name">SendSnap-%1$d</string>
     <string name="snap_sent_file_name">tmp_photo</string>
 
+    <!-- Auth Activity -->
+    <string name="auth_btn_log_in">Log in</string>
+    <string name="auth_btn_sign_up">Sign up</string>
+
     <!-- Camera Fragment -->
     <string name="camera_permissions_denied_title">Permissions denied</string>
     <string name="camera_permissions_denied_message">We need all of these permissions to record and save your snaps. Please grant all permissions in settings and open app again.</string>
