@@ -14,8 +14,6 @@ import com.squareup.leakcanary.RefWatcher;
  */
 public abstract class BaseFragmentActivity extends FragmentActivity implements BaseContract.BaseView {
 
-    public abstract BaseContract.BasePresenter getPresenter();
-
     public abstract void showFragment(BaseFragment fragment);
 
     public abstract void popFragment();

@@ -85,11 +85,6 @@ public class MainActivity extends BaseFragmentActivity implements MainContract.M
 
     // BaseFragmentActivity methods
     @Override
-    public BaseContract.BasePresenter getPresenter() {
-        return this.presenter;
-    }
-
-    @Override
     public void showFragment(BaseFragment fragment) {
         this.presenter.showFragment(fragment);
     }

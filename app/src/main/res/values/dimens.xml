@@ -10,10 +10,10 @@
 
     <!-- Auth Activity -->
     <dimen name="auth_logo_size">150dp</dimen>
-    <dimen name="auth_logo_margin_top">100dp</dimen>
+    <dimen name="auth_logo_margin_top">85dp</dimen>
 
-    <dimen name="auth_button_height">75dp</dimen>
-    <dimen name="auth_button_text_size">27dp</dimen>
+    <dimen name="auth_button_height">95dp</dimen>
+    <dimen name="auth_button_text_size">31dp</dimen>
 
     <!-- Camera Fragment -->
     <dimen name="camera_btn_change_camera_margin_top">20dp</dimen>
