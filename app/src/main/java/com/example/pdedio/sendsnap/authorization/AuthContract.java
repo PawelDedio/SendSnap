@@ -17,6 +17,10 @@ public class AuthContract {
         void onSignUpClick();
 
         boolean onBackKeyClick();
+
+        void showFragment(BaseFragment fragment);
+
+        void popFragment();
     }
 
     public interface AuthView extends BaseContract.BaseView {

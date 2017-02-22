@@ -8,6 +8,9 @@ import com.example.pdedio.sendsnap.BaseFragment;
 import com.example.pdedio.sendsnap.BaseFragmentActivity;
 import com.example.pdedio.sendsnap.R;
 import com.example.pdedio.sendsnap.common.views.BaseButton;
+import com.transitionseverywhere.AutoTransition;
+import com.transitionseverywhere.Scene;
+import com.transitionseverywhere.Transition;
 import com.transitionseverywhere.TransitionManager;
 
 import org.androidannotations.annotations.AfterViews;
@@ -72,12 +75,12 @@ public class AuthActivity extends BaseFragmentActivity implements AuthContract.A
     //AuthView methods
     @Override
     public void showFragment(BaseFragment fragment) {
-
+        this.presenter.showFragment(fragment);
     }
 
     @Override
     public void popFragment() {
-
+        this.presenter.popFragment();
     }
 
     @Override
@@ -104,7 +107,34 @@ public class AuthActivity extends BaseFragmentActivity implements AuthContract.A
 
     @Override
     public void restoreOriginalViewsState() {
-        TransitionManager.beginDelayedTransition(this.mainLayout);
+        AutoTransition transition = new AutoTransition();
+        transition.addListener(new Transition.TransitionListener() {
+            @Override
+            public void onTransitionStart(Transition transition) {
+
+            }
+
+            @Override
+            public void onTransitionEnd(Transition transition) {
+                popFragment();
+            }
+
+            @Override
+            public void onTransitionCancel(Transition transition) {
+
+            }
+
+            @Override
+            public void onTransitionPause(Transition transition) {
+
+            }
+
+            @Override
+            public void onTransitionResume(Transition transition) {
+
+            }
+        });
+        TransitionManager.go(new Scene(this.mainLayout), transition);
         this.baseConstraintSet.applyTo(this.mainLayout);
     }
 

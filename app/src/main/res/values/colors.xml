@@ -17,6 +17,12 @@
     <color name="auth_btn_sign_up_background">#FF3D00</color>
     <color name="auth_btn_sign_up_background_pressed">#f23a00</color>
 
+    <!-- Log In Fragment -->
+    <color name="log_in_background">#000000</color>
+
+    <!-- Sign Up Fragment -->
+    <color name="sign_up_background">#000000</color>
+
     <!-- Camera Fragment -->
     <color name="camera_btn_record_stroke">#ffffff</color>
     <color name="camera_btn_record_solid">#d22323</color>

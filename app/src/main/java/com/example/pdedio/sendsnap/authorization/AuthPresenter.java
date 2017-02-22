@@ -1,5 +1,6 @@
 package com.example.pdedio.sendsnap.authorization;
 
+import com.example.pdedio.sendsnap.BaseFragment;
 import com.example.pdedio.sendsnap.BasePresenter;
 import com.example.pdedio.sendsnap.R;
 import com.example.pdedio.sendsnap.helpers.FragmentStackManager;
@@ -19,6 +20,8 @@ public class AuthPresenter extends BasePresenter implements AuthContract.AuthPre
     protected FragmentStackManager fragmentStackManager;
 
 
+
+    //Lifecycle
     @Override
     public void init(AuthContract.AuthView authView) {
         this.authView = authView;
@@ -30,32 +33,56 @@ public class AuthPresenter extends BasePresenter implements AuthContract.AuthPre
     }
 
 
+    //AuthPresenter methods
     @Override
     public void onLogInClick() {
-        this.authView.showFragment(null);
-        this.authView.startLogInAnimation();
-        this.authView.setLogInButtonEnabled(false);
+        this.showLogInFragment();
     }
 
     @Override
     public void onSignUpClick() {
-        this.authView.showFragment(null);
-        this.authView.startSignUpAnimation();
-        this.authView.setSignUpButtonEnabled(false);
+        this.showSignUpFragment();
     }
 
     @Override
     public boolean onBackKeyClick() {
         int fragmentsCount = this.fragmentStackManager.getBackStackCount();
 
-        if(fragmentsCount >= 0) {
-            this.fragmentStackManager.popBackStack();
+        if(fragmentsCount > 0) {
             this.authView.restoreOriginalViewsState();
             this.authView.setLogInButtonEnabled(true);
             this.authView.setSignUpButtonEnabled(true);
         } else {
             this.authView.finish();
         }
-        return false;
+        return true;
+    }
+
+    @Override
+    public void showFragment(BaseFragment fragment) {
+        this.fragmentStackManager.replaceFragmentWithAddingToBackStack(R.id.flAuth, fragment);
+    }
+
+    @Override
+    public void popFragment() {
+        this.fragmentStackManager.popBackStack();
+    }
+
+
+    //Private methods
+    private void showLogInFragment() {
+        LogInFragment fragment = LogInFragment_.builder().build();
+        this.authView.showFragment(fragment);
+
+        this.authView.setLogInButtonEnabled(false);
+        this.authView.startLogInAnimation();
+    }
+
+    private void showSignUpFragment() {
+        SignUpFragment fragment = SignUpFragment_.builder().build();
+        this.authView.showFragment(fragment);
+
+        this.authView.setSignUpButtonEnabled(false);
+        this.authView.startSignUpAnimation();
     }
 }

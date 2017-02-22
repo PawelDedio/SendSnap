@@ -58,7 +58,7 @@ public class AuthPresenterTest {
 
         presenter.onLogInClick();
 
-        verify(this.mockedView).showFragment(any(BaseFragment.class));
+        verify(this.mockedView).showFragment(any(LogInFragment.class));
     }
 
     @Test
@@ -87,7 +87,7 @@ public class AuthPresenterTest {
 
         presenter.onSignUpClick();
 
-        verify(this.mockedView).showFragment(any(BaseFragment.class));
+        verify(this.mockedView).showFragment(any(SignUpFragment.class));
     }
 
     @Test
