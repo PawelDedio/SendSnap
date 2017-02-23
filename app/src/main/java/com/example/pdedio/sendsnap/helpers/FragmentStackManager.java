@@ -57,6 +57,7 @@ public class FragmentStackManager {
             transaction.addToBackStack(fragment.getClass().getName());
         }
         transaction.commit();
+        this.fragmentManager.executePendingTransactions();
     }
 
     public void popBackStack() {

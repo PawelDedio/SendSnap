@@ -169,7 +169,7 @@ public class AuthActivity extends BaseFragmentActivity implements AuthContract.A
         ConstraintSet constraintSet = new ConstraintSet();
         constraintSet.clone(this.baseConstraintSet);
 
-        constraintSet.connect(R.id.btnAuthLogIn, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM, 0);
+        constraintSet.connect(R.id.btnAuthLogIn, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP, (int) this.btnLogIn.getY());
         constraintSet.clear(R.id.btnAuthLogIn, ConstraintSet.BOTTOM);
 
         constraintSet.connect(R.id.btnAuthSignUp, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP, 0);

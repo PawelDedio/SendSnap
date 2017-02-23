@@ -11,6 +11,8 @@ public class LogInContract {
     public interface LogInPresenter extends BaseFragmentContract.BaseFragmentPresenter {
 
         void init(LogInView logInView);
+
+        void onBtnLogInClick(String login, String password);
     }
 
     public interface LogInView extends BaseFragmentContract.BaseFragmentView {

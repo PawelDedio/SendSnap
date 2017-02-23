@@ -25,5 +25,7 @@ public class BaseContract {
         void popFragment();
 
         void showToast(@StringRes int stringId, int length);
+
+        void showProgressDialog();
     }
 }
