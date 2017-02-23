@@ -8,6 +8,12 @@
     <string name="auth_btn_log_in">Log in</string>
     <string name="auth_btn_sign_up">Sign up</string>
 
+    <!-- Log In Fragment -->
+    <string name="log_in_btn_log_in">Log In</string>
+
+    <!-- Sign Up Fragment -->
+    <string name="sign_up_btn_sign_up">Sign Up</string>
+
     <!-- Camera Fragment -->
     <string name="camera_permissions_denied_title">Permissions denied</string>
     <string name="camera_permissions_denied_message">We need all of these permissions to record and save your snaps. Please grant all permissions in settings and open app again.</string>

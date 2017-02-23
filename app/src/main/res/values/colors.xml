@@ -9,6 +9,18 @@
     <color name="action_bar_blue_color_dark">#0288D1</color>
     <color name="action_bar_blue_text">#FFFFFF</color>
 
+    <!-- Button Transparent Green Border -->
+    <color name="btn_transparent_green_border">#00C853</color>
+    <color name="btn_transparent_green_text">#00C853</color>
+    <color name="btn_transparent_green_text_pressed">#EEEEEE</color>
+    <color name="btn_transparent_green_background_pressed">#00C853</color>
+
+    <!-- Button Transparent Orange Border -->
+    <color name="btn_transparent_orange_border">#FF3D00</color>
+    <color name="btn_transparent_orange_text">#FF3D00</color>
+    <color name="btn_transparent_orange_text_pressed">#EEEEEE</color>
+    <color name="btn_transparent_orange_background_pressed">#FF3D00</color>
+
     <!-- Auth Activity -->
     <color name="auth_background">#EEEEEE</color>
     <color name="auth_btn_text">#FFFFFF</color>
@@ -18,10 +30,10 @@
     <color name="auth_btn_sign_up_background_pressed">#f23a00</color>
 
     <!-- Log In Fragment -->
-    <color name="log_in_background">#000000</color>
+    <color name="log_in_background">#EEEEEE</color>
 
     <!-- Sign Up Fragment -->
-    <color name="sign_up_background">#000000</color>
+    <color name="sign_up_background">#EEEEEE</color>
 
     <!-- Camera Fragment -->
     <color name="camera_btn_record_stroke">#ffffff</color>

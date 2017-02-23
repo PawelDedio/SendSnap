@@ -21,6 +21,8 @@ public class AuthContract {
         void showFragment(BaseFragment fragment);
 
         void popFragment();
+
+        void onBtnBackClick();
     }
 
     public interface AuthView extends BaseContract.BaseView {

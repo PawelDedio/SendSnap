@@ -49,9 +49,7 @@ public class AuthPresenter extends BasePresenter implements AuthContract.AuthPre
         int fragmentsCount = this.fragmentStackManager.getBackStackCount();
 
         if(fragmentsCount > 0) {
-            this.authView.restoreOriginalViewsState();
-            this.authView.setLogInButtonEnabled(true);
-            this.authView.setSignUpButtonEnabled(true);
+            this.restoreOriginalViewsState();
         } else {
             this.authView.finish();
         }
@@ -66,6 +64,11 @@ public class AuthPresenter extends BasePresenter implements AuthContract.AuthPre
     @Override
     public void popFragment() {
         this.fragmentStackManager.popBackStack();
+    }
+
+    @Override
+    public void onBtnBackClick() {
+        this.restoreOriginalViewsState();
     }
 
 
@@ -84,5 +87,11 @@ public class AuthPresenter extends BasePresenter implements AuthContract.AuthPre
 
         this.authView.setSignUpButtonEnabled(false);
         this.authView.startSignUpAnimation();
+    }
+
+    private void restoreOriginalViewsState() {
+        this.authView.restoreOriginalViewsState();
+        this.authView.setLogInButtonEnabled(true);
+        this.authView.setSignUpButtonEnabled(true);
     }
 }

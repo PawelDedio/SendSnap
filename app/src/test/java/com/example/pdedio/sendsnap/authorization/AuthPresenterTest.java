@@ -134,4 +134,25 @@ public class AuthPresenterTest {
         verify(mockedView).setLogInButtonEnabled(true);
         verify(mockedView).setSignUpButtonEnabled(true);
     }
+
+
+    //onBtnBackClick()
+    @Test
+    public void shouldRestoreOriginalViewsState() {
+        AuthPresenter presenter = this.configureAndInitPresenter();
+
+        presenter.onBtnBackClick();
+
+        verify(mockedView).restoreOriginalViewsState();
+    }
+
+    @Test
+    public void shouldEnableButtons() {
+        AuthPresenter presenter = this.configureAndInitPresenter();
+
+        presenter.onBtnBackClick();
+
+        verify(mockedView).setLogInButtonEnabled(true);
+        verify(mockedView).setSignUpButtonEnabled(true);
+    }
 }

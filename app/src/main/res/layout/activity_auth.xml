@@ -12,8 +12,8 @@
 
     <com.example.pdedio.sendsnap.common.views.BaseImageView_
         android:id="@+id/ivAuthLogo"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
+        android:layout_width="@dimen/auth_logo_size"
+        android:layout_height="@dimen/auth_logo_size"
         android:layout_marginTop="@dimen/auth_logo_margin_top"
         app:srcCompat="@drawable/main_logo"
         app:layout_constraintTop_toTopOf="parent"
@@ -56,4 +56,13 @@
         android:textSize="@dimen/auth_button_text_size"
         android:textColor="@color/auth_btn_text"
         android:stateListAnimator="@null"/>
+
+    <com.example.pdedio.sendsnap.common.views.BaseImageButton_
+        android:id="@+id/btnAuthBack"
+        android:layout_width="@dimen/auth_btn_back_size"
+        android:layout_height="@dimen/auth_btn_back_size"
+        app:srcCompat="@drawable/ic_navigate_back"
+        android:background="@null"
+        app:layout_constraintRight_toLeftOf="@id/btnAuthLogIn"
+        android:scaleType="fitCenter"/>
 </android.support.constraint.ConstraintLayout>

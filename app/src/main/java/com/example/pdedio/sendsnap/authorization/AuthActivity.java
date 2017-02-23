@@ -67,8 +67,13 @@ public class AuthActivity extends BaseFragmentActivity implements AuthContract.A
     }
 
     @KeyUp(KeyEvent.KEYCODE_BACK)
-    protected boolean onBackClick() {
+    protected boolean onBackKeyClick() {
         return this.presenter.onBackKeyClick();
+    }
+
+    @Click(R.id.btnAuthBack)
+    protected void onBackClick() {
+        this.presenter.onBtnBackClick();
     }
 
 
@@ -102,7 +107,7 @@ public class AuthActivity extends BaseFragmentActivity implements AuthContract.A
 
     @Override
     public void setSignUpButtonEnabled(boolean enabled) {
-        this.btnLogIn.setEnabled(enabled);
+        this.btnSignUp.setEnabled(enabled);
     }
 
     @Override
@@ -152,6 +157,11 @@ public class AuthActivity extends BaseFragmentActivity implements AuthContract.A
 
         constraintSet.connect(R.id.flAuth, ConstraintSet.TOP, R.id.btnAuthLogIn, ConstraintSet.BOTTOM, 0);
 
+        constraintSet.connect(R.id.btnAuthBack, ConstraintSet.TOP, R.id.btnAuthLogIn, ConstraintSet.TOP, 0);
+        constraintSet.connect(R.id.btnAuthBack, ConstraintSet.BOTTOM, R.id.btnAuthLogIn, ConstraintSet.BOTTOM, 0);
+        constraintSet.connect(R.id.btnAuthBack, ConstraintSet.LEFT, ConstraintSet.PARENT_ID, ConstraintSet.LEFT, 0);
+        constraintSet.clear(R.id.btnAuthBack, ConstraintSet.RIGHT);
+
         return constraintSet;
     }
 
@@ -166,6 +176,11 @@ public class AuthActivity extends BaseFragmentActivity implements AuthContract.A
         constraintSet.clear(R.id.btnAuthSignUp, ConstraintSet.BOTTOM);
 
         constraintSet.connect(R.id.flAuth, ConstraintSet.TOP, R.id.btnAuthSignUp, ConstraintSet.BOTTOM, 0);
+
+        constraintSet.connect(R.id.btnAuthBack, ConstraintSet.TOP, R.id.btnAuthSignUp, ConstraintSet.TOP, 0);
+        constraintSet.connect(R.id.btnAuthBack, ConstraintSet.BOTTOM, R.id.btnAuthSignUp, ConstraintSet.BOTTOM, 0);
+        constraintSet.connect(R.id.btnAuthBack, ConstraintSet.LEFT, ConstraintSet.PARENT_ID, ConstraintSet.LEFT, 0);
+        constraintSet.clear(R.id.btnAuthBack, ConstraintSet.RIGHT);
 
         return constraintSet;
     }

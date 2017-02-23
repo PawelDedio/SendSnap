@@ -53,4 +53,26 @@
         <item name="android:textColor">@color/action_bar_blue_text</item>
         <item name="android:layout_centerVertical">true</item>
     </style>
+
+
+    <!-- Buttons -->
+    <style name="ButtonTransparentGreenBorder">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">@dimen/btn_transparent_green_height</item>
+        <item name="android:textSize">@dimen/btn_transparent_green_text_size</item>
+        <item name="android:textColor">@color/btn_transparent_green_border_text_selector</item>
+        <item name="android:background">@drawable/btn_transparent_green_border_selector</item>
+        <item name="android:paddingLeft">@dimen/btn_transparent_green_padding_horizontal</item>
+        <item name="android:paddingRight">@dimen/btn_transparent_green_padding_horizontal</item>
+    </style>
+
+    <style name="ButtonTransparentOrangeBorder">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">@dimen/btn_transparent_orange_height</item>
+        <item name="android:textSize">@dimen/btn_transparent_orange_text_size</item>
+        <item name="android:textColor">@color/btn_transparent_orange_border_text_selector</item>
+        <item name="android:background">@drawable/btn_transparent_orange_border_selector</item>
+        <item name="android:paddingLeft">@dimen/btn_transparent_orange_padding_horizontal</item>
+        <item name="android:paddingRight">@dimen/btn_transparent_orange_padding_horizontal</item>
+    </style>
 </resources>

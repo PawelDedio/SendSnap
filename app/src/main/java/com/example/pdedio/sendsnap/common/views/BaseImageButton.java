@@ -1,6 +1,7 @@
 package com.example.pdedio.sendsnap.common.views;
 
 import android.content.Context;
+import android.support.v7.widget.AppCompatImageButton;
 import android.util.AttributeSet;
 import android.widget.ImageButton;
 
@@ -10,7 +11,7 @@ import org.androidannotations.annotations.EView;
  * Created by p.dedio on 03.11.16.
  */
 @EView
-public class BaseImageButton extends ImageButton {
+public class BaseImageButton extends AppCompatImageButton {
 
     public BaseImageButton(Context context) {
         super(context);

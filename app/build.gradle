@@ -51,7 +51,6 @@ dependencies {
     compile 'com.github.lzyzsd:CircleProgress:v1.1.1'
     compile 'com.karumi:dexter:2.3.1'
     compile 'com.thebluealliance:spectrum:0.6.0'
-    compile 'com.android.support.constraint:constraint-layout:1.0.0-beta5'
     compile "com.andkulikov:transitionseverywhere:1.7.0"
 
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
@@ -68,4 +67,5 @@ dependencies {
     androidTestCompile ('com.android.support.test.espresso:espresso-core:2.2') {
         exclude module: 'support-annotations'
     }
+    compile 'com.android.support.constraint:constraint-layout:1.0.0'
 }
