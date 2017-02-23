@@ -22,6 +22,16 @@
     <dimen name="btn_transparent_orange_border_radius">30dp</dimen>
     <dimen name="btn_transparent_orange_text_size">22dp</dimen>
 
+    <!-- Edit Text Green -->
+    <dimen name="et_green_height">35dp</dimen>
+    <dimen name="et_green_bottom_divider_height">2dp</dimen>
+    <dimen name="et_green_text_size">20dp</dimen>
+
+    <!-- Edit Text Orange -->
+    <dimen name="et_orange_height">35dp</dimen>
+    <dimen name="et_orange_bottom_divider_height">2dp</dimen>
+    <dimen name="et_orange_text_size">20dp</dimen>
+
     <!-- Auth Activity -->
     <dimen name="auth_logo_size">150dp</dimen>
     <dimen name="auth_logo_margin_top">85dp</dimen>
@@ -34,10 +44,17 @@
     <!-- Log In Fragment -->
     <dimen name="log_in_margin_horizontal">16dp</dimen>
 
+    <dimen name="log_in_et_login_margin_top">150dp</dimen>
+
+    <dimen name="log_in_et_password_margin_top">25dp</dimen>
+
     <dimen name="log_in_btn_log_in_margin_bottom">60dp</dimen>
 
     <!-- Sign Up Fragment -->
     <dimen name="sign_up_margin_horizontal">16dp</dimen>
+
+    <dimen name="sign_up_et_login_margin_top">60dp</dimen>
+    <dimen name="sign_up_internal_form_margin">25dp</dimen>
 
     <dimen name="sign_up_btn_sign_up_margin_bottom">60dp</dimen>
 

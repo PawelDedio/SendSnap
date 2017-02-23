@@ -75,4 +75,28 @@
         <item name="android:paddingLeft">@dimen/btn_transparent_orange_padding_horizontal</item>
         <item name="android:paddingRight">@dimen/btn_transparent_orange_padding_horizontal</item>
     </style>
+
+
+    <!-- Edit Texts -->
+    <style name="EditTextGreen">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/et_green_height</item>
+        <item name="android:background">@drawable/et_green_background</item>
+        <item name="android:textSize">@dimen/et_green_text_size</item>
+        <item name="android:textColor">@color/et_green_text</item>
+        <item name="android:textColorHint">@color/et_green_text_hint</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:textCursorDrawable">@null</item>
+    </style>
+
+    <style name="EditTextOrange">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/et_orange_height</item>
+        <item name="android:background">@drawable/et_orange_background</item>
+        <item name="android:textSize">@dimen/et_orange_text_size</item>
+        <item name="android:textColor">@color/et_orange_text</item>
+        <item name="android:textColorHint">@color/et_orange_text_hint</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:textCursorDrawable">@null</item>
+    </style>
 </resources>

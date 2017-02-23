@@ -21,6 +21,17 @@
     <color name="btn_transparent_orange_text_pressed">#EEEEEE</color>
     <color name="btn_transparent_orange_background_pressed">#FF3D00</color>
 
+
+    <!-- Edit Text Green -->
+    <color name="et_green_bottom_divider">#00C853</color>
+    <color name="et_green_text">#000000</color>
+    <color name="et_green_text_hint">#696969</color>
+
+    <!-- Edit Text Green -->
+    <color name="et_orange_bottom_divider">#FF3D00</color>
+    <color name="et_orange_text">#000000</color>
+    <color name="et_orange_text_hint">#696969</color>
+
     <!-- Auth Activity -->
     <color name="auth_background">#EEEEEE</color>
     <color name="auth_btn_text">#FFFFFF</color>
