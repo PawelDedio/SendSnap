@@ -77,26 +77,64 @@
     </style>
 
 
+    <!-- Edit Text Themes -->
+    <style name="EditTextGreenTheme" parent="TextAppearance.AppCompat">
+        <item name="colorAccent">@color/et_green_bottom_divider</item>
+        <item name="colorControlNormal">@color/et_green_bottom_divider</item>
+        <item name="colorControlActivated">@color/et_green_bottom_divider</item>
+        <item name="colorControlHighlight">@color/et_green_bottom_divider</item>
+    </style>
+
+    <style name="EditTextOrangeTheme" parent="TextAppearance.AppCompat">
+        <item name="colorAccent">@color/et_orange_bottom_divider</item>
+        <item name="colorControlNormal">@color/et_orange_bottom_divider</item>
+        <item name="colorControlActivated">@color/et_orange_bottom_divider</item>
+        <item name="colorControlHighlight">@color/et_orange_bottom_divider</item>
+    </style>
+
+
     <!-- Edit Texts -->
     <style name="EditTextGreen">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">@dimen/et_green_height</item>
-        <item name="android:background">@drawable/et_green_background</item>
+        <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">@dimen/et_green_text_size</item>
         <item name="android:textColor">@color/et_green_text</item>
         <item name="android:textColorHint">@color/et_green_text_hint</item>
         <item name="android:gravity">center_horizontal</item>
-        <item name="android:textCursorDrawable">@null</item>
+        <item name="android:theme">@style/EditTextGreenTheme</item>
     </style>
 
     <style name="EditTextOrange">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">@dimen/et_orange_height</item>
-        <item name="android:background">@drawable/et_orange_background</item>
+        <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">@dimen/et_orange_text_size</item>
         <item name="android:textColor">@color/et_orange_text</item>
         <item name="android:textColorHint">@color/et_orange_text_hint</item>
         <item name="android:gravity">center_horizontal</item>
-        <item name="android:textCursorDrawable">@null</item>
+        <item name="android:theme">@style/EditTextOrangeTheme</item>
+    </style>
+
+
+    <!-- Text Input Layout Themes -->
+    <style name="TextInputLayoutGreenTheme" parent="TextAppearance.AppCompat">
+        <item name="android:textColor">@color/et_green_text_hint</item>
+    </style>
+
+    <style name="TextInputLayoutOrangeTheme" parent="TextAppearance.AppCompat">
+        <item name="android:textColor">@color/et_orange_text_hint</item>
+    </style>
+
+
+    <!-- Text Input Layouts -->
+    <style name="TextInputLayoutGreen">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="hintTextAppearance">@style/TextInputLayoutGreenTheme</item>
+    </style>
+
+    <style name="TextInputLayoutOrange">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="hintTextAppearance">@style/TextInputLayoutOrangeTheme</item>
     </style>
 </resources>

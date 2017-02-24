@@ -1,12 +1,12 @@
 package com.example.pdedio.sendsnap.authorization;
 
-import com.example.pdedio.sendsnap.BaseFragment;
 import com.example.pdedio.sendsnap.helpers.FragmentStackManager;
 
 import org.junit.Test;
 import org.mockito.Mock;
-import static org.mockito.Mockito.*;
 import org.mockito.MockitoAnnotations;
+
+import static org.mockito.Mockito.*;
 
 /**
  * Created by p.dedio on 22.02.17.

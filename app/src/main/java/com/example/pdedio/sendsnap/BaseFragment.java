@@ -67,4 +67,9 @@ public class BaseFragment extends Fragment implements BaseFragmentContract.BaseF
     public void showToast(@StringRes int stringId, int length) {
         Toast.makeText(this.getContext(), stringId, length).show();
     }
+
+    @Override
+    public void showProgressDialog() {
+        //TODO: implementation
+    }
 }

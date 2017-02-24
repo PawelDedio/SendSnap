@@ -29,4 +29,9 @@ public abstract class BaseFragmentActivity extends FragmentActivity implements B
     public void showToast(@StringRes int stringId, int length) {
         Toast.makeText(this, stringId, length).show();
     }
+
+    @Override
+    public void showProgressDialog() {
+        //TODO: implementation
+    }
 }

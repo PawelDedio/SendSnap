@@ -122,6 +122,7 @@ public class AuthActivity extends BaseFragmentActivity implements AuthContract.A
             @Override
             public void onTransitionEnd(Transition transition) {
                 popFragment();
+                setLogInButtonEnabled(true);
             }
 
             @Override
@@ -181,6 +182,8 @@ public class AuthActivity extends BaseFragmentActivity implements AuthContract.A
         constraintSet.connect(R.id.btnAuthBack, ConstraintSet.BOTTOM, R.id.btnAuthSignUp, ConstraintSet.BOTTOM, 0);
         constraintSet.connect(R.id.btnAuthBack, ConstraintSet.LEFT, ConstraintSet.PARENT_ID, ConstraintSet.LEFT, 0);
         constraintSet.clear(R.id.btnAuthBack, ConstraintSet.RIGHT);
+
+        this.setLogInButtonEnabled(false);
 
         return constraintSet;
     }

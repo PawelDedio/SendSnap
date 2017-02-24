@@ -17,5 +17,12 @@ public class LogInContract {
 
     public interface LogInView extends BaseFragmentContract.BaseFragmentView {
 
+        void showBlankLoginError();
+
+        void showBlankPasswordError();
+
+        void showInvalidCredentialsError();
+
+        void clearErrors();
     }
 }
