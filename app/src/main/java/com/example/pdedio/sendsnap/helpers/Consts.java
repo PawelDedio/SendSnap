@@ -6,6 +6,12 @@ package com.example.pdedio.sendsnap.helpers;
 
 public class Consts {
 
+    public static final int USER_NAME_MIN_LENGTH = 3;
+    public static final int USER_NAME_MAX_LENGTH = 15;
+
+    public static final int USER_DISPLAY_NAME_MIN_LENGTH = 3;
+    public static final int USER_DISPLAY_NAME_MAX_LENGTH = 30;
+
     public static final int SNAP_TYPE_VIDEO = 1;
     public static final int SNAP_TYPE_PHOTO = 2;
 

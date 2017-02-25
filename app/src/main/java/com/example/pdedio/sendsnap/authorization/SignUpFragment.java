@@ -3,7 +3,6 @@ package com.example.pdedio.sendsnap.authorization;
 import com.example.pdedio.sendsnap.BaseFragment;
 import com.example.pdedio.sendsnap.R;
 import com.example.pdedio.sendsnap.common.views.BaseTextInputLayout;
-import com.example.pdedio.sendsnap.common.views.BaseTextInputLayout_;
 
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EFragment;
@@ -19,8 +18,8 @@ public class SignUpFragment extends BaseFragment implements SignUpContract.SignU
     @Bean(SignUpPresenter.class)
     protected SignUpContract.SignUpPresenter presenter;
 
-    @ViewById(R.id.tilLogInLogin)
-    protected BaseTextInputLayout tilLogin;
+    @ViewById(R.id.tilLogInName)
+    protected BaseTextInputLayout tilName;
 
     @ViewById(R.id.tilSignUpEmail)
     protected BaseTextInputLayout tilEmail;

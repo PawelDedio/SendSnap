@@ -11,9 +11,9 @@
     android:background="@color/sign_up_background">
 
     <com.example.pdedio.sendsnap.common.views.BaseTextInputLayout_
-        android:id="@+id/tilSignUpLogin"
+        android:id="@+id/tilSignUpName"
         android:layout_width="0dp"
-        android:layout_marginTop="@dimen/sign_up_et_login_margin_top"
+        android:layout_marginTop="@dimen/sign_up_et_name_margin_top"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="@+id/btnSignUpSignUp"
         app:layout_constraintRight_toRightOf="@+id/btnSignUpSignUp"
@@ -30,7 +30,7 @@
         android:id="@+id/tilSignUpEmail"
         android:layout_width="0dp"
         android:layout_marginTop="@dimen/sign_up_internal_form_margin"
-        app:layout_constraintTop_toBottomOf="@id/tilSignUpLogin"
+        app:layout_constraintTop_toBottomOf="@id/tilSignUpName"
         app:layout_constraintLeft_toLeftOf="@+id/btnSignUpSignUp"
         app:layout_constraintRight_toRightOf="@+id/btnSignUpSignUp"
         style="@style/TextInputLayoutOrange">

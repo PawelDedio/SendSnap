@@ -12,12 +12,12 @@ public class LogInContract {
 
         void init(LogInView logInView);
 
-        void onBtnLogInClick(String login, String password);
+        void onBtnLogInClick(String name, String password);
     }
 
     public interface LogInView extends BaseFragmentContract.BaseFragmentView {
 
-        void showBlankLoginError();
+        void showBlankNameError();
 
         void showBlankPasswordError();
 

@@ -28,8 +28,8 @@ public class LogInPresenter extends BaseFragmentPresenter implements LogInContra
 
     //LogInPresenter methods
     @Override
-    public void onBtnLogInClick(String login, String password) {
-        this.view.showBlankLoginError();
+    public void onBtnLogInClick(String name, String password) {
+        this.view.showBlankNameError();
         this.view.showBlankPasswordError();
     }
 }

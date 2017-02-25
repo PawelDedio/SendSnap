@@ -48,7 +48,7 @@ public class LogInPresenterTest {
 
         presenter.onBtnLogInClick("", "");
 
-        verify(mockedView).showBlankLoginError();
+        verify(mockedView).showBlankNameError();
         verify(mockedView).showBlankPasswordError();
     }
 
@@ -58,7 +58,7 @@ public class LogInPresenterTest {
 
         presenter.onBtnLogInClick("", "correctPassword");
 
-        verify(mockedView).showBlankLoginError();
+        verify(mockedView).showBlankNameError();
     }
 
     @Test

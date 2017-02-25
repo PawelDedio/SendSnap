@@ -9,19 +9,15 @@
     <string name="auth_btn_sign_up">Sign up</string>
 
     <!-- Log In Fragment -->
-    <string name="log_in_login_hint">Login or Email</string>
+    <string name="log_in_name_hint">Name or Email</string>
     <string name="log_in_password_hint">Password</string>
     <string name="log_in_btn_log_in">Log In</string>
-    <string name="log_in_login_blank_error">Login cannot be empty</string>
-    <string name="log_in_password_blank_error">Password cannot be empty</string>
 
     <!-- Sign Up Fragment-->
     <string name="sign_up_login_hint">Login</string>
     <string name="sign_up_email_hint">Email</string>
     <string name="sign_up_password_hint">Password</string>
     <string name="sign_up_password_confirmation_hint">Password confirmation</string>
-
-    <!-- Sign Up Fragment -->
     <string name="sign_up_btn_sign_up">Sign Up</string>
 
     <!-- Camera Fragment -->
@@ -37,4 +33,21 @@
 
     <!-- Select Snap Recipient Fragment -->
     <string name="select_snap_recipient_title">Select recipient</string>
+
+    <!-- Errors -->
+    <string name="error_field_blank">%1$s cannot be empty</string>
+    <string name="error_field_wrong_length">%1$s is incorrect, must have minimum %2$d and maximum %3$d characters length</string>
+    <string name="error_invalid_login_credentials">Invalid login or password</string>
+    <string name="error_passwords_not_match">Passwords does not match</string>
+    <string name="error_field_invalid">%1$s is invalid, please check and try again</string>
+    <string name="error_field_taken">%1$s is already taken</string>
+    
+    
+    <!-- Field Names -->
+    <!-- User -->
+    <string name="user_name">Login</string>
+    <string name="user_display_name">Display Name</string>
+    <string name="user_email">Email</string>
+    <string name="user_password">Password</string>
+    <string name="user_password_confirmation">Password Confirmation</string>
 </resources>

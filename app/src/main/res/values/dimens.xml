@@ -42,7 +42,7 @@
     <!-- Log In Fragment -->
     <dimen name="log_in_margin_horizontal">16dp</dimen>
 
-    <dimen name="log_in_et_login_margin_top">80dp</dimen>
+    <dimen name="log_in_et_name_margin_top">80dp</dimen>
 
     <dimen name="log_in_et_password_margin_top">25dp</dimen>
 
@@ -51,7 +51,7 @@
     <!-- Sign Up Fragment -->
     <dimen name="sign_up_margin_horizontal">16dp</dimen>
 
-    <dimen name="sign_up_et_login_margin_top">40dp</dimen>
+    <dimen name="sign_up_et_name_margin_top">40dp</dimen>
     <dimen name="sign_up_internal_form_margin">25dp</dimen>
 
     <dimen name="sign_up_btn_sign_up_margin_bottom">60dp</dimen>

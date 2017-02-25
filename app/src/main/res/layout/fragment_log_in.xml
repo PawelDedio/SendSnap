@@ -12,18 +12,18 @@
         android:background="@color/log_in_background">
 
         <com.example.pdedio.sendsnap.common.views.BaseTextInputLayout_
-            android:id="@+id/tilLogInLogin"
+            android:id="@+id/tilLogInName"
             android:layout_width="0dp"
-            android:layout_marginTop="@dimen/log_in_et_login_margin_top"
+            android:layout_marginTop="@dimen/log_in_et_name_margin_top"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintLeft_toLeftOf="@+id/btnLogInLogIn"
             app:layout_constraintRight_toRightOf="@+id/btnLogInLogIn"
             style="@style/TextInputLayoutGreen">
 
             <com.example.pdedio.sendsnap.common.views.BaseEditText_
-                android:id="@+id/etLogInLogin"
+                android:id="@+id/etLogInName"
                 android:layout_width="match_parent"
-                android:hint="@string/log_in_login_hint"
+                android:hint="@string/log_in_name_hint"
                 style="@style/EditTextGreen" />
         </com.example.pdedio.sendsnap.common.views.BaseTextInputLayout_>
 
@@ -31,7 +31,7 @@
             android:id="@+id/tilLogInPassword"
             android:layout_width="0dp"
             android:layout_marginTop="@dimen/log_in_et_password_margin_top"
-            app:layout_constraintTop_toBottomOf="@+id/tilLogInLogin"
+            app:layout_constraintTop_toBottomOf="@+id/tilLogInName"
             app:layout_constraintLeft_toLeftOf="@+id/btnLogInLogIn"
             app:layout_constraintRight_toRightOf="@+id/btnLogInLogIn"
             style="@style/TextInputLayoutGreen">

@@ -19,8 +19,8 @@ public class LogInFragment extends BaseFragment implements LogInContract.LogInVi
     @Bean(LogInPresenter.class)
     protected LogInContract.LogInPresenter presenter;
 
-    @ViewById(R.id.tilLogInLogin)
-    protected BaseTextInputLayout tilLogin;
+    @ViewById(R.id.tilLogInName)
+    protected BaseTextInputLayout tilName;
 
     @ViewById(R.id.tilLogInPassword)
     protected BaseTextInputLayout tilPassword;
@@ -37,7 +37,7 @@ public class LogInFragment extends BaseFragment implements LogInContract.LogInVi
     //Events
     @Click(R.id.btnLogInLogIn)
     protected void onLogInClick() {
-        String login = this.tilLogin.getEditText().getText().toString();
+        String login = this.tilName.getEditText().getText().toString();
         String password = this.tilPassword.getEditText().getText().toString();
         this.presenter.onBtnLogInClick(login, password);
     }
@@ -45,13 +45,13 @@ public class LogInFragment extends BaseFragment implements LogInContract.LogInVi
 
     //LogInView methods
     @Override
-    public void showBlankLoginError() {
-        this.tilLogin.setError(R.string.log_in_login_blank_error);
+    public void showBlankNameError() {
+        this.tilName.setError(R.string.error_field_blank, this.getString(R.string.user_name));
     }
 
     @Override
     public void showBlankPasswordError() {
-        this.tilPassword.setError(R.string.log_in_password_blank_error);
+        this.tilPassword.setError(R.string.error_field_blank, this.getString(R.string.user_password));
     }
 
     @Override
@@ -61,7 +61,7 @@ public class LogInFragment extends BaseFragment implements LogInContract.LogInVi
 
     @Override
     public void clearErrors() {
-        this.tilLogin.setError(null);
+        this.tilName.setError(null);
         this.tilPassword.setError(null);
     }
 

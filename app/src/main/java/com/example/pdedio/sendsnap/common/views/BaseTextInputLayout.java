@@ -31,4 +31,8 @@ public class BaseTextInputLayout extends TextInputLayout {
     public void setError(@StringRes int stringRes) {
         this.setError(this.getContext().getString(stringRes));
     }
+
+    public void setError(@StringRes int stringRes, Object... formatArgs) {
+        this.setError(this.getContext().getString(stringRes, formatArgs));
+    }
 }
