@@ -41,6 +41,7 @@
     <string name="error_passwords_not_match">Passwords does not match</string>
     <string name="error_field_invalid">%1$s is invalid, please check and try again</string>
     <string name="error_field_taken">%1$s is already taken</string>
+    <string name="error_terms_not_accepted">Terms and conditions must be accepted</string>
     
     
     <!-- Field Names -->

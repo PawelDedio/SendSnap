@@ -2,6 +2,8 @@ package com.example.pdedio.sendsnap.authorization;
 
 import com.example.pdedio.sendsnap.helpers.FragmentStackManager;
 
+import static junit.framework.Assert.*;
+
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -154,5 +156,16 @@ public class AuthPresenterTest {
 
         verify(mockedView).setLogInButtonEnabled(true);
         verify(mockedView).setSignUpButtonEnabled(true);
+    }
+
+
+    //destroy()
+    @Test
+    public void shouldSetViewToNull() {
+        AuthPresenter presenter = this.configureAndInitPresenter();
+
+        presenter.destroy();
+
+        assertNull(presenter.authView);
     }
 }

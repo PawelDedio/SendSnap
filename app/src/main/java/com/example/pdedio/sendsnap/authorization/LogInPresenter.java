@@ -22,7 +22,7 @@ public class LogInPresenter extends BaseFragmentPresenter implements LogInContra
 
     @Override
     public void destroy() {
-
+        this.view = null;
     }
 
 

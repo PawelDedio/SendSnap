@@ -33,6 +33,13 @@ public class LogInFragment extends BaseFragment implements LogInContract.LogInVi
         this.presenter.init(this);
     }
 
+    @Override
+    public void onDestroy() {
+        this.presenter.destroy();
+        this.presenter = null;
+        super.onDestroy();
+    }
+
 
     //Events
     @Click(R.id.btnLogInLogIn)

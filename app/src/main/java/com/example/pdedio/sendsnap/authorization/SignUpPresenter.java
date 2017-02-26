@@ -22,6 +22,6 @@ public class SignUpPresenter extends BaseFragmentPresenter implements SignUpCont
 
     @Override
     public void destroy() {
-
+        this.view = null;
     }
 }

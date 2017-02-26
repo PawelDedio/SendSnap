@@ -1,5 +1,7 @@
 package com.example.pdedio.sendsnap.authorization;
 
+import static junit.framework.Assert.*;
+
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -77,5 +79,16 @@ public class LogInPresenterTest {
         presenter.onBtnLogInClick("", "");
 
         verify(mockedView).clearErrors();
+    }
+
+
+    //destroy()
+    @Test
+    public void shouldSetViewToNull() {
+        LogInPresenter presenter = this.configureAndInitPresenter();
+
+        presenter.destroy();
+
+        assertNull(presenter.view);
     }
 }

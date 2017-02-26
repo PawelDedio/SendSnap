@@ -29,7 +29,7 @@ public class AuthPresenter extends BasePresenter implements AuthContract.AuthPre
 
     @Override
     public void destroy() {
-
+        this.authView = null;
     }
 
 
