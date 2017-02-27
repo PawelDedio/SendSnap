@@ -14,7 +14,7 @@
     <string name="log_in_btn_log_in">Log In</string>
 
     <!-- Sign Up Fragment-->
-    <string name="sign_up_login_hint">Login</string>
+    <string name="sign_up_name_hint">Login</string>
     <string name="sign_up_email_hint">Email</string>
     <string name="sign_up_password_hint">Password</string>
     <string name="sign_up_password_confirmation_hint">Password confirmation</string>

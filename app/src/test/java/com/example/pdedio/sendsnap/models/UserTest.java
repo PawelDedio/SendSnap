@@ -5,7 +5,9 @@ import android.content.Context;
 import static junit.framework.Assert.*;
 
 import org.junit.Test;
+import org.mockito.Matchers;
 import org.mockito.Mock;
+import static org.mockito.Mockito.*;
 import org.mockito.MockitoAnnotations;
 
 import java.util.Calendar;
@@ -21,10 +23,16 @@ public class UserTest {
     @Mock
     protected Context mockedContext;
 
-    public User createUser() {
+    private User createUser() {
         MockitoAnnotations.initMocks(this);
 
         User user = new User();
+        this.assignCorrectAttributes(user);
+
+        return user;
+    }
+
+    private void assignCorrectAttributes(User user) {
         user.name = "correctName";
         user.displayName = "displayName";
         user.email = "email@test.com";
@@ -36,8 +44,6 @@ public class UserTest {
         user.tokenExpireTime = new Date(Calendar.getInstance().getTime().getTime() + TimeUnit.DAYS.toMillis(1));
         user.createdAt = Calendar.getInstance().getTime();
         user.updatedAt = Calendar.getInstance().getTime();
-
-        return user;
     }
 
 
@@ -195,5 +201,32 @@ public class UserTest {
         boolean value = user.isValid(this.mockedContext);
 
         assertFalse(value);
+    }
+
+    @Test
+    public void shouldSetErrorsToNullWhenDataIsCorrect() {
+        MockitoAnnotations.initMocks(this);
+
+        User user = new User();
+
+        when(this.mockedContext.getString(Matchers.anyInt())).thenReturn("error");
+        when(this.mockedContext.getString(Matchers.anyInt(), Matchers.anyVararg())).thenReturn("error");
+
+        user.isValid(this.mockedContext);
+
+        assertNotNull(user.nameError);
+        assertNotNull(user.emailError);
+        assertNotNull(user.passwordError);
+        assertNotNull(user.passwordConfirmationError);
+
+        this.assignCorrectAttributes(user);
+        user.createdAt = null;
+        user.updatedAt = null;
+        user.isValid(this.mockedContext);
+
+        assertNull(user.nameError);
+        assertNull(user.emailError);
+        assertNull(user.passwordError);
+        assertNull(user.passwordConfirmationError);
     }
 }

@@ -1,5 +1,7 @@
 package com.example.pdedio.sendsnap.authorization;
 
+import android.content.Context;
+
 import com.example.pdedio.sendsnap.BaseFragmentPresenter;
 
 import org.androidannotations.annotations.EBean;
@@ -23,5 +25,12 @@ public class SignUpPresenter extends BaseFragmentPresenter implements SignUpCont
     @Override
     public void destroy() {
         this.view = null;
+    }
+
+
+    //SignUpPresenter methods
+    @Override
+    public void onSignUpClick(String name, String email, String password, String passwordConfirmation, Context context) {
+
     }
 }

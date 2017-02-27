@@ -88,6 +88,7 @@ public class User extends BaseModel {
             return false;
         }
 
+        this.nameError = null;
         return true;
     }
 
@@ -103,6 +104,7 @@ public class User extends BaseModel {
             return false;
         }
 
+        this.displayNameError = null;
         return true;
     }
 
@@ -117,6 +119,7 @@ public class User extends BaseModel {
             return false;
         }
 
+        this.emailError = null;
         return true;
     }
 
@@ -130,6 +133,7 @@ public class User extends BaseModel {
             return false;
         }
 
+        this.passwordError = null;
         return true;
     }
 
@@ -144,10 +148,11 @@ public class User extends BaseModel {
                 return false;
             }
         } else {
-            this.passwordError = context.getString(R.string.error_field_blank, context.getString(R.string.user_password_confirmation));
+            this.passwordConfirmationError = context.getString(R.string.error_field_blank, context.getString(R.string.user_password_confirmation));
             return false;
         }
 
+        this.passwordConfirmationError = null;
         return true;
     }
 
@@ -157,6 +162,7 @@ public class User extends BaseModel {
             return false;
         }
 
+        this.termsAndConditionError = null;
         return true;
     }
 }

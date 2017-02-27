@@ -20,9 +20,9 @@
         style="@style/TextInputLayoutOrange">
 
         <com.example.pdedio.sendsnap.common.views.BaseEditText_
-            android:id="@+id/etSignUpLogin"
+            android:id="@+id/etSignUpName"
             android:layout_width="match_parent"
-            android:hint="@string/sign_up_login_hint"
+            android:hint="@string/sign_up_name_hint"
             style="@style/EditTextOrange" />
     </com.example.pdedio.sendsnap.common.views.BaseTextInputLayout_>
 
