@@ -121,6 +121,10 @@ public class User extends BaseModel {
     }
 
     public boolean validatePassword(Context context) {
+        if(createdAt != null) {
+            return true;
+        }
+
         if(!this.validationHelper.isNotEmpty(this.password)) {
             this.passwordError = context.getString(R.string.error_field_blank, context.getString(R.string.user_password));
             return false;
@@ -130,12 +134,17 @@ public class User extends BaseModel {
     }
 
     public boolean validatePasswordConfirmation(Context context) {
-        if(this.validationHelper.isNotEmpty(this.password)) {
+        if(createdAt != null) {
+            return true;
+        }
+
+        if(this.validationHelper.isNotEmpty(this.passwordConfirmation)) {
             if(!this.validationHelper.areValuesTheSame(this.password, this.passwordConfirmation)) {
                 this.passwordConfirmationError = context.getString(R.string.error_passwords_not_match);
+                return false;
             }
         } else {
-            this.passwordError = context.getString(R.string.error_field_blank, context.getString(R.string.user_password));
+            this.passwordError = context.getString(R.string.error_field_blank, context.getString(R.string.user_password_confirmation));
             return false;
         }
 

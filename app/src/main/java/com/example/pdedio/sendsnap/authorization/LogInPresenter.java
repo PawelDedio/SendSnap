@@ -1,7 +1,9 @@
 package com.example.pdedio.sendsnap.authorization;
 
 import com.example.pdedio.sendsnap.BaseFragmentPresenter;
+import com.example.pdedio.sendsnap.helpers.ValidationHelper;
 
+import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EBean;
 
 /**
@@ -12,6 +14,9 @@ public class LogInPresenter extends BaseFragmentPresenter implements LogInContra
 
 
     protected LogInContract.LogInView view;
+
+    @Bean
+    protected ValidationHelper validationHelper;
 
 
     //Lifecycle
@@ -29,7 +34,29 @@ public class LogInPresenter extends BaseFragmentPresenter implements LogInContra
     //LogInPresenter methods
     @Override
     public void onBtnLogInClick(String name, String password) {
-        this.view.showBlankNameError();
-        this.view.showBlankPasswordError();
+        this.view.clearErrors();
+
+        if(this.validateAndShowErrors(name, password)) {
+            this.view.showProgressDialog();
+            //TODO: Request to server
+        }
+    }
+
+
+    //Private methods
+    boolean validateAndShowErrors(String name, String password) {
+        boolean value = true;
+
+        if(!this.validationHelper.isNotEmpty(name)) {
+            this.view.showBlankNameError();
+            value = false;
+        }
+
+        if(!this.validationHelper.isNotEmpty(password)) {
+            this.view.showBlankPasswordError();
+            value = false;
+        }
+
+        return value;
     }
 }

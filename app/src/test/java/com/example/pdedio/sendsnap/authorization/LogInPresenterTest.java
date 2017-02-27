@@ -1,5 +1,7 @@
 package com.example.pdedio.sendsnap.authorization;
 
+import com.example.pdedio.sendsnap.helpers.ValidationHelper;
+
 import static junit.framework.Assert.*;
 
 import org.junit.Test;
@@ -29,6 +31,7 @@ public class LogInPresenterTest {
     private LogInPresenter configurePresenter() {
         MockitoAnnotations.initMocks(this);
         LogInPresenter presenter = new LogInPresenter();
+        presenter.validationHelper = new ValidationHelper();
 
         return presenter;
     }

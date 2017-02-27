@@ -63,17 +63,12 @@ public class LogInFragment extends BaseFragment implements LogInContract.LogInVi
 
     @Override
     public void showInvalidCredentialsError() {
-
+        this.tilName.setError(R.string.error_invalid_login_credentials);
     }
 
     @Override
     public void clearErrors() {
         this.tilName.setError(null);
         this.tilPassword.setError(null);
-    }
-
-    @Override
-    public void showProgressDialog() {
-
     }
 }
