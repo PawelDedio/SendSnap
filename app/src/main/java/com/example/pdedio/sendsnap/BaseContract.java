@@ -27,5 +27,7 @@ public class BaseContract {
         void showToast(@StringRes int stringId, int length);
 
         void showProgressDialog();
+
+        void hideSoftKeyboard();
     }
 }

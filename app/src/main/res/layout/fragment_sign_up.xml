@@ -1,90 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/clAuthMainLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="@dimen/sign_up_margin_horizontal"
-    android:paddingRight="@dimen/sign_up_margin_horizontal"
-    android:background="@color/sign_up_background">
+    android:fillViewport="true">
 
-    <com.example.pdedio.sendsnap.common.views.BaseTextInputLayout_
-        android:id="@+id/tilSignUpName"
-        android:layout_width="0dp"
-        android:layout_marginTop="@dimen/sign_up_et_name_margin_top"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="@+id/btnSignUpSignUp"
-        app:layout_constraintRight_toRightOf="@+id/btnSignUpSignUp"
-        style="@style/TextInputLayoutOrange">
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/clAuthMainLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/sign_up_margin_horizontal"
+        android:paddingRight="@dimen/sign_up_margin_horizontal"
+        android:background="@color/sign_up_background">
 
-        <com.example.pdedio.sendsnap.common.views.BaseEditText_
-            android:id="@+id/etSignUpName"
-            android:layout_width="match_parent"
-            android:hint="@string/sign_up_name_hint"
-            style="@style/EditTextOrange" />
-    </com.example.pdedio.sendsnap.common.views.BaseTextInputLayout_>
+        <com.example.pdedio.sendsnap.common.views.BaseTextInputLayout_
+            android:id="@+id/tilSignUpName"
+            android:layout_width="0dp"
+            android:layout_marginTop="@dimen/sign_up_et_name_margin_top"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="@+id/btnSignUpSignUp"
+            app:layout_constraintRight_toRightOf="@+id/btnSignUpSignUp"
+            style="@style/TextInputLayoutOrange">
 
-    <com.example.pdedio.sendsnap.common.views.BaseTextInputLayout_
-        android:id="@+id/tilSignUpEmail"
-        android:layout_width="0dp"
-        android:layout_marginTop="@dimen/sign_up_internal_form_margin"
-        app:layout_constraintTop_toBottomOf="@id/tilSignUpName"
-        app:layout_constraintLeft_toLeftOf="@+id/btnSignUpSignUp"
-        app:layout_constraintRight_toRightOf="@+id/btnSignUpSignUp"
-        style="@style/TextInputLayoutOrange">
+            <com.example.pdedio.sendsnap.common.views.BaseEditText_
+                android:id="@+id/etSignUpName"
+                android:layout_width="match_parent"
+                android:hint="@string/sign_up_name_hint"
+                style="@style/EditTextOrange" />
+        </com.example.pdedio.sendsnap.common.views.BaseTextInputLayout_>
 
-        <com.example.pdedio.sendsnap.common.views.BaseEditText_
-            android:id="@+id/etSignUpEmail"
-            android:layout_width="match_parent"
-            android:hint="@string/sign_up_email_hint"
-            style="@style/EditTextOrange" />
-    </com.example.pdedio.sendsnap.common.views.BaseTextInputLayout_>
+        <com.example.pdedio.sendsnap.common.views.BaseTextInputLayout_
+            android:id="@+id/tilSignUpEmail"
+            android:layout_width="0dp"
+            android:layout_marginTop="@dimen/sign_up_internal_form_margin"
+            app:layout_constraintTop_toBottomOf="@id/tilSignUpName"
+            app:layout_constraintLeft_toLeftOf="@+id/btnSignUpSignUp"
+            app:layout_constraintRight_toRightOf="@+id/btnSignUpSignUp"
+            style="@style/TextInputLayoutOrange">
 
-    <com.example.pdedio.sendsnap.common.views.BaseTextInputLayout_
-        android:id="@+id/tilSignUpPassword"
-        android:layout_width="0dp"
-        android:layout_marginTop="@dimen/sign_up_internal_form_margin"
-        app:layout_constraintTop_toBottomOf="@id/tilSignUpEmail"
-        app:layout_constraintLeft_toLeftOf="@+id/btnSignUpSignUp"
-        app:layout_constraintRight_toRightOf="@+id/btnSignUpSignUp"
-        style="@style/TextInputLayoutOrange">
+            <com.example.pdedio.sendsnap.common.views.BaseEditText_
+                android:id="@+id/etSignUpEmail"
+                android:layout_width="match_parent"
+                android:hint="@string/sign_up_email_hint"
+                style="@style/EditTextOrange" />
+        </com.example.pdedio.sendsnap.common.views.BaseTextInputLayout_>
 
-        <com.example.pdedio.sendsnap.common.views.BaseEditText_
-            android:id="@+id/etSignUpPassword"
-            android:layout_width="match_parent"
-            android:hint="@string/sign_up_password_hint"
-            android:inputType="textPassword"
-            style="@style/EditTextOrange" />
-    </com.example.pdedio.sendsnap.common.views.BaseTextInputLayout_>
+        <com.example.pdedio.sendsnap.common.views.BaseTextInputLayout_
+            android:id="@+id/tilSignUpPassword"
+            android:layout_width="0dp"
+            android:layout_marginTop="@dimen/sign_up_internal_form_margin"
+            app:layout_constraintTop_toBottomOf="@id/tilSignUpEmail"
+            app:layout_constraintLeft_toLeftOf="@+id/btnSignUpSignUp"
+            app:layout_constraintRight_toRightOf="@+id/btnSignUpSignUp"
+            style="@style/TextInputLayoutOrange">
 
-    <com.example.pdedio.sendsnap.common.views.BaseTextInputLayout_
-        android:id="@+id/tilSignUpPasswordConfirmation"
-        android:layout_width="0dp"
-        android:layout_marginTop="@dimen/sign_up_internal_form_margin"
-        app:layout_constraintTop_toBottomOf="@id/tilSignUpPassword"
-        app:layout_constraintLeft_toLeftOf="@+id/btnSignUpSignUp"
-        app:layout_constraintRight_toRightOf="@+id/btnSignUpSignUp"
-        style="@style/TextInputLayoutOrange">
+            <com.example.pdedio.sendsnap.common.views.BaseEditText_
+                android:id="@+id/etSignUpPassword"
+                android:layout_width="match_parent"
+                android:hint="@string/sign_up_password_hint"
+                android:inputType="textPassword"
+                style="@style/EditTextOrange" />
+        </com.example.pdedio.sendsnap.common.views.BaseTextInputLayout_>
 
-        <com.example.pdedio.sendsnap.common.views.BaseEditText_
-            android:id="@+id/etSignUpPasswordConfirmation"
-            android:layout_width="match_parent"
-            android:hint="@string/sign_up_password_confirmation_hint"
-            android:inputType="textPassword"
-            style="@style/EditTextOrange" />
-    </com.example.pdedio.sendsnap.common.views.BaseTextInputLayout_>
+        <com.example.pdedio.sendsnap.common.views.BaseTextInputLayout_
+            android:id="@+id/tilSignUpPasswordConfirmation"
+            android:layout_width="0dp"
+            android:layout_marginTop="@dimen/sign_up_internal_form_margin"
+            app:layout_constraintTop_toBottomOf="@id/tilSignUpPassword"
+            app:layout_constraintLeft_toLeftOf="@+id/btnSignUpSignUp"
+            app:layout_constraintRight_toRightOf="@+id/btnSignUpSignUp"
+            style="@style/TextInputLayoutOrange">
 
-    <com.example.pdedio.sendsnap.common.views.BaseButton_
-        android:id="@+id/btnSignUpSignUp"
-        android:layout_marginBottom="@dimen/sign_up_btn_sign_up_margin_bottom"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tilSignUpPasswordConfirmation"
-        app:layout_constraintVertical_bias="1.0"
-        android:text="@string/sign_up_btn_sign_up"
-        style="@style/ButtonTransparentOrangeBorder"
-        android:stateListAnimator="@null" />
-</android.support.constraint.ConstraintLayout>
+            <com.example.pdedio.sendsnap.common.views.BaseEditText_
+                android:id="@+id/etSignUpPasswordConfirmation"
+                android:layout_width="match_parent"
+                android:hint="@string/sign_up_password_confirmation_hint"
+                android:inputType="textPassword"
+                style="@style/EditTextOrange" />
+        </com.example.pdedio.sendsnap.common.views.BaseTextInputLayout_>
+
+        <com.example.pdedio.sendsnap.common.views.BaseButton_
+            android:id="@+id/btnSignUpSignUp"
+            android:layout_marginBottom="@dimen/sign_up_btn_sign_up_margin_bottom"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tilSignUpPasswordConfirmation"
+            app:layout_constraintVertical_bias="1.0"
+            android:text="@string/sign_up_btn_sign_up"
+            style="@style/ButtonTransparentOrangeBorder"
+            android:stateListAnimator="@null" />
+    </android.support.constraint.ConstraintLayout>
+</ScrollView>

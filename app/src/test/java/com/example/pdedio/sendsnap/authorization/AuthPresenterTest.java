@@ -158,6 +158,15 @@ public class AuthPresenterTest {
         verify(mockedView).setSignUpButtonEnabled(true);
     }
 
+    @Test
+    public void shouldHideKeyboard() {
+        AuthPresenter presenter = this.configureAndInitPresenter();
+
+        presenter.onBtnBackClick();
+
+        verify(this.mockedView).hideSoftKeyboard();
+    }
+
 
     //destroy()
     @Test

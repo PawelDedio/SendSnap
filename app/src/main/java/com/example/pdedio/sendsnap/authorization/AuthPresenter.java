@@ -68,6 +68,7 @@ public class AuthPresenter extends BasePresenter implements AuthContract.AuthPre
 
     @Override
     public void onBtnBackClick() {
+        this.authView.hideSoftKeyboard();
         this.restoreOriginalViewsState();
     }
 

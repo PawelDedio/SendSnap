@@ -21,4 +21,13 @@ public abstract class BaseModel implements Serializable {
     }
 
     public abstract boolean isValid(Context context);
+
+    public abstract void save(Context context, OperationCallback<BaseModel> callback);
+
+
+    public interface OperationCallback<T extends BaseModel> {
+        void onSuccess(T model);
+
+        void onFailure();
+    }
 }

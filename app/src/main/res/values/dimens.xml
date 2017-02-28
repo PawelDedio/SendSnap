@@ -51,8 +51,8 @@
     <!-- Sign Up Fragment -->
     <dimen name="sign_up_margin_horizontal">16dp</dimen>
 
-    <dimen name="sign_up_et_name_margin_top">40dp</dimen>
-    <dimen name="sign_up_internal_form_margin">25dp</dimen>
+    <dimen name="sign_up_et_name_margin_top">30dp</dimen>
+    <dimen name="sign_up_internal_form_margin">5dp</dimen>
 
     <dimen name="sign_up_btn_sign_up_margin_bottom">60dp</dimen>
 

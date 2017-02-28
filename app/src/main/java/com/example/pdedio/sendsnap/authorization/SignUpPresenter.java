@@ -3,6 +3,7 @@ package com.example.pdedio.sendsnap.authorization;
 import android.content.Context;
 
 import com.example.pdedio.sendsnap.BaseFragmentPresenter;
+import com.example.pdedio.sendsnap.models.User;
 
 import org.androidannotations.annotations.EBean;
 
@@ -30,7 +31,26 @@ public class SignUpPresenter extends BaseFragmentPresenter implements SignUpCont
 
     //SignUpPresenter methods
     @Override
-    public void onSignUpClick(String name, String email, String password, String passwordConfirmation, Context context) {
+    public void onSignUpClick(User user, Context context) {
 
+        if(user.isValid(context)) {
+            this.registerUser(user, context);
+        }
+
+        this.showErrors(user);
+    }
+
+
+    //Private methods
+    private void registerUser(User user, Context context) {
+        user.save(context, null);
+        //TODO: implementation
+    }
+
+    private void showErrors(User user) {
+        this.view.setNameError(user.nameError);
+        this.view.setEmailError(user.emailError);
+        this.view.setPasswordError(user.passwordError);
+        this.view.setPasswordConfirmationError(user.passwordConfirmationError);
     }
 }

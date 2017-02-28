@@ -62,6 +62,21 @@ public class User extends BaseModel {
 
 
 
+    public User() {
+
+    }
+
+    public User(String name, String displayName, String email, String password, String passwordConfirmation,
+                boolean termsAccepted) {
+        this.name = name;
+        this.displayName = displayName;
+        this.email = email;
+        this.password = password;
+        this.passwordConfirmation = passwordConfirmation;
+        this.termsAccepted = termsAccepted;
+    }
+
+
     //Validation
     @Override
     public boolean isValid(Context context) {
@@ -164,5 +179,12 @@ public class User extends BaseModel {
 
         this.termsAndConditionError = null;
         return true;
+    }
+
+
+    //BaseModel methods
+    @Override
+    public void save(Context context, OperationCallback<BaseModel> callback) {
+        //TODO: implementation
     }
 }

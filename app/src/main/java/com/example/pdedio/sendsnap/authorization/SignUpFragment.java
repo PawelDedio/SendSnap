@@ -3,6 +3,7 @@ package com.example.pdedio.sendsnap.authorization;
 import com.example.pdedio.sendsnap.BaseFragment;
 import com.example.pdedio.sendsnap.R;
 import com.example.pdedio.sendsnap.common.views.BaseTextInputLayout;
+import com.example.pdedio.sendsnap.models.User;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
@@ -20,7 +21,7 @@ public class SignUpFragment extends BaseFragment implements SignUpContract.SignU
     @Bean(SignUpPresenter.class)
     protected SignUpContract.SignUpPresenter presenter;
 
-    @ViewById(R.id.tilLogInName)
+    @ViewById(R.id.tilSignUpName)
     protected BaseTextInputLayout tilName;
 
     @ViewById(R.id.tilSignUpEmail)
@@ -51,28 +52,33 @@ public class SignUpFragment extends BaseFragment implements SignUpContract.SignU
     //Events
     @Click(R.id.btnSignUpSignUp)
     protected void onSignUpClick() {
+        User user = new User(this.tilName.getEditText().getText().toString(), null,
+                this.tilEmail.getEditText().getText().toString(),
+                this.tilPassword.getEditText().getText().toString(),
+                this.tilPasswordConfirmation.getEditText().getText().toString(), true);
 
+        this.presenter.onSignUpClick(user, this.getContext());
     }
 
 
     //SignUpView methods
     @Override
     public void setNameError(String error) {
-
+        this.tilName.setError(error);
     }
 
     @Override
     public void setEmailError(String error) {
-
+        this.tilEmail.setError(error);
     }
 
     @Override
     public void setPasswordError(String error) {
-
+        this.tilPassword.setError(error);
     }
 
     @Override
     public void setPasswordConfirmationError(String error) {
-
+        this.tilPasswordConfirmation.setError(error);
     }
 }

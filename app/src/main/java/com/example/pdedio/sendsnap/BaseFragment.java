@@ -70,6 +70,17 @@ public class BaseFragment extends Fragment implements BaseFragmentContract.BaseF
 
     @Override
     public void showProgressDialog() {
-        //TODO: implementation
+        if(this.getActivity() instanceof BaseFragmentActivity) {
+            BaseFragmentActivity activity = (BaseFragmentActivity) this.getActivity();
+            activity.showProgressDialog();
+        }
+    }
+
+    @Override
+    public void hideSoftKeyboard() {
+        if(this.getActivity() instanceof BaseFragmentActivity) {
+            BaseFragmentActivity activity = (BaseFragmentActivity) this.getActivity();
+            activity.hideSoftKeyboard();
+        }
     }
 }
