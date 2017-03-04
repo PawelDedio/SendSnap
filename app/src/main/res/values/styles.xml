@@ -6,7 +6,6 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:windowFullscreen">true</item>
         <item name="android:windowContentOverlay">@null</item>
         <item name="windowNoTitle">true</item>
     </style>
@@ -24,5 +23,34 @@
         <item name="android:layout_alignParentBottom">true</item>
         <item name="android:layout_marginBottom">@dimen/edit_snap_bottom_buttons_margin_bottom</item>
         <item name="android:background">@android:color/transparent</item>
+    </style>
+
+
+    <!-- Action Bar Blue -->
+    <style name="ActionBarBlue">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/action_bar_blue_height</item>
+        <item name="android:paddingRight">@dimen/action_bar_blue_margin_horizontal</item>
+        <item name="android:background">@color/action_bar_blue_background</item>
+    </style>
+
+    <style name="ActionBarBlueBtn">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:layout_centerVertical">true</item>
+    </style>
+
+    <style name="ActionBarBlueBtnBack" parent="ActionBarBlueBtn">
+        <item name="android:src">@drawable/btn_back_white</item>
+        <item name="android:layout_alignParentLeft">true</item>
+    </style>
+    
+    <style name="ActionBarBlueTitle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/action_bar_blue_text_size</item>
+        <item name="android:textColor">@color/action_bar_blue_text</item>
+        <item name="android:layout_centerVertical">true</item>
     </style>
 </resources>
