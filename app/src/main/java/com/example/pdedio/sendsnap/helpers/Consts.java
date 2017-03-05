@@ -17,4 +17,8 @@ public class Consts {
 
     public static final int MIN_SNAP_DURATION = 1;
     public static final int MAX_SNAP_DURATION = 10;
+
+    public static final int JOB_PRIORITY_LOW = 1;
+    public static final int JOB_PRIORITY_MEDIUM = 2;
+    public static final int JOB_PRIORITY_MAX = 3;
 }

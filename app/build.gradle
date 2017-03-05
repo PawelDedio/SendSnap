@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'android-apt'
 def AAVersion = '4.1.0'
+def dbflow_version = "4.0.0-beta5"
 
 buildscript {
     repositories {
@@ -13,12 +14,12 @@ buildscript {
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "24.0.1"
+    buildToolsVersion "24.0.2"
 
     defaultConfig {
         applicationId "com.example.pdedio.sendsnap"
         minSdkVersion 16
-        targetSdkVersion 24
+        targetSdkVersion 25
         versionCode 1
         versionName "1.0"
         android.defaultConfig.vectorDrawables.useSupportLibrary = true
@@ -41,20 +42,52 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:25.0.0'
+
+    compile 'com.android.support:appcompat-v7:25.2.0'
+
+    //RxJava
     compile 'io.reactivex:rxjava:1.1.9'
     compile 'io.reactivex:rxandroid:1.2.1'
-    compile 'com.squareup.retrofit:retrofit:1.9.0'
+
+    //Retrofit https://github.com/square/retrofit
+    compile 'com.squareup.retrofit2:retrofit:2.2.0'
+
+    //Framework for elimiate boilerplate https://github.com/androidannotations/androidannotations
     apt "org.androidannotations:androidannotations:$AAVersion"
     compile "org.androidannotations:androidannotations-api:$AAVersion"
+
+    //Circle progress https://github.com/lzyzsd/CircleProgress
     compile 'com.github.lzyzsd:CircleProgress:v1.1.1'
+
+    //Android 6.0 permissions manager https://github.com/Karumi/Dexter
     compile 'com.karumi:dexter:2.3.1'
+
+    //Color picker https://github.com/the-blue-alliance/spectrum
     compile 'com.thebluealliance:spectrum:0.6.0'
+
+    //Backport of Android Transitions API https://github.com/andkulikov/Transitions-Everywhere
     compile "com.andkulikov:transitionseverywhere:1.7.0"
 
+    //Memory leak detector https://github.com/square/leakcanary
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
+
+    //Constraint layout
+    compile 'com.android.support.constraint:constraint-layout:1.0.0'
+
+    //Job queue https://github.com/yigit/android-priority-jobqueue
+    compile 'com.birbit:android-priority-jobqueue:2.0.1'
+
+    //Android ORM https://github.com/Raizlabs/DBFlow
+    annotationProcessor "com.github.Raizlabs.DBFlow:dbflow-processor:${dbflow_version}"
+    compile "com.github.Raizlabs.DBFlow:dbflow-core:${dbflow_version}"
+    compile "com.github.Raizlabs.DBFlow:dbflow:${dbflow_version}"
+
+    //Greenrobot event bus https://github.com/greenrobot/EventBus
+    compile 'org.greenrobot:eventbus:3.0.0'
+
+    //Testing
+    testCompile 'junit:junit:4.12'
     testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
     testCompile 'org.mockito:mockito-core:2.0.31-beta'
     testCompile 'org.khronos:opengl-api:gl1.1-android-2.1_r1'
@@ -67,5 +100,4 @@ dependencies {
     androidTestCompile ('com.android.support.test.espresso:espresso-core:2.2') {
         exclude module: 'support-annotations'
     }
-    compile 'com.android.support.constraint:constraint-layout:1.0.0'
 }

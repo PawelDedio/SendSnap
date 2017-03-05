@@ -1,50 +1,69 @@
 package com.example.pdedio.sendsnap.models;
 
 import android.content.Context;
-import android.support.annotation.StringRes;
 
 import com.example.pdedio.sendsnap.R;
+import com.example.pdedio.sendsnap.database.SnapDB;
 import com.example.pdedio.sendsnap.helpers.Consts;
+import com.example.pdedio.sendsnap.jobs.CreateUserJob;
 import com.google.gson.annotations.SerializedName;
+import com.raizlabs.android.dbflow.annotation.Column;
+import com.raizlabs.android.dbflow.annotation.PrimaryKey;
+import com.raizlabs.android.dbflow.annotation.Table;
 
 import java.util.Date;
 
 /**
  * Created by pawel on 26.02.2017.
  */
+@Table(database = SnapDB.class)
+public class User extends BaseSnapModel {
 
-public class User extends BaseModel {
+    @PrimaryKey
+    @SerializedName("id")
+    public String id;
 
+    @Column
     @SerializedName("name")
     public String name;
 
+    @Column
     @SerializedName("display_name")
     public String displayName;
 
+    @Column
     @SerializedName("email")
     public String email;
 
+    @Column
     @SerializedName("password")
     public String password;
 
+    @Column
     @SerializedName("password_confirmation")
     public String passwordConfirmation;
 
+    @Column
     @SerializedName("terms_accepted")
     public boolean termsAccepted;
 
+    @Column
     @SerializedName("role")
     public String role;
 
+    @Column
     @SerializedName("auth_token")
     public String authToken;
 
+    @Column
     @SerializedName("token_expire_time")
     public Date tokenExpireTime;
 
+    @Column
     @SerializedName("created_at")
     public Date createdAt;
 
+    @Column
     @SerializedName("updated_at")
     public Date updatedAt;
 
@@ -74,6 +93,13 @@ public class User extends BaseModel {
         this.password = password;
         this.passwordConfirmation = passwordConfirmation;
         this.termsAccepted = termsAccepted;
+    }
+
+
+    //BaseSnapModel methods
+    @Override
+    public void save(Context context, OperationCallback<User> callback) {
+        CreateUserJob job = new CreateUserJob(this, callback);
     }
 
 
@@ -179,12 +205,5 @@ public class User extends BaseModel {
 
         this.termsAndConditionError = null;
         return true;
-    }
-
-
-    //BaseModel methods
-    @Override
-    public void save(Context context, OperationCallback<BaseModel> callback) {
-        //TODO: implementation
     }
 }

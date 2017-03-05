@@ -2,7 +2,7 @@ package com.example.pdedio.sendsnap.authorization;
 
 import android.content.Context;
 
-import com.example.pdedio.sendsnap.models.BaseModel;
+import com.example.pdedio.sendsnap.models.BaseSnapModel;
 import com.example.pdedio.sendsnap.models.User;
 
 import org.junit.Test;
@@ -72,7 +72,7 @@ public class SignUpPresenterTest {
 
         presenter.onSignUpClick(this.mockedUser, this.mockedContext);
 
-        verify(this.mockedUser).save(any(Context.class), any(BaseModel.OperationCallback.class));
+        verify(this.mockedUser).save(any(Context.class), any(BaseSnapModel.OperationCallback.class));
     }
 
     @Test

@@ -4,6 +4,8 @@ import android.app.Application;
 import android.content.Context;
 
 import com.karumi.dexter.Dexter;
+import com.raizlabs.android.dbflow.config.FlowConfig;
+import com.raizlabs.android.dbflow.config.FlowManager;
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
 
@@ -28,13 +30,12 @@ public class SendSnapApplication extends Application {
             return;
         }
         this.refWatcher = LeakCanary.install(this);
+
+        FlowManager.init(new FlowConfig.Builder(this).openDatabasesOnInit(true).build());
     }
 
     public static RefWatcher getRefWatcher(Context context) {
         SendSnapApplication application = (SendSnapApplication) context.getApplicationContext();
         return application.refWatcher;
     }
-
-    //TODO: Package per feature and proper MVP similar by google  TODO sample
-    //TODO: Wrap external libraries
 }
