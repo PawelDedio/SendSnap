@@ -81,4 +81,16 @@ public class SignUpFragment extends BaseFragment implements SignUpContract.SignU
     public void setPasswordConfirmationError(String error) {
         this.tilPasswordConfirmation.setError(error);
     }
+
+    @Override
+    public void clearErrors() {
+        this.tilName.setError(null);
+        this.tilName.setErrorEnabled(false);
+        this.tilEmail.setError(null);
+        this.tilEmail.setErrorEnabled(false);
+        this.tilPassword.setError(null);
+        this.tilPassword.setErrorEnabled(false);
+        this.tilPasswordConfirmation.setError(null);
+        this.tilPasswordConfirmation.setErrorEnabled(false);
+    }
 }

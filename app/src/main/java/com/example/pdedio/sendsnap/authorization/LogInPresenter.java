@@ -44,7 +44,7 @@ public class LogInPresenter extends BaseFragmentPresenter implements LogInContra
 
 
     //Private methods
-    boolean validateAndShowErrors(String name, String password) {
+    private boolean validateAndShowErrors(String name, String password) {
         boolean value = true;
 
         if(!this.validationHelper.isNotEmpty(name)) {

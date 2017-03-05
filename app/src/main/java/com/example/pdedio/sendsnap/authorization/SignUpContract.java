@@ -27,5 +27,7 @@ public class SignUpContract {
         void setPasswordError(String error);
 
         void setPasswordConfirmationError(String error);
+
+        void clearErrors();
     }
 }

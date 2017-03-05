@@ -75,6 +75,15 @@ public class SignUpPresenterTest {
         verify(this.mockedUser).save(any(Context.class), any(BaseModel.OperationCallback.class));
     }
 
+    @Test
+    public void shouldClearErrors() {
+        SignUpPresenter presenter = this.configureAndInitPresenter();
+
+        presenter.onSignUpClick(this.mockedUser, this.mockedContext);
+
+        verify(this.mockedView).clearErrors();
+    }
+
 
     //destroy()
     @Test

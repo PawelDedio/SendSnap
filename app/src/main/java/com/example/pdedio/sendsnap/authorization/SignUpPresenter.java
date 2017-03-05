@@ -32,6 +32,7 @@ public class SignUpPresenter extends BaseFragmentPresenter implements SignUpCont
     //SignUpPresenter methods
     @Override
     public void onSignUpClick(User user, Context context) {
+        this.view.clearErrors();
 
         if(user.isValid(context)) {
             this.registerUser(user, context);
