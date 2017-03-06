@@ -17,7 +17,7 @@ import java.util.Date;
  * Created by pawel on 26.02.2017.
  */
 @Table(database = SnapDB.class)
-public class User extends BaseSnapModel {
+public class User extends BaseSnapModel<User> {
 
     @PrimaryKey
     @SerializedName("id")
@@ -99,7 +99,7 @@ public class User extends BaseSnapModel {
     //BaseSnapModel methods
     @Override
     public void save(Context context, OperationCallback<User> callback) {
-        CreateUserJob job = new CreateUserJob(this, callback);
+        new CreateUserJob(this, callback);
     }
 
 

@@ -11,7 +11,7 @@ import com.raizlabs.android.dbflow.structure.BaseModel;
 
 import java.io.Serializable;
 
-public abstract class BaseSnapModel extends BaseModel implements Serializable {
+public abstract class BaseSnapModel<T extends BaseSnapModel> extends BaseModel implements Serializable {
 
 
     protected ValidationHelper validationHelper;
@@ -23,11 +23,11 @@ public abstract class BaseSnapModel extends BaseModel implements Serializable {
 
     public abstract boolean isValid(Context context);
 
-    public abstract void save(Context context, OperationCallback<BaseSnapModel> callback);
+    public abstract void save(Context context, OperationCallback<T> callback);
 
 
-    public interface OperationCallback<T extends BaseSnapModel> {
-        void onSuccess(T model);
+    public interface OperationCallback<M extends BaseSnapModel> {
+        void onSuccess(M model);
 
         void onFailure(OperationError error);
     }
