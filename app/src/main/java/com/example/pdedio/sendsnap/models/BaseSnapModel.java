@@ -9,7 +9,12 @@ import android.content.Context;
 import com.example.pdedio.sendsnap.helpers.ValidationHelper;
 import com.raizlabs.android.dbflow.structure.BaseModel;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.Serializable;
+
+import retrofit2.Response;
 
 public abstract class BaseSnapModel<T extends BaseSnapModel> extends BaseModel implements Serializable {
 
@@ -25,14 +30,26 @@ public abstract class BaseSnapModel<T extends BaseSnapModel> extends BaseModel i
 
     public abstract void save(Context context, OperationCallback<T> callback);
 
+    public abstract void mapErrorsFromJson(JSONObject json, Context context) throws JSONException;
+
+
 
     public interface OperationCallback<M extends BaseSnapModel> {
         void onSuccess(M model);
 
-        void onFailure(OperationError error);
+        void onFailure(OperationError<M> error);
     }
 
-    public static class OperationError extends Throwable {
+    public static class OperationError<M extends BaseSnapModel>{
 
+        public Response<M> response;
+
+        public M model;
+
+
+        public OperationError(Response<M> response, M model) {
+            this.response = response;
+            this.model = model;
+        }
     }
 }

@@ -1,6 +1,7 @@
 package com.example.pdedio.sendsnap;
 
 import android.content.Context;
+import android.content.Intent;
 import android.inputmethodservice.InputMethodService;
 import android.support.annotation.StringRes;
 import android.support.v4.app.FragmentActivity;
@@ -10,6 +11,7 @@ import android.widget.Toast;
 import com.example.pdedio.sendsnap.SendSnapApplication;
 import com.example.pdedio.sendsnap.BasePresenter;
 import com.example.pdedio.sendsnap.BaseFragment;
+import com.example.pdedio.sendsnap.common.MainActivity;
 import com.squareup.leakcanary.RefWatcher;
 
 import org.androidannotations.annotations.UiThread;
@@ -46,5 +48,16 @@ public abstract class BaseFragmentActivity extends FragmentActivity implements B
             InputMethodManager manager = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
             manager.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
         }
+    }
+
+    @Override
+    public void openActivity(Class activity) {
+        Intent intent = new Intent(this, activity);
+        this.startActivity(intent);
+    }
+
+    @Override
+    public void finishCurrentActivity() {
+        this.finish();
     }
 }

@@ -3,6 +3,8 @@ package com.example.pdedio.sendsnap;
 import android.app.Application;
 import android.content.Context;
 
+import com.birbit.android.jobqueue.JobManager;
+import com.birbit.android.jobqueue.config.Configuration;
 import com.karumi.dexter.Dexter;
 import com.raizlabs.android.dbflow.config.FlowConfig;
 import com.raizlabs.android.dbflow.config.FlowManager;
@@ -19,6 +21,8 @@ public class SendSnapApplication extends Application {
 
     private RefWatcher refWatcher;
 
+    private JobManager jobManager;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -34,8 +38,28 @@ public class SendSnapApplication extends Application {
         FlowManager.init(new FlowConfig.Builder(this).openDatabasesOnInit(true).build());
     }
 
+    public void configureJobManager() {
+        Configuration.Builder builder = new Configuration.Builder(this)
+                .minConsumerCount(1)
+                .maxConsumerCount(5)
+                .loadFactor(5)
+                .consumerKeepAlive(120);
+
+        this.jobManager = new JobManager(builder.build());
+    }
+
     public static RefWatcher getRefWatcher(Context context) {
         SendSnapApplication application = (SendSnapApplication) context.getApplicationContext();
         return application.refWatcher;
+    }
+
+    public static JobManager getJobManager(Context context) {
+        SendSnapApplication application = (SendSnapApplication) context.getApplicationContext();
+
+        if(application.jobManager == null) {
+            application.configureJobManager();
+        }
+
+        return application.jobManager;
     }
 }

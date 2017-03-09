@@ -84,6 +84,17 @@ public class SignUpPresenterTest {
         verify(this.mockedView).clearErrors();
     }
 
+    @Test
+    public void shouldHideKeyboard() {
+        SignUpPresenter presenter = this.configureAndInitPresenter();
+
+        presenter.onSignUpClick(this.mockedUser, this.mockedContext);
+
+        verify(this.mockedView).hideSoftKeyboard();
+    }
+
+    //TODO: Test for callback
+
 
     //destroy()
     @Test

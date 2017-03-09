@@ -2,15 +2,23 @@ package com.example.pdedio.sendsnap.models;
 
 import android.content.Context;
 
+import com.birbit.android.jobqueue.JobManager;
 import com.example.pdedio.sendsnap.R;
+import com.example.pdedio.sendsnap.SendSnapApplication;
 import com.example.pdedio.sendsnap.database.SnapDB;
 import com.example.pdedio.sendsnap.helpers.Consts;
+import com.example.pdedio.sendsnap.helpers.ErrorStringMapper;
 import com.example.pdedio.sendsnap.jobs.CreateUserJob;
 import com.google.gson.annotations.SerializedName;
 import com.raizlabs.android.dbflow.annotation.Column;
 import com.raizlabs.android.dbflow.annotation.PrimaryKey;
 import com.raizlabs.android.dbflow.annotation.Table;
+import com.raizlabs.android.dbflow.sql.language.SQLite;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.sql.Time;
 import java.util.Date;
 
 /**
@@ -99,7 +107,40 @@ public class User extends BaseSnapModel<User> {
     //BaseSnapModel methods
     @Override
     public void save(Context context, OperationCallback<User> callback) {
-        new CreateUserJob(this, callback);
+        JobManager manager = SendSnapApplication.getJobManager(context);
+
+        manager.addJobInBackground(new CreateUserJob(this, context, callback));
+    }
+
+    @Override
+    public void mapErrorsFromJson(JSONObject json, Context context) throws JSONException {
+        ErrorStringMapper errorStringMapper = new ErrorStringMapper();
+
+        if(json.has("name")) {
+            String error = json.getJSONArray("name").getString(0);
+            this.nameError = errorStringMapper.mapCorrectString(error, context, R.string.user_name);
+        }
+
+        if(json.has("email")) {
+            String error = json.getJSONArray("email").getString(0);
+            this.emailError = errorStringMapper.mapCorrectString(error, context, R.string.user_email);
+        }
+
+        if(json.has("password")) {
+            String error = json.getJSONArray("password").getString(0);
+            this.passwordError = errorStringMapper.mapCorrectString(error, context, R.string.user_password);
+        }
+
+        if(json.has("password_confirmation")) {
+            String error = json.getJSONArray("password_confirmation").getString(0);
+            this.passwordConfirmationError = errorStringMapper.mapCorrectString(error, context, R.string.user_password_confirmation);
+        }
+    }
+
+
+    //Static methods
+    public static User getSavedUser() {
+        return SQLite.select(User_Table.ALL_COLUMN_PROPERTIES).from(User.class).querySingle();
     }
 
 

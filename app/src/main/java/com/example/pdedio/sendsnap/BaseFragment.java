@@ -1,6 +1,7 @@
 package com.example.pdedio.sendsnap;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
 import android.widget.Toast;
@@ -49,16 +50,16 @@ public class BaseFragment extends Fragment implements BaseFragmentContract.BaseF
 
     @Override
     public void showFragment(BaseFragment fragment) {
-        if(this.getActivity() instanceof BaseFragmentActivity) {
-            BaseFragmentActivity activity = (BaseFragmentActivity) this.getActivity();
+        if(this.getActivity() instanceof BaseContract.BaseView) {
+            BaseContract.BaseView activity = (BaseContract.BaseView) this.getActivity();
             activity.showFragment(fragment);
         }
     }
 
     @Override
     public void popFragment() {
-        if(this.getActivity() instanceof BaseFragmentActivity) {
-            BaseFragmentActivity activity = (BaseFragmentActivity) this.getActivity();
+        if(this.getActivity() instanceof BaseContract.BaseView) {
+            BaseContract.BaseView activity = (BaseContract.BaseView) this.getActivity();
             activity.popFragment();
         }
     }
@@ -70,17 +71,33 @@ public class BaseFragment extends Fragment implements BaseFragmentContract.BaseF
 
     @Override
     public void showProgressDialog() {
-        if(this.getActivity() instanceof BaseFragmentActivity) {
-            BaseFragmentActivity activity = (BaseFragmentActivity) this.getActivity();
+        if(this.getActivity() instanceof BaseContract.BaseView) {
+            BaseContract.BaseView activity = (BaseContract.BaseView) this.getActivity();
             activity.showProgressDialog();
         }
     }
 
     @Override
     public void hideSoftKeyboard() {
-        if(this.getActivity() instanceof BaseFragmentActivity) {
-            BaseFragmentActivity activity = (BaseFragmentActivity) this.getActivity();
+        if(this.getActivity() instanceof BaseContract.BaseView) {
+            BaseContract.BaseView activity = (BaseContract.BaseView) this.getActivity();
             activity.hideSoftKeyboard();
+        }
+    }
+
+    @Override
+    public void openActivity(Class activity) {
+        if(this.getActivity() instanceof BaseContract.BaseView) {
+            BaseContract.BaseView baseView = (BaseContract.BaseView) this.getActivity();
+            baseView.openActivity(activity);
+        }
+    }
+
+    @Override
+    public void finishCurrentActivity() {
+        if(this.getActivity() instanceof BaseContract.BaseView) {
+            BaseContract.BaseView baseView = (BaseContract.BaseView) this.getActivity();
+            baseView.finishCurrentActivity();
         }
     }
 }

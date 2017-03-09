@@ -44,6 +44,7 @@
                 android:id="@+id/etSignUpEmail"
                 android:layout_width="match_parent"
                 android:hint="@string/sign_up_email_hint"
+                android:inputType="textEmailAddress"
                 style="@style/EditTextOrange" />
         </com.example.pdedio.sendsnap.common.views.BaseTextInputLayout_>
 

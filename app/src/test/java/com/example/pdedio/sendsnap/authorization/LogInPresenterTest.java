@@ -84,6 +84,15 @@ public class LogInPresenterTest {
         verify(mockedView).clearErrors();
     }
 
+    @Test
+    public void shouldHideKeyboard() {
+        LogInPresenter presenter = this.configureAndInitPresenter();
+
+        presenter.onBtnLogInClick("", "");
+
+        verify(this.mockedView).hideSoftKeyboard();
+    }
+
 
     //destroy()
     @Test

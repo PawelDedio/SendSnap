@@ -35,6 +35,7 @@ public class LogInPresenter extends BaseFragmentPresenter implements LogInContra
     @Override
     public void onBtnLogInClick(String name, String password) {
         this.view.clearErrors();
+        this.view.hideSoftKeyboard();
 
         if(this.validateAndShowErrors(name, password)) {
             this.view.showProgressDialog();

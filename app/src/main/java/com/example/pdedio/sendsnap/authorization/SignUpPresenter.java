@@ -1,8 +1,13 @@
 package com.example.pdedio.sendsnap.authorization;
 
 import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
 
 import com.example.pdedio.sendsnap.BaseFragmentPresenter;
+import com.example.pdedio.sendsnap.common.MainActivity;
+import com.example.pdedio.sendsnap.common.MainActivity_;
+import com.example.pdedio.sendsnap.models.BaseSnapModel;
 import com.example.pdedio.sendsnap.models.User;
 
 import org.androidannotations.annotations.EBean;
@@ -11,7 +16,8 @@ import org.androidannotations.annotations.EBean;
  * Created by pawel on 22.02.2017.
  */
 @EBean
-public class SignUpPresenter extends BaseFragmentPresenter implements SignUpContract.SignUpPresenter {
+public class SignUpPresenter extends BaseFragmentPresenter implements SignUpContract.SignUpPresenter,
+        BaseSnapModel.OperationCallback<User> {
 
     protected SignUpContract.SignUpView view;
 
@@ -33,6 +39,7 @@ public class SignUpPresenter extends BaseFragmentPresenter implements SignUpCont
     @Override
     public void onSignUpClick(User user, Context context) {
         this.view.clearErrors();
+        this.view.hideSoftKeyboard();
 
         if(user.isValid(context)) {
             this.registerUser(user, context);
@@ -42,10 +49,24 @@ public class SignUpPresenter extends BaseFragmentPresenter implements SignUpCont
     }
 
 
+    //OperationCallback methods
+    @Override
+    public void onSuccess(User model) {
+        this.view.openActivity(MainActivity_.class);
+        this.view.finishCurrentActivity();
+    }
+
+    @Override
+    public void onFailure(BaseSnapModel.OperationError<User> error) {
+        if(error.response.code() == 400) {
+            showErrors(error.model);
+        }
+    }
+
+
     //Private methods
     private void registerUser(User user, Context context) {
-        user.save(context, null);
-        //TODO: implementation
+        user.save(context, this);
     }
 
     private void showErrors(User user) {
