@@ -38,6 +38,8 @@ public abstract class BaseSnapModel<T extends BaseSnapModel> extends BaseModel i
         void onSuccess(M model);
 
         void onFailure(OperationError<M> error);
+
+        void onCanceled(int canceledReason, Throwable throwable);
     }
 
     public static class OperationError<M extends BaseSnapModel>{

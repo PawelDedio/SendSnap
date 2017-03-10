@@ -3,8 +3,10 @@ package com.example.pdedio.sendsnap.authorization;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.example.pdedio.sendsnap.BaseFragmentPresenter;
+import com.example.pdedio.sendsnap.R;
 import com.example.pdedio.sendsnap.common.MainActivity;
 import com.example.pdedio.sendsnap.common.MainActivity_;
 import com.example.pdedio.sendsnap.models.BaseSnapModel;
@@ -59,8 +61,13 @@ public class SignUpPresenter extends BaseFragmentPresenter implements SignUpCont
     @Override
     public void onFailure(BaseSnapModel.OperationError<User> error) {
         if(error.response.code() == 400) {
-            showErrors(error.model);
+            this.showErrors(error.model);
         }
+    }
+
+    @Override
+    public void onCanceled(int canceledReason, Throwable throwable) {
+        this.view.showToast(R.string.error_field_blank, Toast.LENGTH_LONG);
     }
 
 
