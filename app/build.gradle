@@ -87,6 +87,9 @@ dependencies {
     //Greenrobot event bus https://github.com/greenrobot/EventBus
     compile 'org.greenrobot:eventbus:3.0.0'
 
+    //https://github.com/glomadrian/RoadRunner progress view
+    compile 'com.github.glomadrian:roadrunner:1.0@aar'
+
     //Testing
     testCompile 'junit:junit:4.12'
     testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'

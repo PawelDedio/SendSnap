@@ -166,12 +166,71 @@ public class SignUpPresenterTest {
             }
         }).when(this.mockedUser).save(any(Context.class), Matchers.<BaseSnapModel.OperationCallback<User>>any());
 
+        when(this.mockedUser.isValid(any(Context.class))).thenReturn(true);
+
         this.mockedError.response = this.prepareErrorResponse(400);
+        this.mockedError.model = this.mockedUser;
         this.mockedUser.nameError = "Error";
 
         presenter.onSignUpClick(this.mockedUser, this.mockedContext);
 
         verify(this.mockedView).setNameError("Error");
+    }
+
+    @Test
+    public void shouldShowProgressDialogBeforeRequest() {
+        SignUpPresenter presenter = this.configureAndInitPresenter();
+
+        when(this.mockedUser.isValid(any(Context.class))).thenReturn(true);
+
+        presenter.onSignUpClick(this.mockedUser, this.mockedContext);
+
+        verify(this.mockedView).showProgressDialog();
+    }
+
+    @Test
+    public void shouldHideProgressDialogWhenCallbackReturnsSuccess() {
+        SignUpPresenter presenter = this.configureAndInitPresenter();
+
+        doAnswer(new Answer() {
+            @Override
+            public Object answer(InvocationOnMock invocation) throws Throwable {
+                BaseSnapModel.OperationCallback<User> callback = (BaseSnapModel.OperationCallback) invocation.getArguments()[1];
+                callback.onSuccess(mockedUser);
+
+                return null;
+            }
+        }).when(this.mockedUser).save(any(Context.class), Matchers.<BaseSnapModel.OperationCallback<User>>any());
+
+        when(this.mockedUser.isValid(any(Context.class))).thenReturn(true);
+
+        presenter.onSignUpClick(this.mockedUser, this.mockedContext);
+
+        verify(this.mockedView).hideProgressDialog();
+    }
+
+    @Test
+    public void shouldHideProgressDialogWhenCallbackReturnsError() {
+        SignUpPresenter presenter = this.configureAndInitPresenter();
+
+        doAnswer(new Answer() {
+            @Override
+            public Object answer(InvocationOnMock invocation) throws Throwable {
+                BaseSnapModel.OperationCallback<User> callback = (BaseSnapModel.OperationCallback) invocation.getArguments()[1];
+                callback.onFailure(mockedError);
+
+                return null;
+            }
+        }).when(this.mockedUser).save(any(Context.class), Matchers.<BaseSnapModel.OperationCallback<User>>any());
+
+        when(this.mockedUser.isValid(any(Context.class))).thenReturn(true);
+
+        this.mockedError.response = this.prepareErrorResponse(400);
+        this.mockedError.model = this.mockedUser;
+
+        presenter.onSignUpClick(this.mockedUser, this.mockedContext);
+
+        verify(this.mockedView).hideProgressDialog();
     }
 
 

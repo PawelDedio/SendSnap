@@ -1,7 +1,13 @@
 package com.example.pdedio.sendsnap.authorization;
 
+import android.content.Context;
+
 import com.example.pdedio.sendsnap.BaseFragmentPresenter;
+import com.example.pdedio.sendsnap.common.MainActivity_;
+import com.example.pdedio.sendsnap.helpers.ErrorManager;
 import com.example.pdedio.sendsnap.helpers.ValidationHelper;
+import com.example.pdedio.sendsnap.models.BaseSnapModel;
+import com.example.pdedio.sendsnap.models.User;
 
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EBean;
@@ -10,13 +16,17 @@ import org.androidannotations.annotations.EBean;
  * Created by pawel on 22.02.2017.
  */
 @EBean
-public class LogInPresenter extends BaseFragmentPresenter implements LogInContract.LogInPresenter {
+public class LogInPresenter extends BaseFragmentPresenter implements LogInContract.LogInPresenter,
+        BaseSnapModel.OperationCallback<User>{
 
 
     protected LogInContract.LogInView view;
 
     @Bean
     protected ValidationHelper validationHelper;
+
+    @Bean
+    protected ErrorManager errorManager;
 
 
     //Lifecycle
@@ -33,14 +43,42 @@ public class LogInPresenter extends BaseFragmentPresenter implements LogInContra
 
     //LogInPresenter methods
     @Override
-    public void onBtnLogInClick(String name, String password) {
+    public void onBtnLogInClick(String name, String password, Context context) {
         this.view.clearErrors();
         this.view.hideSoftKeyboard();
 
         if(this.validateAndShowErrors(name, password)) {
             this.view.showProgressDialog();
-            //TODO: Request to server
+            this.signInUser(name, password, context);
         }
+    }
+
+
+    //OperationCallback methods
+    @Override
+    public void onSuccess(User model) {
+        this.view.hideProgressDialog();
+
+        this.view.openActivity(MainActivity_.class);
+        this.view.finishCurrentActivity();
+    }
+
+    @Override
+    public void onFailure(BaseSnapModel.OperationError<User> error) {
+        this.view.hideProgressDialog();
+
+        if(error.response != null && error.response.code() == 401) {
+            this.view.showInvalidCredentialsError();
+            return;
+        }
+
+        this.errorManager.serviceError(this.view, error.response);
+    }
+
+    @Override
+    public void onCanceled(int canceledReason, Throwable throwable) {
+        this.view.hideProgressDialog();
+        this.errorManager.serviceError(this.view, null);
     }
 
 
@@ -59,5 +97,12 @@ public class LogInPresenter extends BaseFragmentPresenter implements LogInContra
         }
 
         return value;
+    }
+
+    private void signInUser(String name, String password, Context context) {
+        User user = new User();
+        user.name = name;
+        user.password = password;
+        user.logIn(context, this);
     }
 }

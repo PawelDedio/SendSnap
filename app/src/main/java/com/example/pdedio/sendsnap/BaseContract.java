@@ -1,6 +1,5 @@
 package com.example.pdedio.sendsnap;
 
-import android.content.Intent;
 import android.support.annotation.StringRes;
 
 /**
@@ -29,10 +28,14 @@ public class BaseContract {
 
         void showProgressDialog();
 
+        void hideProgressDialog();
+
         void hideSoftKeyboard();
 
         void openActivity(Class activity);
 
         void finishCurrentActivity();
+
+        void showSnackbar(@StringRes int stringId, int length);
     }
 }

@@ -78,6 +78,14 @@ public class BaseFragment extends Fragment implements BaseFragmentContract.BaseF
     }
 
     @Override
+    public void hideProgressDialog() {
+        if(this.getActivity() instanceof BaseContract.BaseView) {
+            BaseContract.BaseView activity = (BaseContract.BaseView) this.getActivity();
+            activity.hideProgressDialog();
+        }
+    }
+
+    @Override
     public void hideSoftKeyboard() {
         if(this.getActivity() instanceof BaseContract.BaseView) {
             BaseContract.BaseView activity = (BaseContract.BaseView) this.getActivity();
@@ -98,6 +106,14 @@ public class BaseFragment extends Fragment implements BaseFragmentContract.BaseF
         if(this.getActivity() instanceof BaseContract.BaseView) {
             BaseContract.BaseView baseView = (BaseContract.BaseView) this.getActivity();
             baseView.finishCurrentActivity();
+        }
+    }
+
+    @Override
+    public void showSnackbar(@StringRes int stringId, int length) {
+        if(this.getActivity() instanceof BaseContract.BaseView) {
+            BaseContract.BaseView baseView = (BaseContract.BaseView) this.getActivity();
+            baseView.showSnackbar(stringId, length);
         }
     }
 }

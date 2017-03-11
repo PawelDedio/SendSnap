@@ -46,7 +46,7 @@ public class LogInFragment extends BaseFragment implements LogInContract.LogInVi
     protected void onLogInClick() {
         String login = this.tilName.getEditText().getText().toString();
         String password = this.tilPassword.getEditText().getText().toString();
-        this.presenter.onBtnLogInClick(login, password);
+        this.presenter.onBtnLogInClick(login, password, this.getContext());
     }
 
 

@@ -1,5 +1,7 @@
 package com.example.pdedio.sendsnap.authorization;
 
+import android.content.Context;
+
 import com.example.pdedio.sendsnap.helpers.ValidationHelper;
 
 import static junit.framework.Assert.*;
@@ -18,6 +20,9 @@ public class LogInPresenterTest {
 
     @Mock
     protected LogInContract.LogInView mockedView;
+
+    @Mock
+    protected Context mockedContext;
 
 
 
@@ -42,7 +47,7 @@ public class LogInPresenterTest {
     public void shouldShowProgressDialogForCorrectInputs() {
         LogInPresenter presenter = this.configureAndInitPresenter();
 
-        presenter.onBtnLogInClick("someLogin", "somePassword");
+        presenter.onBtnLogInClick("someLogin", "somePassword", this.mockedContext);
 
         verify(mockedView).showProgressDialog();
     }
@@ -51,7 +56,7 @@ public class LogInPresenterTest {
     public void shouldShowErrorForEmptyData() {
         LogInPresenter presenter = this.configureAndInitPresenter();
 
-        presenter.onBtnLogInClick("", "");
+        presenter.onBtnLogInClick("", "", this.mockedContext);
 
         verify(mockedView).showBlankNameError();
         verify(mockedView).showBlankPasswordError();
@@ -61,7 +66,7 @@ public class LogInPresenterTest {
     public void shouldShowErrorForBlankLogin() {
         LogInPresenter presenter = this.configureAndInitPresenter();
 
-        presenter.onBtnLogInClick("", "correctPassword");
+        presenter.onBtnLogInClick("", "correctPassword", this.mockedContext);
 
         verify(mockedView).showBlankNameError();
     }
@@ -70,7 +75,7 @@ public class LogInPresenterTest {
     public void shouldShowErrorForBlankPassword() {
         LogInPresenter presenter = this.configureAndInitPresenter();
 
-        presenter.onBtnLogInClick("correctLogin", "");
+        presenter.onBtnLogInClick("correctLogin", "", this.mockedContext);
 
         verify(mockedView).showBlankPasswordError();
     }
@@ -79,7 +84,7 @@ public class LogInPresenterTest {
     public void shouldClearErrors() {
         LogInPresenter presenter = this.configureAndInitPresenter();
 
-        presenter.onBtnLogInClick("", "");
+        presenter.onBtnLogInClick("", "", this.mockedContext);
 
         verify(mockedView).clearErrors();
     }
@@ -88,7 +93,7 @@ public class LogInPresenterTest {
     public void shouldHideKeyboard() {
         LogInPresenter presenter = this.configureAndInitPresenter();
 
-        presenter.onBtnLogInClick("", "");
+        presenter.onBtnLogInClick("", "", this.mockedContext);
 
         verify(this.mockedView).hideSoftKeyboard();
     }

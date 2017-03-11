@@ -9,6 +9,7 @@ import com.example.pdedio.sendsnap.database.SnapDB;
 import com.example.pdedio.sendsnap.helpers.Consts;
 import com.example.pdedio.sendsnap.helpers.ErrorStringMapper;
 import com.example.pdedio.sendsnap.jobs.CreateUserJob;
+import com.example.pdedio.sendsnap.jobs.LogInUserJob;
 import com.google.gson.annotations.SerializedName;
 import com.raizlabs.android.dbflow.annotation.Column;
 import com.raizlabs.android.dbflow.annotation.PrimaryKey;
@@ -141,6 +142,14 @@ public class User extends BaseSnapModel<User> {
     //Static methods
     public static User getSavedUser() {
         return SQLite.select(User_Table.ALL_COLUMN_PROPERTIES).from(User.class).querySingle();
+    }
+
+
+    //Public methods
+    public void logIn(Context context, OperationCallback<User> callback) {
+        JobManager manager = SendSnapApplication.getJobManager(context);
+
+        manager.addJobInBackground(new LogInUserJob(this, context, callback));
     }
 
 

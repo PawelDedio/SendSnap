@@ -9,9 +9,11 @@ import com.example.pdedio.sendsnap.BaseFragmentPresenter;
 import com.example.pdedio.sendsnap.R;
 import com.example.pdedio.sendsnap.common.MainActivity;
 import com.example.pdedio.sendsnap.common.MainActivity_;
+import com.example.pdedio.sendsnap.helpers.ErrorManager;
 import com.example.pdedio.sendsnap.models.BaseSnapModel;
 import com.example.pdedio.sendsnap.models.User;
 
+import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EBean;
 
 /**
@@ -22,6 +24,9 @@ public class SignUpPresenter extends BaseFragmentPresenter implements SignUpCont
         BaseSnapModel.OperationCallback<User> {
 
     protected SignUpContract.SignUpView view;
+
+    @Bean
+    protected ErrorManager errorManager;
 
 
 
@@ -45,34 +50,45 @@ public class SignUpPresenter extends BaseFragmentPresenter implements SignUpCont
 
         if(user.isValid(context)) {
             this.registerUser(user, context);
+        } else {
+            this.showErrors(user);
         }
-
-        this.showErrors(user);
     }
 
 
     //OperationCallback methods
     @Override
     public void onSuccess(User model) {
+        this.view.hideProgressDialog();
+
         this.view.openActivity(MainActivity_.class);
         this.view.finishCurrentActivity();
     }
 
     @Override
     public void onFailure(BaseSnapModel.OperationError<User> error) {
-        if(error.response.code() == 400) {
-            this.showErrors(error.model);
+        this.view.hideProgressDialog();
+
+        if(!this.errorManager.serviceError(this.view, error.response)) {
+            if(error.response.code() == 400) {
+                if(error.model != null) {
+                    this.showErrors(error.model);
+                }
+            }
         }
     }
 
     @Override
     public void onCanceled(int canceledReason, Throwable throwable) {
-        this.view.showToast(R.string.error_field_blank, Toast.LENGTH_LONG);
+        this.view.hideProgressDialog();
+        this.errorManager.serviceError(this.view, null);
     }
 
 
     //Private methods
     private void registerUser(User user, Context context) {
+        this.view.showProgressDialog();
+
         user.save(context, this);
     }
 
