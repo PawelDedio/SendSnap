@@ -88,11 +88,10 @@ public class AuthPresenter extends BasePresenter implements AuthContract.AuthPre
     private void logInUserIfValid() {
         User user = this.sessionManager.getLoggedUser();
 
-        /*if(user != null && this.dateHelper.isDateGreaterThanNow(user.tokenExpireTime)) {
+        if(user != null && this.dateHelper.isDateGreaterThanNow(user.tokenExpireTime)) {
             this.authView.openActivity(MainActivity_.class);
             this.authView.finishCurrentActivity();
-        }*/
-        //TODO: disabled for testing auth activity
+        }
     }
 
     private void showLogInFragment() {
