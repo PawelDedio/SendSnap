@@ -2,6 +2,8 @@ package com.example.pdedio.sendsnap;
 
 import android.support.annotation.StringRes;
 
+import com.example.pdedio.sendsnap.common.BackKeyListener;
+
 /**
  * Created by pawel on 13.12.2016.
  */
@@ -37,5 +39,7 @@ public class BaseContract {
         void finishCurrentActivity();
 
         void showSnackbar(@StringRes int stringId, int length);
+
+        void setOnBackKeyListener(BackKeyListener backKeyListener);
     }
 }

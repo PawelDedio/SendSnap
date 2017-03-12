@@ -47,6 +47,7 @@
     <color name="sign_up_background">#EEEEEE</color>
 
     <!-- Camera Fragment -->
+    <color name="camera_menu_background">#89000000</color>
     <color name="camera_btn_record_stroke">#ffffff</color>
     <color name="camera_btn_record_solid">#d22323</color>
     <color name="camera_btn_record_progress_stroke">#d22323</color>

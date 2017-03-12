@@ -4,6 +4,9 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.support.annotation.DrawableRes;
+import android.support.constraint.ConstraintLayout;
+import android.support.constraint.ConstraintSet;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.TextureView;
 import android.view.View;
@@ -11,16 +14,21 @@ import android.view.WindowManager;
 
 import com.example.pdedio.sendsnap.BaseFragment;
 import com.example.pdedio.sendsnap.R;
+import com.example.pdedio.sendsnap.common.BackKeyListener;
 import com.example.pdedio.sendsnap.common.views.BaseButton;
 import com.example.pdedio.sendsnap.common.views.BaseImageButton;
 import com.github.lzyzsd.circleprogress.DonutProgress;
+import com.transitionseverywhere.TransitionManager;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
+import org.androidannotations.annotations.KeyUp;
 import org.androidannotations.annotations.Touch;
 import org.androidannotations.annotations.ViewById;
+import org.androidannotations.annotations.res.DimensionPixelOffsetRes;
+import org.androidannotations.annotations.res.DimensionRes;
 
 import java.util.concurrent.TimeUnit;
 
@@ -40,6 +48,9 @@ public class CameraFragment extends BaseFragment implements CameraContract.Camer
     @Bean(CameraPresenter.class)
     protected CameraContract.CameraPresenter cameraPresenter;
 
+    @ViewById(R.id.clCameraMainLayout)
+    protected ConstraintLayout mainLayout;
+
     @ViewById(R.id.pbCameraRecordProgress)
     protected DonutProgress pbRecordProgress;
 
@@ -57,6 +68,11 @@ public class CameraFragment extends BaseFragment implements CameraContract.Camer
 
     @ViewById(R.id.vCameraFrontFlash)
     protected View frontCameraFlash;
+
+    @DimensionPixelOffsetRes(R.dimen.camera_ll_menu_margin_bottom)
+    protected int menuMarginBottom;
+
+    private ConstraintSet baseConstraintSet;
 
     private static final int TIME_TO_START_RECORDING = 1000;
 
@@ -80,6 +96,8 @@ public class CameraFragment extends BaseFragment implements CameraContract.Camer
     protected void afterViewsCameraFragment() {
         this.cameraPresenter.init(this, this.getContext(), this.tvCameraPreview);
         this.configureViews();
+        this.baseConstraintSet = new ConstraintSet();
+        this.baseConstraintSet.clone(this.mainLayout);
     }
 
     @Override
@@ -138,6 +156,11 @@ public class CameraFragment extends BaseFragment implements CameraContract.Camer
         this.cameraPresenter.switchCamera(this.getContext(), this.tvCameraPreview);
     }
 
+    @Click(R.id.btnCameraTopMenu)
+    protected void onMenuClick() {
+        this.cameraPresenter.onBtnMenuClick();
+    }
+
     @Click(R.id.btnCameraFlash)
     protected void onFlashClick() {
         this.cameraPresenter.changeFlashState();
@@ -173,6 +196,16 @@ public class CameraFragment extends BaseFragment implements CameraContract.Camer
         lp.screenBrightness = oldBrightnessLevel;
         activity.getWindow().setAttributes(lp);
         activity.getWindow().addFlags(WindowManager.LayoutParams.FLAGS_CHANGED);
+    }
+
+    @Override
+    public void showMenu() {
+        this.runShowMenuAnimation();
+    }
+
+    @Override
+    public void hideMenu() {
+        this.runHideMenuAnimation();
     }
 
     @Override
@@ -221,6 +254,39 @@ public class CameraFragment extends BaseFragment implements CameraContract.Camer
 
                     }
                 });
+    }
+
+    private void runShowMenuAnimation() {
+        TransitionManager.beginDelayedTransition(this.mainLayout);
+
+        ConstraintSet constraintSet = new ConstraintSet();
+        constraintSet.clone(this.baseConstraintSet);
+
+        constraintSet.connect(R.id.llCameraMenu, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP, 0);
+        constraintSet.connect(R.id.llCameraMenu, ConstraintSet.BOTTOM, R.id.btnCameraTopMenu, ConstraintSet.TOP, this.menuMarginBottom);
+
+        constraintSet.connect(R.id.btnCameraTopMenu, ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM, this.btnCameraRecord.getHeight());
+        constraintSet.clear(R.id.btnCameraTopMenu, ConstraintSet.TOP);
+
+        constraintSet.connect(R.id.btnCameraRecord, ConstraintSet.TOP, R.id.tvCameraPreview, ConstraintSet.BOTTOM, 0);
+        constraintSet.clear(R.id.btnCameraRecord, ConstraintSet.BOTTOM);
+
+        constraintSet.connect(R.id.pbCameraRecordProgress, ConstraintSet.TOP, R.id.tvCameraPreview, ConstraintSet.BOTTOM, 0);
+        constraintSet.clear(R.id.pbCameraRecordProgress, ConstraintSet.BOTTOM);
+
+        constraintSet.connect(R.id.btnCameraFlash, ConstraintSet.BOTTOM, R.id.tvCameraPreview, ConstraintSet.TOP, 0);
+        constraintSet.clear(R.id.btnCameraFlash, ConstraintSet.TOP);
+
+        constraintSet.connect(R.id.btnCameraChangeCamera, ConstraintSet.BOTTOM, R.id.tvCameraPreview, ConstraintSet.TOP, 0);
+        constraintSet.clear(R.id.btnCameraChangeCamera, ConstraintSet.TOP);
+
+        constraintSet.applyTo(this.mainLayout);
+    }
+
+    private void runHideMenuAnimation() {
+        TransitionManager.beginDelayedTransition(this.mainLayout);
+
+        this.baseConstraintSet.applyTo(this.mainLayout);
     }
 
     private void startRecording() {

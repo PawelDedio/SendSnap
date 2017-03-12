@@ -4,22 +4,19 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
-import android.inputmethodservice.InputMethodService;
 import android.support.annotation.StringRes;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentActivity;
+import android.view.KeyEvent;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
-import com.example.pdedio.sendsnap.SendSnapApplication;
-import com.example.pdedio.sendsnap.BasePresenter;
-import com.example.pdedio.sendsnap.BaseFragment;
-import com.example.pdedio.sendsnap.common.MainActivity;
+import com.example.pdedio.sendsnap.common.BackKeyListener;
 import com.example.pdedio.sendsnap.common.views.ProgressView;
 import com.example.pdedio.sendsnap.common.views.ProgressView_;
 import com.squareup.leakcanary.RefWatcher;
 
-import org.androidannotations.annotations.UiThread;
+import org.androidannotations.annotations.KeyUp;
 
 /**
  * Created by pawel on 19.09.2016.
@@ -28,6 +25,8 @@ public abstract class BaseFragmentActivity extends FragmentActivity implements B
 
 
     protected Dialog progressDialog;
+
+    protected BackKeyListener backKeyListener;
 
 
 
@@ -87,6 +86,22 @@ public abstract class BaseFragmentActivity extends FragmentActivity implements B
     @Override
     public void showSnackbar(@StringRes int stringId, int length) {
         Snackbar.make(this.getCurrentFocus(), stringId, length).show();
+    }
+
+    @Override
+    public void setOnBackKeyListener(BackKeyListener backKeyListener) {
+        this.backKeyListener = backKeyListener;
+    }
+
+
+    //Events
+    @KeyUp(KeyEvent.KEYCODE_BACK)
+    protected boolean onBackKeyClick() {
+        if(this.backKeyListener != null) {
+            return this.backKeyListener.onBackKeyClick();
+        }
+
+        return false;
     }
 
 

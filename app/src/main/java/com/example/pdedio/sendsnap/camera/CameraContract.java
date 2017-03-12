@@ -27,6 +27,8 @@ public class CameraContract {
 
         void takePicture(Context context, TextureView textureView);
 
+        void onBtnMenuClick();
+
         void switchCamera(Context context, TextureView textureView);
 
         void initCameraHelper(Context context, TextureView textureView);
@@ -34,6 +36,8 @@ public class CameraContract {
         void changeFlashState();
 
         void enableAutoFocus();
+
+        boolean onBackKeyClick();
     }
 
     public interface CameraView extends BaseFragmentContract.BaseFragmentView {
@@ -41,6 +45,10 @@ public class CameraContract {
         void startFrontFlash();
 
         void stopFrontFlash();
+
+        void showMenu();
+
+        void hideMenu();
 
         void changeBtnFlashDrawableId(@DrawableRes int drawableId);
 

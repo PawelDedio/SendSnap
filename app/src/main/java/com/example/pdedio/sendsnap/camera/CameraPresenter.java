@@ -6,6 +6,7 @@ import android.view.TextureView;
 
 import com.example.pdedio.sendsnap.BaseFragmentPresenter;
 import com.example.pdedio.sendsnap.R;
+import com.example.pdedio.sendsnap.common.BackKeyListener;
 import com.example.pdedio.sendsnap.edit_snap.EditSnapFragment;
 import com.example.pdedio.sendsnap.edit_snap.EditSnapFragment_;
 import com.example.pdedio.sendsnap.helpers.BitmapsManager;
@@ -17,6 +18,7 @@ import com.example.pdedio.sendsnap.permissions.PermissionsResult;
 
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EBean;
+import org.androidannotations.annotations.res.DimensionRes;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -28,7 +30,7 @@ import static android.Manifest.permission;
  * Created by p.dedio on 31.08.16.
  */
 @EBean
-public class CameraPresenter extends BaseFragmentPresenter implements CameraContract.CameraPresenter {
+public class CameraPresenter extends BaseFragmentPresenter implements CameraContract.CameraPresenter, BackKeyListener {
 
     @Bean
     protected PermissionManager permissionManager;
@@ -45,6 +47,8 @@ public class CameraPresenter extends BaseFragmentPresenter implements CameraCont
 
     protected boolean isFlashEnabled;
 
+    protected boolean isMenuVisible;
+
     protected boolean isCameraConfigured;
 
     protected boolean isRecording;
@@ -55,11 +59,13 @@ public class CameraPresenter extends BaseFragmentPresenter implements CameraCont
     public void init(CameraContract.CameraView view, Context context, TextureView textureView) {
         this.cameraView = view;
         this.cameraView.hideStatusBar();
+        this.cameraView.setOnBackKeyListener(this);
         this.checkPermissions(context, textureView);
     }
 
     @Override
     public void destroy() {
+        this.cameraView.setOnBackKeyListener(null);
         this.cameraView = null;
     }
 
@@ -116,6 +122,17 @@ public class CameraPresenter extends BaseFragmentPresenter implements CameraCont
     }
 
     @Override
+    public void onBtnMenuClick() {
+        if(this.isMenuVisible) {
+            this.cameraView.hideMenu();
+        } else {
+            this.cameraView.showMenu();
+        }
+
+        this.isMenuVisible = !this.isMenuVisible;
+    }
+
+    @Override
     public void startRecording(Context context, TextureView textureView) {
         if(this.isRecording) {
             return;
@@ -168,6 +185,16 @@ public class CameraPresenter extends BaseFragmentPresenter implements CameraCont
     @Override
     public void enableAutoFocus() {
         this.cameraHelper.enableAutoFocus();
+    }
+
+    //BackKeyListener methods
+    @Override
+    public boolean onBackKeyClick() {
+        if(this.isMenuVisible) {
+            this.onBtnMenuClick();
+            return true;
+        }
+        return false;
     }
 
 

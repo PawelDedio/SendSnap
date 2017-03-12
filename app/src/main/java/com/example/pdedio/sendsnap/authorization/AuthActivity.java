@@ -66,7 +66,7 @@ public class AuthActivity extends BaseFragmentActivity implements AuthContract.A
         this.presenter.onSignUpClick();
     }
 
-    @KeyUp(KeyEvent.KEYCODE_BACK)
+    @Override
     protected boolean onBackKeyClick() {
         return this.presenter.onBackKeyClick();
     }

@@ -48,9 +48,13 @@ public class MainActivity extends BaseFragmentActivity implements MainContract.M
 
 
     // Events
-    @KeyUp(KeyEvent.KEYCODE_BACK)
-    protected boolean onBackClick() {
-        return this.presenter.onBackKeyClick();
+    @Override
+    protected boolean onBackKeyClick() {
+        if(this.backKeyListener == null || !this.backKeyListener.onBackKeyClick()) {
+            return this.presenter.onBackKeyClick();
+        }
+
+        return true;
     }
 
 

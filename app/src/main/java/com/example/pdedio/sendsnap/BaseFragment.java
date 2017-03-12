@@ -6,6 +6,7 @@ import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
 import android.widget.Toast;
 
+import com.example.pdedio.sendsnap.common.BackKeyListener;
 import com.example.pdedio.sendsnap.common.StatusBarManager;
 import com.squareup.leakcanary.RefWatcher;
 
@@ -114,6 +115,14 @@ public class BaseFragment extends Fragment implements BaseFragmentContract.BaseF
         if(this.getActivity() instanceof BaseContract.BaseView) {
             BaseContract.BaseView baseView = (BaseContract.BaseView) this.getActivity();
             baseView.showSnackbar(stringId, length);
+        }
+    }
+
+    @Override
+    public void setOnBackKeyListener(BackKeyListener backKeyListener) {
+        if(this.getActivity() instanceof BaseContract.BaseView) {
+            BaseContract.BaseView baseView = (BaseContract.BaseView) this.getActivity();
+            baseView.setOnBackKeyListener(backKeyListener);
         }
     }
 }

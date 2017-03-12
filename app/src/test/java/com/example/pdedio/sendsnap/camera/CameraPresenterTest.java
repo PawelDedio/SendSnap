@@ -6,11 +6,12 @@ import android.graphics.Bitmap;
 import android.view.TextureView;
 
 import com.example.pdedio.sendsnap.BaseFragment;
+import com.example.pdedio.sendsnap.common.BackKeyListener;
 import com.example.pdedio.sendsnap.helpers.BitmapsManager;
 import com.example.pdedio.sendsnap.helpers.SharedPreferenceManager;
 import com.example.pdedio.sendsnap.permissions.PermissionManager;
 
-import org.junit.Assert;
+import static org.junit.Assert.*;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -117,6 +118,37 @@ public class CameraPresenterTest {
 
         String[] permissions = {Manifest.permission.RECORD_AUDIO, Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
         verify(mockedPermissionManager).requestForPermission(any(PermissionManager.PermissionCallback.class), (String) anyVararg());
+    }
+
+    @Test
+    public void shouldSetKeyBackListener() {
+        CameraPresenter presenter = this.configurePresenter();
+
+        presenter.init(mockedView, mockedContext, mockedTexture);
+
+        verify(this.mockedView).setOnBackKeyListener(any(BackKeyListener.class));
+    }
+
+
+    //onBtnMenuClick()
+    @Test
+    public void shouldShowMenuWhenMenuIsInvisible() {
+        CameraPresenter presenter = this.configureAndInitPresenter();
+
+        presenter.isMenuVisible = false;
+        presenter.onBtnMenuClick();
+
+        verify(this.mockedView).showMenu();
+    }
+
+    @Test
+    public void shouldHideMenuWhenMenuIsVisible() {
+        CameraPresenter presenter = this.configureAndInitPresenter();
+
+        presenter.isMenuVisible = true;
+        presenter.onBtnMenuClick();
+
+        verify(this.mockedView).hideMenu();
     }
 
 
@@ -330,7 +362,7 @@ public class CameraPresenterTest {
 
         presenter.changeFlashState();
 
-        Assert.assertNotSame(oldValue, presenter.isFlashEnabled);
+        assertNotSame(oldValue, presenter.isFlashEnabled);
     }
 
     @Test
@@ -357,6 +389,44 @@ public class CameraPresenterTest {
     }
 
 
+    //onBackKeyClick()
+    @Test
+    public void shouldCloseMenuWhenMenuIsVisible() {
+        CameraPresenter presenter = this.configureAndInitPresenter();
+        presenter.isMenuVisible = true;
+
+        presenter.onBackKeyClick();
+
+        verify(this.mockedView).hideMenu();
+    }
+
+    @Test
+    public void shouldReturnTrueWhenMenuIsVisible() {
+        CameraPresenter presenter = this.configureAndInitPresenter();
+        presenter.isMenuVisible = true;
+
+        assertTrue(presenter.onBackKeyClick());
+    }
+
+    @Test
+    public void shouldNotOpenMenuWhenMenuIsNotVisible() {
+        CameraPresenter presenter = this.configureAndInitPresenter();
+        presenter.isMenuVisible = false;
+
+        presenter.onBackKeyClick();
+
+        verify(this.mockedView, never()).showMenu();
+    }
+
+    @Test
+    public void shouldReturnFalseWhenMenuIsNotVisible() {
+        CameraPresenter presenter = this.configureAndInitPresenter();
+        presenter.isMenuVisible = false;
+
+        assertFalse(presenter.onBackKeyClick());
+    }
+
+
     //destroy()
     @Test
     public void shouldSetViewToNull() {
@@ -364,6 +434,15 @@ public class CameraPresenterTest {
 
         presenter.destroy();
 
-        Assert.assertNull(presenter.cameraView);
+        assertNull(presenter.cameraView);
+    }
+
+    @Test
+    public void shouldSetBackKeyListenerToNull() {
+        CameraPresenter presenter = this.configureAndInitPresenter();
+
+        presenter.destroy();
+
+        verify(this.mockedView).setOnBackKeyListener(null);
     }
 }
