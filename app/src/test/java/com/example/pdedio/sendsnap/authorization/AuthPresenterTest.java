@@ -60,11 +60,11 @@ public class AuthPresenterTest {
 
     //init()
     @Test
-    public void shouldOpenNewActivityWhenSavedUserExpireTokenTimeIsGraterThanNow() {
+    public void shouldOpenNewActivityWhenSavedUserTokenIsNotNull() {
         AuthPresenter presenter = this.configurePresenter();
 
         when(this.mockedSessionManager.getLoggedUser()).thenReturn(this.mockedUser);
-        when(this.mockedDateHelper.isDateGreaterThanNow(Matchers.any(Date.class))).thenReturn(true);
+        this.mockedUser.authToken = "fdssdfsfdsf";
 
         presenter.init(this.mockedView);
 
@@ -72,16 +72,43 @@ public class AuthPresenterTest {
     }
 
     @Test
-    public void shouldFinishCurrentActivityWhenSavedUserExpireTokenTimeIsGraterThanNow() {
+    public void shouldFinishCurrentActivityWhenSavedUserTokenIsNotNull() {
         AuthPresenter presenter = this.configurePresenter();
         presenter.authView = this.mockedView;
 
         when(this.mockedSessionManager.getLoggedUser()).thenReturn(this.mockedUser);
-        when(this.mockedDateHelper.isDateGreaterThanNow(Matchers.any(Date.class))).thenReturn(true);
+        this.mockedUser.authToken = "fdssdfsfdsf";
 
         presenter.init(this.mockedView);
 
         verify(this.mockedView).finishCurrentActivity();
+    }
+
+    @Test
+    public void shouldNotFinishAndOpenNewActivityWhenSavedUserIsNull() {
+        AuthPresenter presenter = this.configurePresenter();
+        presenter.authView = this.mockedView;
+
+        when(this.mockedSessionManager.getLoggedUser()).thenReturn(null);
+
+        presenter.init(this.mockedView);
+
+        verify(this.mockedView, never()).openActivity(MainActivity_.class);
+        verify(this.mockedView, never()).finishCurrentActivity();
+    }
+
+    @Test
+    public void shouldNotFinishAndOpenNewActivityWhenUserTokenIsNull() {
+        AuthPresenter presenter = this.configurePresenter();
+        presenter.authView = this.mockedView;
+
+        when(this.mockedSessionManager.getLoggedUser()).thenReturn(this.mockedUser);
+        this.mockedUser.authToken = null;
+
+        presenter.init(this.mockedView);
+
+        verify(this.mockedView, never()).openActivity(MainActivity_.class);
+        verify(this.mockedView, never()).finishCurrentActivity();
     }
 
 
