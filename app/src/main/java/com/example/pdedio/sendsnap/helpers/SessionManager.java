@@ -1,5 +1,7 @@
 package com.example.pdedio.sendsnap.helpers;
 
+import com.example.pdedio.sendsnap.models.User;
+
 import org.androidannotations.annotations.EBean;
 
 /**
@@ -8,5 +10,11 @@ import org.androidannotations.annotations.EBean;
 @EBean
 public class SessionManager {
 
+    public User getLoggedUser() {
+        return User.getSavedUser();
+    }
 
+    public void logOutUser() {
+        User.getSavedUser().delete();
+    }
 }

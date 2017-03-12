@@ -3,6 +3,7 @@ package com.example.pdedio.sendsnap.authorization;
 import android.content.Context;
 
 import com.example.pdedio.sendsnap.BaseFragmentContract;
+import com.example.pdedio.sendsnap.models.User;
 
 /**
  * Created by pawel on 22.02.2017.
@@ -14,7 +15,7 @@ public class LogInContract {
 
         void init(LogInView logInView);
 
-        void onBtnLogInClick(String name, String password, Context context);
+        void onBtnLogInClick(User user, Context context);
     }
 
     public interface LogInView extends BaseFragmentContract.BaseFragmentView {

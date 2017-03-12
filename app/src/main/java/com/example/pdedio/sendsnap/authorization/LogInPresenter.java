@@ -43,13 +43,13 @@ public class LogInPresenter extends BaseFragmentPresenter implements LogInContra
 
     //LogInPresenter methods
     @Override
-    public void onBtnLogInClick(String name, String password, Context context) {
+    public void onBtnLogInClick(User user, Context context) {
         this.view.clearErrors();
         this.view.hideSoftKeyboard();
 
-        if(this.validateAndShowErrors(name, password)) {
+        if(this.validateAndShowErrors(user.name, user.password)) {
             this.view.showProgressDialog();
-            this.signInUser(name, password, context);
+            this.signInUser(user, context);
         }
     }
 
@@ -99,10 +99,7 @@ public class LogInPresenter extends BaseFragmentPresenter implements LogInContra
         return value;
     }
 
-    private void signInUser(String name, String password, Context context) {
-        User user = new User();
-        user.name = name;
-        user.password = password;
+    private void signInUser(User user, Context context) {
         user.logIn(context, this);
     }
 }

@@ -28,6 +28,7 @@
                 android:id="@+id/etSignUpName"
                 android:layout_width="match_parent"
                 android:hint="@string/sign_up_name_hint"
+                android:inputType="textPersonName"
                 style="@style/EditTextOrange" />
         </com.example.pdedio.sendsnap.common.views.BaseTextInputLayout_>
 

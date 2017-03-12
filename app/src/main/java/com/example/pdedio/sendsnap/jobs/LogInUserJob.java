@@ -61,8 +61,12 @@ public class LogInUserJob extends BaseSnapJob {
                 this.callSuccessOnMainThread(this.callback.get(), loggedUser);
             }
         } else {
-            JSONObject object = new JSONObject(response.errorBody().string());
-            this.user.mapErrorsFromJson(object, this.getApplicationContext());
+            try {
+                JSONObject object = new JSONObject(response.errorBody().string());
+                this.user.mapErrorsFromJson(object, this.getApplicationContext());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
             final OperationError<User> error = new OperationError<>(response, this.user);
 

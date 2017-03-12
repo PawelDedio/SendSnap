@@ -2,24 +2,24 @@ package com.example.pdedio.sendsnap.authorization;
 
 import android.content.Context;
 
+import com.example.pdedio.sendsnap.helpers.ErrorManager;
 import com.example.pdedio.sendsnap.models.BaseSnapModel;
 import com.example.pdedio.sendsnap.models.User;
 
 import org.junit.Test;
-import static org.mockito.Matchers.*;
-
 import org.mockito.Matchers;
 import org.mockito.Mock;
-import static org.mockito.Mockito.*;
 import org.mockito.MockitoAnnotations;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
-import okhttp3.MediaType;
-import okhttp3.ResponseBody;
-import retrofit2.Response;
-
-import static junit.framework.Assert.*;
+import static com.example.pdedio.sendsnap.TestHelper.prepareErrorResponse;
+import static junit.framework.Assert.assertNull;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 /**
  * Created by pawel on 27.02.2017.
@@ -39,6 +39,9 @@ public class SignUpPresenterTest {
     @Mock
     protected BaseSnapModel.OperationError<User> mockedError;
 
+    @Mock
+    protected ErrorManager mockedErrorManager;
+
 
 
     private SignUpPresenter configureAndInitPresenter() {
@@ -51,14 +54,9 @@ public class SignUpPresenterTest {
     private SignUpPresenter configurePresenter() {
         MockitoAnnotations.initMocks(this);
         SignUpPresenter presenter = new SignUpPresenter();
+        presenter.errorManager = this.mockedErrorManager;
 
         return presenter;
-    }
-
-    private Response<User> prepareErrorResponse(int code) {
-        Response<User> response = Response.error(code, ResponseBody.create(MediaType.parse("json"), "{}"));
-
-        return response;
     }
 
 
@@ -168,7 +166,7 @@ public class SignUpPresenterTest {
 
         when(this.mockedUser.isValid(any(Context.class))).thenReturn(true);
 
-        this.mockedError.response = this.prepareErrorResponse(400);
+        this.mockedError.response = prepareErrorResponse(400);
         this.mockedError.model = this.mockedUser;
         this.mockedUser.nameError = "Error";
 
@@ -225,7 +223,7 @@ public class SignUpPresenterTest {
 
         when(this.mockedUser.isValid(any(Context.class))).thenReturn(true);
 
-        this.mockedError.response = this.prepareErrorResponse(400);
+        this.mockedError.response = prepareErrorResponse(400);
         this.mockedError.model = this.mockedUser;
 
         presenter.onSignUpClick(this.mockedUser, this.mockedContext);

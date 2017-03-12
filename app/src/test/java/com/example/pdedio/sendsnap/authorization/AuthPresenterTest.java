@@ -1,12 +1,19 @@
 package com.example.pdedio.sendsnap.authorization;
 
+import com.example.pdedio.sendsnap.common.MainActivity_;
+import com.example.pdedio.sendsnap.helpers.DateHelper;
 import com.example.pdedio.sendsnap.helpers.FragmentStackManager;
+import com.example.pdedio.sendsnap.helpers.SessionManager;
+import com.example.pdedio.sendsnap.models.User;
 
 import static junit.framework.Assert.*;
 
 import org.junit.Test;
+import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+
+import java.util.Date;
 
 import static org.mockito.Mockito.*;
 
@@ -22,6 +29,15 @@ public class AuthPresenterTest {
     @Mock
     protected FragmentStackManager mockedFragmentStackManager;
 
+    @Mock
+    protected User mockedUser;
+
+    @Mock
+    protected DateHelper mockedDateHelper;
+
+    @Mock
+    protected SessionManager mockedSessionManager;
+
 
 
     private AuthPresenter configureAndInitPresenter() {
@@ -34,14 +50,39 @@ public class AuthPresenterTest {
     private AuthPresenter configurePresenter() {
         MockitoAnnotations.initMocks(this);
         AuthPresenter presenter = new AuthPresenter();
-        presenter.fragmentStackManager = mockedFragmentStackManager;
+        presenter.fragmentStackManager = this.mockedFragmentStackManager;
+        presenter.dateHelper = this.mockedDateHelper;
+        presenter.sessionManager = this.mockedSessionManager;
 
         return presenter;
     }
 
 
-
     //init()
+    @Test
+    public void shouldOpenNewActivityWhenSavedUserExpireTokenTimeIsGraterThanNow() {
+        AuthPresenter presenter = this.configurePresenter();
+
+        when(this.mockedSessionManager.getLoggedUser()).thenReturn(this.mockedUser);
+        when(this.mockedDateHelper.isDateGreaterThanNow(Matchers.any(Date.class))).thenReturn(true);
+
+        presenter.init(this.mockedView);
+
+        verify(this.mockedView).openActivity(MainActivity_.class);
+    }
+
+    @Test
+    public void shouldFinishCurrentActivityWhenSavedUserExpireTokenTimeIsGraterThanNow() {
+        AuthPresenter presenter = this.configurePresenter();
+        presenter.authView = this.mockedView;
+
+        when(this.mockedSessionManager.getLoggedUser()).thenReturn(this.mockedUser);
+        when(this.mockedDateHelper.isDateGreaterThanNow(Matchers.any(Date.class))).thenReturn(true);
+
+        presenter.init(this.mockedView);
+
+        verify(this.mockedView).finishCurrentActivity();
+    }
 
 
     //onLogInClick()

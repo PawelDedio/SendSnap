@@ -3,17 +3,13 @@ package com.example.pdedio.sendsnap.helpers;
 import com.example.pdedio.sendsnap.BaseContract;
 import com.example.pdedio.sendsnap.R;
 import com.example.pdedio.sendsnap.authorization.AuthActivity_;
-import com.example.pdedio.sendsnap.models.User;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import okhttp3.MediaType;
-import okhttp3.ResponseBody;
-import retrofit2.Response;
-
+import static com.example.pdedio.sendsnap.TestHelper.prepareErrorResponse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.anyInt;
 import static org.mockito.Mockito.eq;
@@ -39,13 +35,6 @@ public class ErrorManagerTest {
     }
 
 
-    private Response<User> prepareErrorResponse(int code) {
-        Response<User> response = Response.error(code, ResponseBody.create(MediaType.parse("json"), "{}"));
-
-        return response;
-    }
-
-
     //service error
     @Test
     public void shouldReturnTrueAndShowNetworkErrorForEmptyResponse() {
@@ -56,28 +45,28 @@ public class ErrorManagerTest {
 
     @Test
     public void shouldReturnTrueAndShowServerErrorFor500Error() {
-        assertTrue(this.errorManager.serviceError(this.mockedView, this.prepareErrorResponse(500)));
+        assertTrue(this.errorManager.serviceError(this.mockedView, prepareErrorResponse(500)));
 
         verify(this.mockedView).showSnackbar(eq(R.string.error_server), anyInt());
     }
 
     @Test
     public void shouldOpenAuthActivityFor401Error() {
-        assertTrue(this.errorManager.serviceError(this.mockedView, this.prepareErrorResponse(401)));
+        assertTrue(this.errorManager.serviceError(this.mockedView, prepareErrorResponse(401)));
 
         verify(this.mockedView).openActivity(AuthActivity_.class);
     }
 
     @Test
     public void shouldFinishCurrentActivityFor401Error() {
-        assertTrue(this.errorManager.serviceError(this.mockedView, this.prepareErrorResponse(401)));
+        assertTrue(this.errorManager.serviceError(this.mockedView, prepareErrorResponse(401)));
 
         verify(this.mockedView).finishCurrentActivity();
     }
 
     @Test
     public void shouldShowToastFor401Error() {
-        assertTrue(this.errorManager.serviceError(this.mockedView, this.prepareErrorResponse(401)));
+        assertTrue(this.errorManager.serviceError(this.mockedView, prepareErrorResponse(401)));
 
         verify(this.mockedView).showToast(eq(R.string.error_session_expired), anyInt());
     }

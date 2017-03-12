@@ -31,6 +31,7 @@
                 android:id="@+id/etLogInName"
                 android:layout_width="match_parent"
                 android:hint="@string/log_in_name_hint"
+                android:inputType="textEmailAddress"
                 style="@style/EditTextGreen" />
         </com.example.pdedio.sendsnap.common.views.BaseTextInputLayout_>
 

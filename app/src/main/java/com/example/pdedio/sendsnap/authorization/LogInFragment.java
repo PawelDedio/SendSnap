@@ -3,6 +3,7 @@ package com.example.pdedio.sendsnap.authorization;
 import com.example.pdedio.sendsnap.BaseFragment;
 import com.example.pdedio.sendsnap.R;
 import com.example.pdedio.sendsnap.common.views.BaseTextInputLayout;
+import com.example.pdedio.sendsnap.models.User;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
@@ -44,9 +45,13 @@ public class LogInFragment extends BaseFragment implements LogInContract.LogInVi
     //Events
     @Click(R.id.btnLogInLogIn)
     protected void onLogInClick() {
-        String login = this.tilName.getEditText().getText().toString();
+        String name = this.tilName.getEditText().getText().toString();
         String password = this.tilPassword.getEditText().getText().toString();
-        this.presenter.onBtnLogInClick(login, password, this.getContext());
+
+        User user = new User();
+        user.name = name;
+        user.password = password;
+        this.presenter.onBtnLogInClick(user, this.getContext());
     }
 
 

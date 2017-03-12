@@ -53,9 +53,7 @@ public abstract class BaseFragmentActivity extends FragmentActivity implements B
             this.progressDialog = this.configureProgressDialog();
         }
 
-        if(!this.progressDialog.isShowing()) {
-            this.progressDialog.show();
-        }
+        this.progressDialog.show();
     }
 
     @Override
@@ -64,9 +62,7 @@ public abstract class BaseFragmentActivity extends FragmentActivity implements B
             this.progressDialog = this.configureProgressDialog();
         }
 
-        if(this.progressDialog.isShowing()) {
-            this.progressDialog.hide();
-        }
+        this.progressDialog.hide();
     }
 
     @Override

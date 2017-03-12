@@ -19,7 +19,6 @@ import com.raizlabs.android.dbflow.sql.language.SQLite;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.sql.Time;
 import java.util.Date;
 
 /**
@@ -44,11 +43,9 @@ public class User extends BaseSnapModel<User> {
     @SerializedName("email")
     public String email;
 
-    @Column
     @SerializedName("password")
     public String password;
 
-    @Column
     @SerializedName("password_confirmation")
     public String passwordConfirmation;
 

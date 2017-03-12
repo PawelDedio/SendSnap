@@ -3,7 +3,11 @@ package com.example.pdedio.sendsnap.authorization;
 import com.example.pdedio.sendsnap.BaseFragment;
 import com.example.pdedio.sendsnap.BasePresenter;
 import com.example.pdedio.sendsnap.R;
+import com.example.pdedio.sendsnap.common.MainActivity_;
+import com.example.pdedio.sendsnap.helpers.DateHelper;
 import com.example.pdedio.sendsnap.helpers.FragmentStackManager;
+import com.example.pdedio.sendsnap.helpers.SessionManager;
+import com.example.pdedio.sendsnap.models.User;
 
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EBean;
@@ -19,12 +23,19 @@ public class AuthPresenter extends BasePresenter implements AuthContract.AuthPre
     @Bean
     protected FragmentStackManager fragmentStackManager;
 
+    @Bean
+    protected DateHelper dateHelper;
+
+    @Bean
+    protected SessionManager sessionManager;
+
 
 
     //Lifecycle
     @Override
     public void init(AuthContract.AuthView authView) {
         this.authView = authView;
+        this.logInUserIfValid();
     }
 
     @Override
@@ -74,6 +85,16 @@ public class AuthPresenter extends BasePresenter implements AuthContract.AuthPre
 
 
     //Private methods
+    private void logInUserIfValid() {
+        User user = this.sessionManager.getLoggedUser();
+
+        /*if(user != null && this.dateHelper.isDateGreaterThanNow(user.tokenExpireTime)) {
+            this.authView.openActivity(MainActivity_.class);
+            this.authView.finishCurrentActivity();
+        }*/
+        //TODO: disabled for testing auth activity
+    }
+
     private void showLogInFragment() {
         LogInFragment fragment = LogInFragment_.builder().build();
         this.authView.showFragment(fragment);
