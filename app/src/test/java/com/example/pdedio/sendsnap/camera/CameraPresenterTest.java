@@ -8,7 +8,9 @@ import android.view.TextureView;
 import com.example.pdedio.sendsnap.BaseFragment;
 import com.example.pdedio.sendsnap.common.BackKeyListener;
 import com.example.pdedio.sendsnap.helpers.BitmapsManager;
+import com.example.pdedio.sendsnap.helpers.SessionManager;
 import com.example.pdedio.sendsnap.helpers.SharedPreferenceManager;
+import com.example.pdedio.sendsnap.models.User;
 import com.example.pdedio.sendsnap.permissions.PermissionManager;
 
 import static org.junit.Assert.*;
@@ -57,6 +59,12 @@ public class CameraPresenterTest {
     @Mock
     protected SharedPreferenceManager mockedPreferenceManager;
 
+    @Mock
+    protected SessionManager mockedSessionManager;
+
+    @Mock
+    protected User mockedUser;
+
     protected File templateFile = new File("./src/test/resources/photo.jpg");
 
 
@@ -75,6 +83,7 @@ public class CameraPresenterTest {
         presenter.cameraHelper = mockedCameraHelper;
         presenter.bitmapsManager = mockedBitmapsManager;
         presenter.sharedPreferenceManager = mockedPreferenceManager;
+        presenter.sessionManager = mockedSessionManager;
 
         return presenter;
     }
@@ -127,6 +136,44 @@ public class CameraPresenterTest {
         presenter.init(mockedView, mockedContext, mockedTexture);
 
         verify(this.mockedView).setOnBackKeyListener(any(BackKeyListener.class));
+    }
+
+    @Test
+    public void shouldSetUserNameWhenDisplayNameIsNull() {
+        CameraPresenter presenter = this.configurePresenter();
+
+        when(mockedSessionManager.getLoggedUser()).thenReturn(mockedUser);
+        mockedUser.name = "name";
+
+        presenter.init(mockedView, mockedContext, mockedTexture);
+
+        verify(this.mockedView).setUserName("name");
+    }
+
+    @Test
+    public void shouldSetUserNameWhenDisplayNameIsEmpty() {
+        CameraPresenter presenter = this.configurePresenter();
+
+        when(mockedSessionManager.getLoggedUser()).thenReturn(mockedUser);
+        mockedUser.name = "name";
+        mockedUser.displayName = "";
+
+        presenter.init(mockedView, mockedContext, mockedTexture);
+
+        verify(this.mockedView).setUserName("name");
+    }
+
+    @Test
+    public void shouldSetUserDisplayNameWhenDisplayNameIsNotNull() {
+        CameraPresenter presenter = this.configurePresenter();
+
+        when(mockedSessionManager.getLoggedUser()).thenReturn(mockedUser);
+        mockedUser.name = "name";
+        mockedUser.displayName = "displayName";
+
+        presenter.init(mockedView, mockedContext, mockedTexture);
+
+        verify(this.mockedView).setUserName("displayName");
     }
 
 

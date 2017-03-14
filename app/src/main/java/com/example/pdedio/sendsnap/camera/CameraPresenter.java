@@ -11,7 +11,9 @@ import com.example.pdedio.sendsnap.edit_snap.EditSnapFragment;
 import com.example.pdedio.sendsnap.edit_snap.EditSnapFragment_;
 import com.example.pdedio.sendsnap.helpers.BitmapsManager;
 import com.example.pdedio.sendsnap.helpers.Consts;
+import com.example.pdedio.sendsnap.helpers.SessionManager;
 import com.example.pdedio.sendsnap.helpers.SharedPreferenceManager;
+import com.example.pdedio.sendsnap.models.User;
 import com.example.pdedio.sendsnap.permissions.PermissionManager;
 import com.example.pdedio.sendsnap.permissions.PermissionSession;
 import com.example.pdedio.sendsnap.permissions.PermissionsResult;
@@ -41,6 +43,9 @@ public class CameraPresenter extends BaseFragmentPresenter implements CameraCont
     @Bean
     protected SharedPreferenceManager sharedPreferenceManager;
 
+    @Bean
+    protected SessionManager sessionManager;
+
     protected CameraContract.CameraView cameraView;
 
     protected CameraHelper cameraHelper;
@@ -61,6 +66,7 @@ public class CameraPresenter extends BaseFragmentPresenter implements CameraCont
         this.cameraView.hideStatusBar();
         this.cameraView.setOnBackKeyListener(this);
         this.checkPermissions(context, textureView);
+        this.setUserName();
     }
 
     @Override
@@ -228,6 +234,19 @@ public class CameraPresenter extends BaseFragmentPresenter implements CameraCont
         }
         this.initCameraHelper(context, textureView);
         this.isCameraConfigured = true;
+    }
+
+    private void setUserName() {
+        User user = this.sessionManager.getLoggedUser();
+        if(user == null) {
+            return;
+        }
+
+        if(user.displayName == null || user.displayName.isEmpty()) {
+            this.cameraView.setUserName(user.name);
+        } else {
+            this.cameraView.setUserName(user.displayName);
+        }
     }
 
     private Bitmap rotateAndSaveImage(File file) {

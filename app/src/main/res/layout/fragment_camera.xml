@@ -87,8 +87,8 @@
         custom:donut_unfinished_color="@color/camera_btn_record_stroke"
         android:background="@drawable/btn_record_progress_background"/>
 
-    <LinearLayout
-        android:id="@+id/llCameraMenu"
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/clCameraMenu"
         android:layout_width="0dp"
         android:layout_height="0dp"
         custom:layout_constraintBottom_toTopOf="parent"
@@ -97,5 +97,37 @@
         android:background="@color/camera_menu_background"
         android:orientation="vertical">
 
-    </LinearLayout>
+        <com.example.pdedio.sendsnap.common.views.BaseImageButton_
+            android:id="@+id/btnCameraSettings"
+            android:layout_width="@dimen/camera_btn_settings_size"
+            android:layout_height="@dimen/camera_btn_settings_size"
+            android:layout_marginTop="@dimen/camera_btn_settings_margin_top"
+            android:layout_marginRight="@dimen/camera_btn_settings_margin_right"
+            custom:layout_constraintTop_toTopOf="parent"
+            custom:layout_constraintRight_toRightOf="parent"
+            app:srcCompat="@drawable/btn_settings_white"
+            android:background="@null"
+            android:scaleType="fitCenter"/>
+
+        <com.example.pdedio.sendsnap.common.views.BaseImageView_
+            android:id="@+id/ivCameraLogo"
+            android:layout_width="@dimen/camera_iv_logo_size"
+            android:layout_height="@dimen/camera_iv_logo_size"
+            android:layout_marginTop="@dimen/camera_iv_logo_margin_top"
+            app:srcCompat="@drawable/main_logo"
+            custom:layout_constraintTop_toBottomOf="@id/btnCameraSettings"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
+
+        <com.example.pdedio.sendsnap.common.views.BaseTextView_
+            android:id="@+id/txvCameraUserName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/camera_txv_name_margin_top"
+            custom:layout_constraintTop_toBottomOf="@id/ivCameraLogo"
+            custom:layout_constraintLeft_toLeftOf="parent"
+            custom:layout_constraintRight_toRightOf="parent"
+            android:textSize="@dimen/camera_txv_name_text_size"
+            android:textColor="@color/white"/>
+    </android.support.constraint.ConstraintLayout>
 </android.support.constraint.ConstraintLayout >

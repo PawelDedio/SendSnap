@@ -77,6 +77,16 @@
     <dimen name="camera_btn_record_progress_stroke_width">8dp</dimen>
     <dimen name="camera_btn_record_progress_margin_bottom">30dp</dimen>
 
+    <dimen name="camera_btn_settings_size">35dp</dimen>
+    <dimen name="camera_btn_settings_margin_top">20dp</dimen>
+    <dimen name="camera_btn_settings_margin_right">20dp</dimen>
+
+    <dimen name="camera_iv_logo_size">150dp</dimen>
+    <dimen name="camera_iv_logo_margin_top">15dp</dimen>
+
+    <dimen name="camera_txv_name_margin_top">15dp</dimen>
+    <dimen name="camera_txv_name_text_size">20dp</dimen>
+
     <!-- Edit Snap Fragment -->
     <dimen name="edit_snap_btn_content_margin_top">20dp</dimen>
     <dimen name="edit_snap_btn_content_margin_bottom">20dp</dimen>

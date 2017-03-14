@@ -6,7 +6,6 @@ import android.content.DialogInterface;
 import android.support.annotation.DrawableRes;
 import android.support.constraint.ConstraintLayout;
 import android.support.constraint.ConstraintSet;
-import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.TextureView;
 import android.view.View;
@@ -14,9 +13,9 @@ import android.view.WindowManager;
 
 import com.example.pdedio.sendsnap.BaseFragment;
 import com.example.pdedio.sendsnap.R;
-import com.example.pdedio.sendsnap.common.BackKeyListener;
 import com.example.pdedio.sendsnap.common.views.BaseButton;
 import com.example.pdedio.sendsnap.common.views.BaseImageButton;
+import com.example.pdedio.sendsnap.common.views.BaseTextView;
 import com.github.lzyzsd.circleprogress.DonutProgress;
 import com.transitionseverywhere.TransitionManager;
 
@@ -24,11 +23,9 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
-import org.androidannotations.annotations.KeyUp;
 import org.androidannotations.annotations.Touch;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.res.DimensionPixelOffsetRes;
-import org.androidannotations.annotations.res.DimensionRes;
 
 import java.util.concurrent.TimeUnit;
 
@@ -68,6 +65,9 @@ public class CameraFragment extends BaseFragment implements CameraContract.Camer
 
     @ViewById(R.id.vCameraFrontFlash)
     protected View frontCameraFlash;
+
+    @ViewById(R.id.txvCameraUserName)
+    protected BaseTextView txvUserName;
 
     @DimensionPixelOffsetRes(R.dimen.camera_ll_menu_margin_bottom)
     protected int menuMarginBottom;
@@ -174,6 +174,11 @@ public class CameraFragment extends BaseFragment implements CameraContract.Camer
     }
 
 
+    @Override
+    public void setUserName(String name) {
+        this.txvUserName.setText(name);
+    }
+
     //CameraView methods
     @Override
     public void startFrontFlash() {
@@ -262,8 +267,8 @@ public class CameraFragment extends BaseFragment implements CameraContract.Camer
         ConstraintSet constraintSet = new ConstraintSet();
         constraintSet.clone(this.baseConstraintSet);
 
-        constraintSet.connect(R.id.llCameraMenu, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP, 0);
-        constraintSet.connect(R.id.llCameraMenu, ConstraintSet.BOTTOM, R.id.btnCameraTopMenu, ConstraintSet.TOP, this.menuMarginBottom);
+        constraintSet.connect(R.id.clCameraMenu, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP, 0);
+        constraintSet.connect(R.id.clCameraMenu, ConstraintSet.BOTTOM, R.id.btnCameraTopMenu, ConstraintSet.TOP, this.menuMarginBottom);
 
         constraintSet.connect(R.id.btnCameraTopMenu, ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM, this.btnCameraRecord.getHeight());
         constraintSet.clear(R.id.btnCameraTopMenu, ConstraintSet.TOP);

@@ -42,6 +42,8 @@ public class CameraContract {
 
     public interface CameraView extends BaseFragmentContract.BaseFragmentView {
 
+        void setUserName(String name);
+
         void startFrontFlash();
 
         void stopFrontFlash();
