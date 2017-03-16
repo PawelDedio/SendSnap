@@ -76,6 +76,14 @@
         <item name="android:paddingRight">@dimen/btn_transparent_orange_padding_horizontal</item>
     </style>
 
+    <style name="ButtonCameraMenu">
+        <item name="android:layout_width">@dimen/camera_menu_buttons_size</item>
+        <item name="android:layout_height">@dimen/camera_menu_buttons_size</item>
+        <item name="android:layout_marginTop">@dimen/camera_menu_margin_between_elements</item>
+        <item name="android:background">@null</item>
+        <item name="android:scaleType">fitCenter</item>
+    </style>
+
 
     <!-- Edit Text Themes -->
     <style name="EditTextGreenTheme" parent="TextAppearance.AppCompat">
@@ -136,5 +144,16 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">match_parent</item>
         <item name="hintTextAppearance">@style/TextInputLayoutOrangeTheme</item>
+    </style>
+
+
+    <!-- Text Views -->
+    <style name="TextViewCameraMenu">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">@dimen/camera_menu_buttons_margin_between_text</item>
+        <item name="android:gravity">left|center_vertical</item>
+        <item name="android:textSize">@dimen/camera_menu_buttons_text_size</item>
+        <item name="android:textColor">@color/white</item>
     </style>
 </resources>
