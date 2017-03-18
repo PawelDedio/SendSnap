@@ -173,13 +173,33 @@ public class CameraFragment extends BaseFragment implements CameraContract.Camer
         return false;
     }
 
+    @Click(R.id.btnCameraSettings)
+    protected void onSettingsClick() {
+        this.cameraPresenter.onSettingsClick();
+    }
 
+    @Click(R.id.btnCameraInvitations)
+    protected void onInvitationsClick() {
+        this.cameraPresenter.onInvitationsClick();
+    }
+
+    @Click(R.id.btnCameraAddFriends)
+    protected void onAddFriendsClick() {
+        this.cameraPresenter.onAddFriendsClick();
+    }
+
+    @Click(R.id.btnCameraMyFriends)
+    protected void onMyFriendsClick() {
+        this.cameraPresenter.onMyFriendsClick();
+    }
+
+
+    //CameraView methods
     @Override
     public void setUserName(String name) {
         this.txvUserName.setText(name);
     }
 
-    //CameraView methods
     @Override
     public void startFrontFlash() {
         Activity activity = this.getActivity();
