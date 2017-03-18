@@ -1,13 +1,10 @@
 package com.example.pdedio.sendsnap.common;
 
-import android.support.v4.app.FragmentManager;
 import android.support.v4.view.PagerAdapter;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 
-import com.example.pdedio.sendsnap.BaseContract;
 import com.example.pdedio.sendsnap.BaseFragment;
 import com.example.pdedio.sendsnap.BaseFragmentActivity;
 import com.example.pdedio.sendsnap.R;
@@ -16,7 +13,6 @@ import com.example.pdedio.sendsnap.common.views.BaseViewPager;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.KeyUp;
 import org.androidannotations.annotations.ViewById;
 
 @EActivity(R.layout.activity_main)

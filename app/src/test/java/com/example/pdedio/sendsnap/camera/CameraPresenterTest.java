@@ -12,6 +12,7 @@ import com.example.pdedio.sendsnap.helpers.SessionManager;
 import com.example.pdedio.sendsnap.helpers.SharedPreferenceManager;
 import com.example.pdedio.sendsnap.models.User;
 import com.example.pdedio.sendsnap.permissions.PermissionManager;
+import com.example.pdedio.sendsnap.settings.SettingsFragment;
 
 import static org.junit.Assert.*;
 import org.junit.Test;
@@ -480,7 +481,7 @@ public class CameraPresenterTest {
         CameraPresenter presenter = this.configureAndInitPresenter();
         presenter.onSettingsClick();
 
-        verify(this.mockedView).showFragment(any(BaseFragment.class));
+        verify(this.mockedView).showFragment(any(SettingsFragment.class));
     }
 
 

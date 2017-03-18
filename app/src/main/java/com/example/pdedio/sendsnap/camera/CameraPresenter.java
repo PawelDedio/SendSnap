@@ -17,6 +17,8 @@ import com.example.pdedio.sendsnap.models.User;
 import com.example.pdedio.sendsnap.permissions.PermissionManager;
 import com.example.pdedio.sendsnap.permissions.PermissionSession;
 import com.example.pdedio.sendsnap.permissions.PermissionsResult;
+import com.example.pdedio.sendsnap.settings.SettingsFragment;
+import com.example.pdedio.sendsnap.settings.SettingsFragment_;
 
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EBean;
@@ -205,7 +207,8 @@ public class CameraPresenter extends BaseFragmentPresenter implements CameraCont
 
     @Override
     public void onSettingsClick() {
-        //TODO: implementation
+        SettingsFragment fragment = SettingsFragment_.builder().build();
+        this.cameraView.showFragment(fragment);
     }
 
     @Override
