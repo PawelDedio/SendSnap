@@ -60,11 +60,5 @@ public class SelectSnapRecipientFragment extends BaseFragment implements SelectS
 
 
     //SelectSnapView methods
-    @Override
-    public void setNotificationColor(@ColorRes int colorId) {
-        Window window = this.getActivity().getWindow();
-        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        window.setStatusBarColor(ContextCompat.getColor(this.getActivity(), colorId));
-    }
+
 }

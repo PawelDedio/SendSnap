@@ -1,6 +1,7 @@
 package com.example.pdedio.sendsnap;
 
 import android.app.Activity;
+import android.support.annotation.ColorRes;
 import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
 import android.widget.Toast;
@@ -66,5 +67,13 @@ public class BaseFragment extends Fragment implements BaseFragmentContract.BaseF
     @Override
     public void showToast(@StringRes int stringId, int length) {
         Toast.makeText(this.getContext(), stringId, length).show();
+    }
+
+    @Override
+    public void setNotificationColor(@ColorRes int colorId) {
+        if(this.getActivity() instanceof BaseContract.BaseView) {
+            BaseContract.BaseView baseView = (BaseContract.BaseView) this.getActivity();
+            baseView.setNotificationColor(colorId);
+        }
     }
 }

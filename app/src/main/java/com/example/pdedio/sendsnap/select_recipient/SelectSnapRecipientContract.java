@@ -19,6 +19,5 @@ public class SelectSnapRecipientContract {
 
     public interface SelectSnapRecipientView extends BaseFragmentContract.BaseFragmentView {
 
-        void setNotificationColor(@ColorRes int colorId);
     }
 }

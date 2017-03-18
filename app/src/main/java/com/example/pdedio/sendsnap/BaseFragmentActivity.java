@@ -1,7 +1,11 @@
 package com.example.pdedio.sendsnap;
 
+import android.support.annotation.ColorRes;
 import android.support.annotation.StringRes;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.content.ContextCompat;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.example.pdedio.sendsnap.SendSnapApplication;
@@ -30,5 +34,13 @@ public abstract class BaseFragmentActivity extends FragmentActivity implements B
     @Override
     public void showToast(@StringRes int stringId, int length) {
         Toast.makeText(this, stringId, length).show();
+    }
+
+    @Override
+    public void setNotificationColor(@ColorRes int colorId) {
+        Window window = this.getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        window.setStatusBarColor(ContextCompat.getColor(this, colorId));
     }
 }

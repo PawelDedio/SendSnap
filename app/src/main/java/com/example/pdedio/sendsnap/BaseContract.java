@@ -1,5 +1,6 @@
 package com.example.pdedio.sendsnap;
 
+import android.support.annotation.ColorRes;
 import android.support.annotation.StringRes;
 
 /**
@@ -25,5 +26,7 @@ public class BaseContract {
         void popFragment();
 
         void showToast(@StringRes int stringId, int length);
+
+        void setNotificationColor(@ColorRes int colorId);
     }
 }
