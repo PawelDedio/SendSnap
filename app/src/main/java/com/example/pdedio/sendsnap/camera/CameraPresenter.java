@@ -203,6 +203,26 @@ public class CameraPresenter extends BaseFragmentPresenter implements CameraCont
         return false;
     }
 
+    @Override
+    public void onSettingsClick() {
+        //TODO: implementation
+    }
+
+    @Override
+    public void onInvitationsClick() {
+        //TODO: implementation
+    }
+
+    @Override
+    public void onAddFriendsClick() {
+        //TODO: implementation
+    }
+
+    @Override
+    public void onMyFriendsClick() {
+
+    }
+
 
     //Private methods
     private void checkPermissions(final Context context, final TextureView textureView) {

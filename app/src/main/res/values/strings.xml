@@ -54,6 +54,7 @@
     <!-- Camera Fragment -->
     <string name="camera_permissions_denied_title">Permissions denied</string>
     <string name="camera_permissions_denied_message">We need all of these permissions to record and save your snaps. Please grant all permissions in settings and open app again.</string>
+    <string name="camera_btn_invitations">My invitations</string>
     <string name="camera_btn_add_friends_text">Add friends</string>
     <string name="camera_btn_my_friends_text">My friends</string>
 

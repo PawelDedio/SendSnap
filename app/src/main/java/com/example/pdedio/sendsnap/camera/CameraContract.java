@@ -38,6 +38,14 @@ public class CameraContract {
         void enableAutoFocus();
 
         boolean onBackKeyClick();
+
+        void onSettingsClick();
+
+        void onInvitationsClick();
+
+        void onAddFriendsClick();
+
+        void onMyFriendsClick();
     }
 
     public interface CameraView extends BaseFragmentContract.BaseFragmentView {

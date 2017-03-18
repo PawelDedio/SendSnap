@@ -474,6 +474,36 @@ public class CameraPresenterTest {
     }
 
 
+    //onSettingsClick()
+    @Test
+    public void clickOnSettingsButtonShouldOpenFragment() {
+        CameraPresenter presenter = this.configureAndInitPresenter();
+        presenter.onSettingsClick();
+
+        verify(this.mockedView).showFragment(any(BaseFragment.class));
+    }
+
+
+    //onInvitationsClick()
+    @Test
+    public void clickOnInvitationsButtonShouldOpenFragment() {
+        CameraPresenter presenter = this.configureAndInitPresenter();
+        presenter.onSettingsClick();
+
+        verify(this.mockedView).showFragment(any(BaseFragment.class));
+    }
+
+
+    //onAddFriendsClick()
+    @Test
+    public void clickOnAddFriendsButtonShouldOpenFragment() {
+        CameraPresenter presenter = this.configureAndInitPresenter();
+        presenter.onSettingsClick();
+
+        verify(this.mockedView).showFragment(any(BaseFragment.class));
+    }
+
+
     //destroy()
     @Test
     public void shouldSetViewToNull() {

@@ -5,6 +5,7 @@ import android.content.Context;
 
 import com.birbit.android.jobqueue.JobManager;
 import com.birbit.android.jobqueue.config.Configuration;
+import com.crashlytics.android.Crashlytics;
 import com.karumi.dexter.Dexter;
 import com.raizlabs.android.dbflow.config.FlowConfig;
 import com.raizlabs.android.dbflow.config.FlowManager;
@@ -12,6 +13,8 @@ import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
 
 import org.androidannotations.annotations.EApplication;
+
+import io.fabric.sdk.android.Fabric;
 
 /**
  * Created by p.dedio on 26.09.16.
@@ -36,6 +39,7 @@ public class SendSnapApplication extends Application {
         this.refWatcher = LeakCanary.install(this);
 
         FlowManager.init(new FlowConfig.Builder(this).openDatabasesOnInit(true).build());
+        Fabric.with(this, new Crashlytics());
     }
 
     public void configureJobManager() {

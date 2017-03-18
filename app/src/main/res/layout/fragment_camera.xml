@@ -131,9 +131,27 @@
             android:textColor="@color/white"/>
 
         <com.example.pdedio.sendsnap.common.views.BaseImageButton_
-            android:id="@+id/btnCameraAddFriends"
+            android:id="@+id/btnCameraInvitations"
             android:layout_marginTop="@dimen/camera_menu_buttons_margin_top"
             custom:layout_constraintTop_toBottomOf="@id/txvCameraUserName"
+            custom:layout_constraintLeft_toLeftOf="parent"
+            custom:layout_constraintRight_toLeftOf="@+id/txvCameraInvitations"
+            app:srcCompat="@drawable/ic_invitation_white"
+            custom:layout_constraintHorizontal_chainStyle="packed"
+            style="@style/ButtonCameraMenu"/>
+
+        <com.example.pdedio.sendsnap.common.views.BaseTextView_
+            android:id="@+id/txvCameraInvitations"
+            custom:layout_constraintTop_toTopOf="@id/btnCameraInvitations"
+            custom:layout_constraintBottom_toBottomOf="@id/btnCameraInvitations"
+            custom:layout_constraintLeft_toRightOf="@id/btnCameraInvitations"
+            custom:layout_constraintRight_toRightOf="parent"
+            android:text="@string/camera_btn_invitations"
+            style="@style/TextViewCameraMenu"/>
+
+        <com.example.pdedio.sendsnap.common.views.BaseImageButton_
+            android:id="@+id/btnCameraAddFriends"
+            custom:layout_constraintTop_toBottomOf="@id/btnCameraInvitations"
             custom:layout_constraintLeft_toLeftOf="parent"
             custom:layout_constraintRight_toLeftOf="@+id/txvCameraAddFriends"
             app:srcCompat="@drawable/ic_add_contact_white"
