@@ -2,13 +2,15 @@ package com.example.pdedio.sendsnap.settings;
 
 import com.example.pdedio.sendsnap.BaseFragmentPresenter;
 
+import org.androidannotations.annotations.EBean;
+
 /**
  * Created by pawel on 18.03.2017.
  */
-
+@EBean
 public class SettingsPresenter extends BaseFragmentPresenter implements SettingsContract.SettingsPresenter {
 
-    private SettingsContract.SettingsView view;
+    protected SettingsContract.SettingsView view;
 
 
 
