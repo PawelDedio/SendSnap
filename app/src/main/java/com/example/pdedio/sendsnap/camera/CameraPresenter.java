@@ -88,6 +88,12 @@ public class CameraPresenter extends BaseFragmentPresenter implements CameraCont
             this.cameraHelper.release();
             this.isCameraConfigured = false;
         }
+        this.cameraView.setOnBackKeyListener(null);
+    }
+
+    @Override
+    public void onResume() {
+        this.cameraView.setOnBackKeyListener(this);
     }
 
 

@@ -177,6 +177,37 @@ public class CameraPresenterTest {
     }
 
 
+    //onResume()
+    @Test
+    public void onResumeShouldSetKeyBackListener() {
+        CameraPresenter presenter = this.configureAndInitPresenter();
+
+        presenter.onResume();
+
+        verify(this.mockedView).setOnBackKeyListener(any(BackKeyListener.class));
+    }
+
+
+    //onPause()
+    @Test
+    public void shouldReleaseCamera() {
+        CameraPresenter presenter = this.configureAndInitPresenter();
+
+        presenter.onPause();
+
+        verify(this.mockedCameraHelper).release();
+    }
+
+    @Test
+    public void shouldSetKeyBackListenerToNull() {
+        CameraPresenter presenter = this.configureAndInitPresenter();
+
+        presenter.onPause();
+
+        verify(this.mockedView).setOnBackKeyListener(null);
+    }
+
+
     //onBtnMenuClick()
     @Test
     public void shouldShowMenuWhenMenuIsInvisible() {
@@ -498,7 +529,7 @@ public class CameraPresenterTest {
     @Test
     public void clickOnAddFriendsButtonShouldOpenFragment() {
         CameraPresenter presenter = this.configureAndInitPresenter();
-        presenter.onSettingsClick();
+        presenter.onAddFriendsClick();
 
         verify(this.mockedView).showFragment(any(BaseFragment.class));
     }
