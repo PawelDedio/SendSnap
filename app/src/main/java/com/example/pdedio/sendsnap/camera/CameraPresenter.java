@@ -302,8 +302,9 @@ public class CameraPresenter extends BaseFragmentPresenter implements CameraCont
     }
 
     private void openFragment(File file, int snapType, Bitmap bitmap) {
-        EditSnapFragment fragment = EditSnapFragment_.builder().snapFile(file).snapType(snapType)
-                .snapBitmap(bitmap).build();
+        EditSnapFragment fragment = EditSnapFragment_.builder().snapPath(file.getAbsolutePath()).snapType(snapType)
+                .build();
+        fragment.setBitmap(bitmap);
         this.cameraView.showFragment(fragment);
     }
 }

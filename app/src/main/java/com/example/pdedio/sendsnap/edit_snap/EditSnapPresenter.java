@@ -233,7 +233,7 @@ public class EditSnapPresenter extends BaseFragmentPresenter implements EditSnap
         File snap;
 
         if(directory == null || fileName == null) {
-            snap = this.editSnapView.getSnapFile();
+            snap = new File(this.editSnapView.getSnapPath());
         } else {
             File path = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM) + directory);
 
@@ -249,7 +249,7 @@ public class EditSnapPresenter extends BaseFragmentPresenter implements EditSnap
             Bitmap bitmap = this.makeViewsScreenshot();
             this.saveBitmapToFile(bitmap, snap);
         } else if(snap.length() == 0) {
-            File takenSNap  = this.editSnapView.getSnapFile();
+            File takenSNap  = new File(this.editSnapView.getSnapPath());
             this.copyFile(takenSNap, snap);
             takenSNap.delete();
         }

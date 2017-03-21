@@ -46,7 +46,7 @@ public class EditSnapContract {
     public interface EditSnapView extends BaseFragmentContract.BaseFragmentView {
         BaseImageView getPreviewImageView();
 
-        File getSnapFile();
+        String getSnapPath();
 
         int getSnapType();
 

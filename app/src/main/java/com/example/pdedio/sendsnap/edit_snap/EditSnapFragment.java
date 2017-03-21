@@ -52,9 +52,8 @@ public class EditSnapFragment extends BaseFragment implements EditSnapContract.E
 
     @FragmentArg
     @InstanceState
-    protected File snapFile;
+    protected String snapPath;
 
-    @FragmentArg
     protected Bitmap snapBitmap;
 
     @ViewById(R.id.ivEditSnapPhoto)
@@ -130,6 +129,12 @@ public class EditSnapFragment extends BaseFragment implements EditSnapContract.E
     }
 
 
+    //Setters
+    public void setBitmap(Bitmap bitmap) {
+        this.snapBitmap = bitmap;
+    }
+
+
     //Events
     @Click(R.id.btnEditSnapClose)
     protected void onBtnCloseClick() {
@@ -184,8 +189,8 @@ public class EditSnapFragment extends BaseFragment implements EditSnapContract.E
     }
 
     @Override
-    public File getSnapFile() {
-        return this.snapFile;
+    public String getSnapPath() {
+        return this.snapPath;
     }
 
     @Override
@@ -310,7 +315,7 @@ public class EditSnapFragment extends BaseFragment implements EditSnapContract.E
                 try {
                     Surface surface = new Surface(surfaceTexture);
                     mediaPlayer = new MediaPlayer();
-                    mediaPlayer.setDataSource(snapFile.getAbsolutePath());
+                    mediaPlayer.setDataSource(snapPath);
                     mediaPlayer.setSurface(surface);
                     mediaPlayer.prepare();
                     mediaPlayer.setLooping(true);
