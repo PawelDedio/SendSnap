@@ -54,6 +54,10 @@
     <color name="camera_btn_record_progress_border">#bfbfbf</color>
     <color name="camera_v_front_camera_flash">#caffffff</color>
 
+    <!-- Settings Fragment -->
+    <color name="settings_section_label_text">#0288D1</color>
+    <color name="settings_section_divider_background">#0288D1</color>
+
     <!-- Edit Snap Fragment -->
     <color name="edit_snap_btn_timer_text">#ffffff</color>
     <color name="edit_snap_et_text_background">#87000000</color>

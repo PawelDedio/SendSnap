@@ -93,6 +93,15 @@
     <dimen name="camera_menu_buttons_text_size">24dp</dimen>
     <dimen name="camera_menu_margin_between_elements">20dp</dimen>
 
+    <!-- Settings Fragment -->
+    <dimen name="settings_content_margin_horizontal">20dp</dimen>
+    <dimen name="settings_dividers_margin_horizontal">15dp</dimen>
+
+    <dimen name="settings_txv_section_label_margin_vertical">10dp</dimen>
+    <dimen name="settings_txv_section_label_text_size">18dp</dimen>
+
+    <dimen name="settings_divider_height">1dp</dimen>
+
     <!-- Edit Snap Fragment -->
     <dimen name="edit_snap_btn_content_margin_top">20dp</dimen>
     <dimen name="edit_snap_btn_content_margin_bottom">20dp</dimen>

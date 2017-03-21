@@ -19,10 +19,12 @@ public class SettingsPresenter extends BaseFragmentPresenter implements Settings
     @Override
     public void init(SettingsContract.SettingsView view) {
         this.view = view;
+        this.view.showStatusBar();
     }
 
     @Override
     public void destroy() {
+        this.view.hideStatusBar();
         this.view = null;
     }
 }

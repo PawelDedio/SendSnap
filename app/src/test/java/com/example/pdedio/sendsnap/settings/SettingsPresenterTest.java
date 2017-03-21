@@ -3,6 +3,7 @@ package com.example.pdedio.sendsnap.settings;
 import static org.junit.Assert.*;
 import org.junit.Test;
 import org.mockito.Mock;
+import static org.mockito.Mockito.*;
 import org.mockito.MockitoAnnotations;
 
 /**
@@ -30,6 +31,17 @@ public class SettingsPresenterTest {
     }
 
 
+    //init()
+    @Test
+    public void shouldShowStatusBar() {
+        SettingsPresenter presenter = this.configurePresenter();
+
+        presenter.init(this.mockedView);
+
+        verify(this.mockedView).showStatusBar();
+    }
+
+
     //destroy()
     @Test
     public void shouldSetViewToNull() {
@@ -38,5 +50,14 @@ public class SettingsPresenterTest {
         presenter.destroy();
 
         assertNull(presenter.view);
+    }
+
+    @Test
+    public void shouldHideStatusBar() {
+        SettingsPresenter presenter = this.configureAndInitPresenter();
+
+        presenter.destroy();
+
+        verify(this.mockedView).hideStatusBar();
     }
 }

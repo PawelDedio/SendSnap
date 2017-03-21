@@ -156,4 +156,24 @@
         <item name="android:textSize">@dimen/camera_menu_buttons_text_size</item>
         <item name="android:textColor">@color/white</item>
     </style>
+
+    <style name="TextViewSettingsSectionLabel">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">left|center_vertical</item>
+        <item name="android:layout_marginTop">@dimen/settings_txv_section_label_margin_vertical</item>
+        <item name="android:layout_marginBottom">@dimen/settings_txv_section_label_margin_vertical</item>
+        <item name="android:layout_marginLeft">@dimen/settings_content_margin_horizontal</item>
+        <item name="android:layout_marginRight">@dimen/settings_content_margin_horizontal</item>
+        <item name="android:textSize">@dimen/settings_txv_section_label_text_size</item>
+        <item name="android:textColor">@color/settings_section_label_text</item>
+    </style>
+
+
+    <!-- Others -->
+    <style name="SettingsSectionDivider">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">@dimen/settings_divider_height</item>
+        <item name="android:background">@color/settings_section_divider_background</item>
+    </style>
 </resources>

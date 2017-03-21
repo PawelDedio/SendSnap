@@ -58,6 +58,10 @@
     <string name="camera_btn_add_friends_text">Add friends</string>
     <string name="camera_btn_my_friends_text">My friends</string>
 
+    <!-- Settings Fragment -->
+    <string name="settings_title">Settings</string>
+    <string name="settings_section_account">Account Information</string>
+
     <!-- Edit Snap Fragment -->
     <string name="edit_snap_number_picker_title">Select Snap duration</string>
     <string name="edit_snap_snap_saved_message">Snap saved</string>
