@@ -57,6 +57,9 @@
     <!-- Settings Fragment -->
     <color name="settings_section_label_text">#0288D1</color>
     <color name="settings_section_divider_background">#0288D1</color>
+    <color name="settings_field_label_text">#000000</color>
+    <color name="settings_field_content_text">#646464</color>
+    <color name="settings_field_divider_background">#bcbcbc</color>
 
     <!-- Edit Snap Fragment -->
     <color name="edit_snap_btn_timer_text">#ffffff</color>

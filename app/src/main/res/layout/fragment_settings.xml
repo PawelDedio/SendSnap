@@ -43,5 +43,47 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             style="@style/SettingsSectionDivider"/>
+
+        <com.example.pdedio.sendsnap.common.views.BaseTextView_
+            android:id="@+id/txvSettingsNameLabel"
+            app:layout_constraintTop_toBottomOf="@id/vSettingsSectionAccountDivider"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:text="@string/user_name"
+            style="@style/TextViewSettingsFieldLabel"/>
+
+        <com.example.pdedio.sendsnap.common.views.BaseTextView_
+            android:id="@+id/txvSettingsNameContent"
+            app:layout_constraintTop_toBottomOf="@id/txvSettingsNameLabel"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:text="turbowibrator"
+            style="@style/TextViewSettingsFieldContent"/>
+
+        <View
+            android:id="@+id/vSettingsNameDivider"
+            app:layout_constraintTop_toBottomOf="@id/txvSettingsNameContent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            style="@style/SettingsFieldsDivider"/>
+
+        <com.example.pdedio.sendsnap.common.views.BaseTextView_
+            android:id="@+id/txvSettingsDisplayNameLabel"
+            app:layout_constraintTop_toBottomOf="@id/vSettingsNameDivider"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:text="@string/user_display_name"
+            style="@style/TextViewSettingsFieldLabel"/>
+
+        <com.example.pdedio.sendsnap.common.views.BaseTextView_
+            android:id="@+id/txvSettingsDisplayNameContent"
+            app:layout_constraintTop_toBottomOf="@id/txvSettingsDisplayNameLabel"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:text="Turbowibrator"
+            style="@style/TextViewSettingsFieldContent"/>
+
+        <View
+            android:id="@+id/vSettingsDisplayNameDivider"
+            app:layout_constraintTop_toBottomOf="@id/txvSettingsDisplayNameContent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            style="@style/SettingsFieldsDivider"/>
     </android.support.constraint.ConstraintLayout>
 </ScrollView>

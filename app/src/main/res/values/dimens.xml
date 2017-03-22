@@ -100,6 +100,15 @@
     <dimen name="settings_txv_section_label_margin_vertical">10dp</dimen>
     <dimen name="settings_txv_section_label_text_size">18dp</dimen>
 
+    <dimen name="settings_txv_field_label_margin_top">6dp</dimen>
+    <dimen name="settings_txv_field_label_text_size">16dp</dimen>
+
+    <dimen name="settings_txv_field_content_margin_top">8dp</dimen>
+    <dimen name="settings_txv_field_content_text_size">14dp</dimen>
+
+    <dimen name="settings_field_divider_height">1dp</dimen>
+    <dimen name="settings_field_divider_margin_top">3dp</dimen>
+
     <dimen name="settings_divider_height">1dp</dimen>
 
     <!-- Edit Snap Fragment -->
