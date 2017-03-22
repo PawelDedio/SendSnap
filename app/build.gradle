@@ -74,7 +74,7 @@ dependencies {
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
 
     //Constraint layout
-    compile 'com.android.support.constraint:constraint-layout:1.0.0'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
 
     //Job queue https://github.com/yigit/android-priority-jobqueue
     compile 'com.birbit:android-priority-jobqueue:2.0.1'
@@ -88,7 +88,7 @@ dependencies {
     compile 'org.greenrobot:eventbus:3.0.0'
 
     //https://github.com/glomadrian/RoadRunner progress view
-    compile 'com.github.glomadrian:roadrunner:1.0@aar'
+    compile "com.github.biodunalfet:SlidingSquaresLoader:1.0"
 
     //Testing
     testCompile 'junit:junit:4.12'

@@ -2,22 +2,20 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:lib="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:background="@android:color/transparent">
 
-    <com.github.glomadrian.roadrunner.IndeterminateRoadRunner
-        android:id="@+id/vProgressView"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
-        lib:movement_direction="counter_clockwise"
-        lib:path_color="#ffffff"
-        lib:stroke_width="3sp"
-        lib:path_data="@string/main_logo_path"
-        lib:path_original_width="610"
-        lib:path_original_height="610"
-        lib:path_animation_type="material"
+    <com.hamza.slidingsquaresloaderview.SlidingSquareLoaderView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:background="@android:color/transparent"/>
+        app:sslv_start="true"
+        app:sslv_delay="15"
+        app:sslv_duration="150"
+        app:sslv_gap="2dp"
+        app:sslv_square_length="12dp"
+        app:sslv_color="@color/colorPrimary" />
 </RelativeLayout>
