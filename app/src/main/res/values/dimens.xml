@@ -97,19 +97,25 @@
     <dimen name="settings_content_margin_horizontal">20dp</dimen>
     <dimen name="settings_dividers_margin_horizontal">15dp</dimen>
 
-    <dimen name="settings_txv_section_label_margin_vertical">10dp</dimen>
+    <dimen name="settings_txv_section_label_margin_vertical">22dp</dimen>
     <dimen name="settings_txv_section_label_text_size">18dp</dimen>
 
-    <dimen name="settings_txv_field_label_margin_top">6dp</dimen>
+    <dimen name="settings_txv_field_label_margin_top">13dp</dimen>
     <dimen name="settings_txv_field_label_text_size">16dp</dimen>
 
     <dimen name="settings_txv_field_content_margin_top">8dp</dimen>
     <dimen name="settings_txv_field_content_text_size">14dp</dimen>
 
     <dimen name="settings_field_divider_height">1dp</dimen>
-    <dimen name="settings_field_divider_margin_top">3dp</dimen>
+    <dimen name="settings_field_divider_margin_top">13dp</dimen>
 
     <dimen name="settings_divider_height">1dp</dimen>
+
+    <dimen name="settings_switch_height">70dp</dimen>
+    <dimen name="settings_switch_text_size">18dp</dimen>
+
+    <dimen name="settings_button_height">70dp</dimen>
+    <dimen name="settings_button_text_size">18dp</dimen>
 
     <!-- Edit Snap Fragment -->
     <dimen name="edit_snap_btn_content_margin_top">20dp</dimen>

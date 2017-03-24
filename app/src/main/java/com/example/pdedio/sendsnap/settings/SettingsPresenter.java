@@ -27,4 +27,36 @@ public class SettingsPresenter extends BaseFragmentPresenter implements Settings
         this.view.hideStatusBar();
         this.view = null;
     }
+
+
+    //Settings presenter methods
+    @Override
+    public void onDisplayNameClick(String displayName) {
+
+    }
+
+    @Override
+    public void onDisplaySwitchStateChange(boolean isChecked) {
+
+    }
+
+    @Override
+    public void onLedSwitchStateChange(boolean isChecked) {
+
+    }
+
+    @Override
+    public void onVibrationSwitchStateChange(boolean isChecked) {
+
+    }
+
+    @Override
+    public void onSoundSwitchStateChange(boolean isChecked) {
+
+    }
+
+    @Override
+    public void onLogOutClick() {
+
+    }
 }

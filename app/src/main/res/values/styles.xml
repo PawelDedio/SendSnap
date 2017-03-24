@@ -84,6 +84,19 @@
         <item name="android:scaleType">fitCenter</item>
     </style>
 
+    <style name="ButtonSettings">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">@dimen/settings_button_height</item>
+        <item name="android:layout_marginLeft">@dimen/settings_content_margin_horizontal</item>
+        <item name="android:layout_marginRight">@dimen/settings_content_margin_horizontal</item>
+        <item name="android:background">@null</item>
+        <item name="android:textSize">@dimen/settings_button_text_size</item>
+        <item name="android:textColor">@color/settings_field_label_text</item>
+        <item name="android:gravity">left|center_vertical</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textAllCaps">false</item>
+    </style>
+
 
     <!-- Edit Text Themes -->
     <style name="EditTextGreenTheme" parent="TextAppearance.AppCompat">
@@ -170,7 +183,7 @@
     </style>
     
     <style name="TextViewSettingsFieldLabel">
-        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginLeft">@dimen/settings_content_margin_horizontal</item>
         <item name="android:layout_marginRight">@dimen/settings_content_margin_horizontal</item>
@@ -181,7 +194,7 @@
     </style>
 
     <style name="TextViewSettingsFieldContent">
-        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginLeft">@dimen/settings_content_margin_horizontal</item>
         <item name="android:layout_marginRight">@dimen/settings_content_margin_horizontal</item>
@@ -192,10 +205,23 @@
     </style>
 
 
+    <!-- Switches -->
+    <style name="SwitchSettings">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">@dimen/settings_switch_height</item>
+        <item name="android:layout_marginLeft">@dimen/settings_content_margin_horizontal</item>
+        <item name="android:layout_marginRight">@dimen/settings_content_margin_horizontal</item>
+        <item name="android:textSize">@dimen/settings_switch_text_size</item>
+        <item name="android:textColor">@color/settings_field_label_text</item>
+    </style>
+
+
     <!-- Others -->
     <style name="SettingsSectionDivider">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">@dimen/settings_divider_height</item>
+        <item name="android:layout_marginLeft">@dimen/settings_dividers_margin_horizontal</item>
+        <item name="android:layout_marginRight">@dimen/settings_dividers_margin_horizontal</item>
         <item name="android:background">@color/settings_section_divider_background</item>
     </style>
 
@@ -203,6 +229,8 @@
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">@dimen/settings_field_divider_height</item>
         <item name="android:layout_marginTop">@dimen/settings_field_divider_margin_top</item>
+        <item name="android:layout_marginLeft">@dimen/settings_dividers_margin_horizontal</item>
+        <item name="android:layout_marginRight">@dimen/settings_dividers_margin_horizontal</item>
         <item name="android:background">@color/settings_field_divider_background</item>
     </style>
 </resources>
