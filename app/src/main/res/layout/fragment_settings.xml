@@ -1,223 +1,234 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<layout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable name="user" type="com.example.pdedio.sendsnap.models.User"/>
+        <variable name="prefs" type="com.example.pdedio.sendsnap.helpers.SharedPreferenceManager"/>
+    </data>
 
-    <RelativeLayout
-        android:id="@+id/rlSettingsActionBar"
-        android:layout_width="match_parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        style="@style/ActionBarBlue">
-
-        <com.example.pdedio.sendsnap.common.views.BaseImageButton_
-            android:id="@+id/btnSettingsBack"
-            style="@style/ActionBarBlueBtnBack"/>
-
-        <com.example.pdedio.sendsnap.common.views.BaseTextView_
-            android:id="@+id/txvSettingsTitle"
-            android:text="@string/settings_title"
-            android:layout_centerHorizontal="true"
-            style="@style/ActionBarBlueTitle"/>
-    </RelativeLayout>
-
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true">
+        android:orientation="vertical">
 
-        <android.support.constraint.ConstraintLayout
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            android:orientation="vertical"
+        <RelativeLayout
+            android:id="@+id/rlSettingsActionBar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            style="@style/ActionBarBlue">
+
+            <com.example.pdedio.sendsnap.common.views.BaseImageButton_
+                android:id="@+id/btnSettingsBack"
+                style="@style/ActionBarBlueBtnBack"/>
 
             <com.example.pdedio.sendsnap.common.views.BaseTextView_
-                android:id="@+id/txvSettingsSectionAccount"
-                android:text="@string/settings_section_account"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                style="@style/TextViewSettingsSectionLabel"/>
+                android:id="@+id/txvSettingsTitle"
+                android:text="@string/settings_title"
+                android:layout_centerHorizontal="true"
+                style="@style/ActionBarBlueTitle"/>
+        </RelativeLayout>
 
-            <View
-                android:id="@+id/vSettingsSectionAccountDivider"
-                app:layout_constraintTop_toBottomOf="@id/txvSettingsSectionAccount"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                style="@style/SettingsSectionDivider"/>
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true">
 
-            <com.example.pdedio.sendsnap.common.views.BaseTextView_
-                android:id="@+id/txvSettingsNameLabel"
-                app:layout_constraintTop_toBottomOf="@id/vSettingsSectionAccountDivider"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                android:text="@string/user_name"
-                style="@style/TextViewSettingsFieldLabel"/>
+            <android.support.constraint.ConstraintLayout
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-            <com.example.pdedio.sendsnap.common.views.BaseTextView_
-                android:id="@+id/txvSettingsNameContent"
-                app:layout_constraintTop_toBottomOf="@id/txvSettingsNameLabel"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                android:text="turbowibrator"
-                style="@style/TextViewSettingsFieldContent"/>
+                <com.example.pdedio.sendsnap.common.views.BaseTextView_
+                    android:id="@+id/txvSettingsSectionAccount"
+                    android:text="@string/settings_section_account"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    style="@style/TextViewSettingsSectionLabel"/>
 
-            <View
-                android:id="@+id/vSettingsNameDivider"
-                app:layout_constraintTop_toBottomOf="@id/txvSettingsNameContent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                style="@style/SettingsFieldsDivider"/>
+                <View
+                    android:id="@+id/vSettingsSectionAccountDivider"
+                    app:layout_constraintTop_toBottomOf="@id/txvSettingsSectionAccount"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    style="@style/SettingsSectionDivider"/>
 
-            <com.example.pdedio.sendsnap.common.views.BaseTextView_
-                android:id="@+id/txvSettingsDisplayNameLabel"
-                app:layout_constraintTop_toBottomOf="@id/vSettingsNameDivider"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                android:text="@string/user_display_name"
-                style="@style/TextViewSettingsFieldLabel"/>
+                <com.example.pdedio.sendsnap.common.views.BaseTextView_
+                    android:id="@+id/txvSettingsNameLabel"
+                    app:layout_constraintTop_toBottomOf="@id/vSettingsSectionAccountDivider"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    android:text="@string/user_name"
+                    style="@style/TextViewSettingsFieldLabel"/>
 
-            <com.example.pdedio.sendsnap.common.views.BaseTextView_
-                android:id="@+id/txvSettingsDisplayNameContent"
-                app:layout_constraintTop_toBottomOf="@id/txvSettingsDisplayNameLabel"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                android:text="Turbowibrator"
-                style="@style/TextViewSettingsFieldContent"/>
+                <com.example.pdedio.sendsnap.common.views.BaseTextView_
+                    android:id="@+id/txvSettingsNameContent"
+                    app:layout_constraintTop_toBottomOf="@id/txvSettingsNameLabel"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    android:text="@{user.name}"
+                    style="@style/TextViewSettingsFieldContent"/>
 
-            <View
-                android:id="@+id/vSettingsDisplayNameDivider"
-                app:layout_constraintTop_toBottomOf="@id/txvSettingsDisplayNameContent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                style="@style/SettingsFieldsDivider"/>
+                <View
+                    android:id="@+id/vSettingsNameDivider"
+                    app:layout_constraintTop_toBottomOf="@id/txvSettingsNameContent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    style="@style/SettingsFieldsDivider"/>
 
-            <com.example.pdedio.sendsnap.common.views.BaseTextView_
-                android:id="@+id/txvSettingsEmailLabel"
-                app:layout_constraintTop_toBottomOf="@id/vSettingsDisplayNameDivider"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                android:text="@string/user_email"
-                style="@style/TextViewSettingsFieldLabel"/>
+                <com.example.pdedio.sendsnap.common.views.BaseTextView_
+                    android:id="@+id/txvSettingsDisplayNameLabel"
+                    app:layout_constraintTop_toBottomOf="@id/vSettingsNameDivider"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    android:text="@string/user_display_name"
+                    style="@style/TextViewSettingsFieldLabel"/>
 
-            <com.example.pdedio.sendsnap.common.views.BaseTextView_
-                android:id="@+id/txvSettingsEmailContent"
-                app:layout_constraintTop_toBottomOf="@id/txvSettingsEmailLabel"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                android:text="paweldedio@gmail.com"
-                style="@style/TextViewSettingsFieldContent"/>
+                <com.example.pdedio.sendsnap.common.views.BaseTextView_
+                    android:id="@+id/txvSettingsDisplayNameContent"
+                    app:layout_constraintTop_toBottomOf="@id/txvSettingsDisplayNameLabel"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    android:text="@{user.displayName}"
+                    style="@style/TextViewSettingsFieldContent"/>
 
-            <View
-                android:id="@+id/vSettingsEmailDivider"
-                app:layout_constraintTop_toBottomOf="@id/txvSettingsEmailContent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                style="@style/SettingsFieldsDivider"/>
+                <View
+                    android:id="@+id/vSettingsDisplayNameDivider"
+                    app:layout_constraintTop_toBottomOf="@id/txvSettingsDisplayNameContent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    style="@style/SettingsFieldsDivider"/>
 
-            <com.example.pdedio.sendsnap.common.views.BaseTextView_
-                android:id="@+id/txvSettingsSectionNotifications"
-                android:text="@string/settings_section_notifications"
-                app:layout_constraintTop_toBottomOf="@id/vSettingsEmailDivider"
-                app:layout_constraintLeft_toLeftOf="parent"
-                style="@style/TextViewSettingsSectionLabel"/>
+                <com.example.pdedio.sendsnap.common.views.BaseTextView_
+                    android:id="@+id/txvSettingsEmailLabel"
+                    app:layout_constraintTop_toBottomOf="@id/vSettingsDisplayNameDivider"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    android:text="@string/user_email"
+                    style="@style/TextViewSettingsFieldLabel"/>
 
-            <View
-                android:id="@+id/vSettingsSectionNotificationsDivider"
-                app:layout_constraintTop_toBottomOf="@id/txvSettingsSectionNotifications"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                style="@style/SettingsSectionDivider"/>
+                <com.example.pdedio.sendsnap.common.views.BaseTextView_
+                    android:id="@+id/txvSettingsEmailContent"
+                    app:layout_constraintTop_toBottomOf="@id/txvSettingsEmailLabel"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    android:text="@{user.email}"
+                    style="@style/TextViewSettingsFieldContent"/>
 
-            <Switch
-                android:id="@+id/schSettingsDisplay"
-                app:layout_constraintTop_toBottomOf="@id/vSettingsSectionNotificationsDivider"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                android:text="@string/settings_notification_display"
-                style="@style/SwitchSettings"/>
+                <View
+                    android:id="@+id/vSettingsEmailDivider"
+                    app:layout_constraintTop_toBottomOf="@id/txvSettingsEmailContent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    style="@style/SettingsFieldsDivider"/>
 
-            <View
-                android:id="@+id/vSettingsDisplayDivider"
-                android:layout_marginTop="0dp"
-                app:layout_constraintTop_toBottomOf="@id/schSettingsDisplay"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                style="@style/SettingsFieldsDivider"/>
+                <com.example.pdedio.sendsnap.common.views.BaseTextView_
+                    android:id="@+id/txvSettingsSectionNotifications"
+                    android:text="@string/settings_section_notifications"
+                    app:layout_constraintTop_toBottomOf="@id/vSettingsEmailDivider"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    style="@style/TextViewSettingsSectionLabel"/>
 
-            <Switch
-                android:id="@+id/schSettingsLed"
-                app:layout_constraintTop_toBottomOf="@id/vSettingsDisplayDivider"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                android:text="@string/settings_notification_led"
-                style="@style/SwitchSettings"/>
+                <View
+                    android:id="@+id/vSettingsSectionNotificationsDivider"
+                    app:layout_constraintTop_toBottomOf="@id/txvSettingsSectionNotifications"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    style="@style/SettingsSectionDivider"/>
 
-            <View
-                android:id="@+id/vSettingsLedDivider"
-                android:layout_marginTop="0dp"
-                app:layout_constraintTop_toBottomOf="@id/schSettingsLed"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                style="@style/SettingsFieldsDivider"/>
+                <Switch
+                    android:id="@+id/schSettingsDisplay"
+                    app:layout_constraintTop_toBottomOf="@id/vSettingsSectionNotificationsDivider"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    android:text="@string/settings_notification_display"
+                    android:checked="@{prefs.notificationDisplay}"
+                    style="@style/SwitchSettings"/>
 
-            <Switch
-                android:id="@+id/schSettingsVibration"
-                app:layout_constraintTop_toBottomOf="@id/vSettingsLedDivider"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                android:text="@string/settings_notification_vibration"
-                style="@style/SwitchSettings"/>
+                <View
+                    android:id="@+id/vSettingsDisplayDivider"
+                    android:layout_marginTop="0dp"
+                    app:layout_constraintTop_toBottomOf="@id/schSettingsDisplay"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    style="@style/SettingsFieldsDivider"/>
 
-            <View
-                android:id="@+id/vSettingsVibrationDivider"
-                android:layout_marginTop="0dp"
-                app:layout_constraintTop_toBottomOf="@id/schSettingsVibration"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                style="@style/SettingsFieldsDivider"/>
+                <Switch
+                    android:id="@+id/schSettingsLed"
+                    app:layout_constraintTop_toBottomOf="@id/vSettingsDisplayDivider"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    android:text="@string/settings_notification_led"
+                    android:checked="@{prefs.notificationLed}"
+                    style="@style/SwitchSettings"/>
 
-            <Switch
-                android:id="@+id/schSettingsSound"
-                app:layout_constraintTop_toBottomOf="@id/vSettingsVibrationDivider"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                android:text="@string/settings_notification_sound"
-                style="@style/SwitchSettings"/>
+                <View
+                    android:id="@+id/vSettingsLedDivider"
+                    android:layout_marginTop="0dp"
+                    app:layout_constraintTop_toBottomOf="@id/schSettingsLed"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    style="@style/SettingsFieldsDivider"/>
 
-            <View
-                android:id="@+id/vSettingsSoundDivider"
-                android:layout_marginTop="0dp"
-                app:layout_constraintTop_toBottomOf="@id/schSettingsSound"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                style="@style/SettingsFieldsDivider"/>
+                <Switch
+                    android:id="@+id/schSettingsVibration"
+                    app:layout_constraintTop_toBottomOf="@id/vSettingsLedDivider"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    android:text="@string/settings_notification_vibration"
+                    android:checked="@{prefs.notificationVibration}"
+                    style="@style/SwitchSettings"/>
 
-            <com.example.pdedio.sendsnap.common.views.BaseTextView_
-                android:id="@+id/txvSettingsSectionOthers"
-                android:text="@string/settings_section_others"
-                app:layout_constraintTop_toBottomOf="@id/vSettingsSoundDivider"
-                app:layout_constraintLeft_toLeftOf="parent"
-                style="@style/TextViewSettingsSectionLabel"/>
+                <View
+                    android:id="@+id/vSettingsVibrationDivider"
+                    android:layout_marginTop="0dp"
+                    app:layout_constraintTop_toBottomOf="@id/schSettingsVibration"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    style="@style/SettingsFieldsDivider"/>
 
-            <View
-                android:id="@+id/vSettingsSectionOthersDivider"
-                app:layout_constraintTop_toBottomOf="@id/txvSettingsSectionOthers"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                style="@style/SettingsSectionDivider"/>
+                <Switch
+                    android:id="@+id/schSettingsSound"
+                    app:layout_constraintTop_toBottomOf="@id/vSettingsVibrationDivider"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    android:text="@string/settings_notification_sound"
+                    android:checked="@{prefs.notificationSound}"
+                    style="@style/SwitchSettings"/>
 
-            <com.example.pdedio.sendsnap.common.views.BaseTextView_
-                android:id="@+id/btnSettingsLogOut"
-                app:layout_constraintTop_toBottomOf="@id/vSettingsSectionOthersDivider"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                android:text="@string/settings_btn_log_out"
-                style="@style/ButtonSettings"/>
-        </android.support.constraint.ConstraintLayout>
-    </ScrollView>
-</LinearLayout>
+                <View
+                    android:id="@+id/vSettingsSoundDivider"
+                    android:layout_marginTop="0dp"
+                    app:layout_constraintTop_toBottomOf="@id/schSettingsSound"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    style="@style/SettingsFieldsDivider"/>
+
+                <com.example.pdedio.sendsnap.common.views.BaseTextView_
+                    android:id="@+id/txvSettingsSectionOthers"
+                    android:text="@string/settings_section_others"
+                    app:layout_constraintTop_toBottomOf="@id/vSettingsSoundDivider"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    style="@style/TextViewSettingsSectionLabel"/>
+
+                <View
+                    android:id="@+id/vSettingsSectionOthersDivider"
+                    app:layout_constraintTop_toBottomOf="@id/txvSettingsSectionOthers"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    style="@style/SettingsSectionDivider"/>
+
+                <com.example.pdedio.sendsnap.common.views.BaseTextView_
+                    android:id="@+id/btnSettingsLogOut"
+                    app:layout_constraintTop_toBottomOf="@id/vSettingsSectionOthersDivider"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    android:text="@string/settings_btn_log_out"
+                    style="@style/ButtonSettings"/>
+            </android.support.constraint.ConstraintLayout>
+        </ScrollView>
+    </LinearLayout>
+</layout>

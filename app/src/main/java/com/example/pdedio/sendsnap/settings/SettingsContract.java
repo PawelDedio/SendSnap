@@ -1,6 +1,8 @@
 package com.example.pdedio.sendsnap.settings;
 
 import com.example.pdedio.sendsnap.BaseFragmentContract;
+import com.example.pdedio.sendsnap.helpers.SharedPreferenceManager;
+import com.example.pdedio.sendsnap.models.User;
 
 /**
  * Created by pawel on 18.03.2017.
@@ -11,6 +13,10 @@ public class SettingsContract {
     public interface SettingsPresenter extends BaseFragmentContract.BaseFragmentPresenter {
 
         void init(SettingsView view);
+
+        User getLoggedUser();
+
+        SharedPreferenceManager getSharedPreferenceManager();
 
         void onDisplayNameClick(String displayName);
 

@@ -1,8 +1,15 @@
 package com.example.pdedio.sendsnap.settings;
 
+import android.databinding.DataBindingUtil;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
 import com.example.pdedio.sendsnap.BaseFragment;
 import com.example.pdedio.sendsnap.R;
 import com.example.pdedio.sendsnap.common.views.BaseTextView;
+import com.example.pdedio.sendsnap.databinding.FragmentSettingsBinding;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
@@ -29,12 +36,15 @@ public class SettingsFragment extends BaseFragment implements SettingsContract.S
     @ViewById(R.id.txvSettingsEmailContent)
     protected BaseTextView txvEmail;
 
+    private FragmentSettingsBinding settingsBinding;
+
 
 
     //Lifecycle
     @AfterViews
     protected void afterViewsSettingsFragment() {
         this.presenter.init(this);
+        this.configureViews();
     }
 
     @Override
@@ -42,6 +52,13 @@ public class SettingsFragment extends BaseFragment implements SettingsContract.S
         this.presenter.destroy();
         this.presenter = null;
         super.onDestroy();
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        this.settingsBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_settings, container, false);
+        View rootView = this.settingsBinding.getRoot();
+        return rootView;
     }
 
 
@@ -75,5 +92,16 @@ public class SettingsFragment extends BaseFragment implements SettingsContract.S
     @Click(R.id.btnSettingsLogOut)
     protected void onLogOutClick() {
         this.presenter.onLogOutClick();
+    }
+
+
+    //SettingsView methods
+
+
+
+    //Private methods
+    private void configureViews() {
+        this.settingsBinding.setUser(this.presenter.getLoggedUser());
+        this.settingsBinding.setPrefs(this.presenter.getSharedPreferenceManager());
     }
 }

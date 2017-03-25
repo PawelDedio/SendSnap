@@ -1,5 +1,6 @@
 package com.example.pdedio.sendsnap.helpers;
 
+import org.androidannotations.annotations.sharedpreferences.DefaultBoolean;
 import org.androidannotations.annotations.sharedpreferences.DefaultInt;
 import org.androidannotations.annotations.sharedpreferences.SharedPref;
 
@@ -14,4 +15,16 @@ public interface SharedPrefHelper {
 
     @DefaultInt(10)
     int snapDuration();
+
+    @DefaultBoolean(true)
+    boolean notificationDisplay();
+
+    @DefaultBoolean(true)
+    boolean notificationLed();
+
+    @DefaultBoolean(false)
+    boolean notificationVibration();
+
+    @DefaultBoolean(false)
+    boolean notificationSound();
 }

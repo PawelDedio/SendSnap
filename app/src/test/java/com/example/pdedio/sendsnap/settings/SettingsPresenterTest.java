@@ -1,5 +1,8 @@
 package com.example.pdedio.sendsnap.settings;
 
+import com.example.pdedio.sendsnap.helpers.SessionManager;
+import com.example.pdedio.sendsnap.models.User;
+
 import static org.junit.Assert.*;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -15,6 +18,12 @@ public class SettingsPresenterTest {
     @Mock
     private SettingsContract.SettingsView mockedView;
 
+    @Mock
+    private SessionManager mockedSessionManager;
+
+    @Mock
+    private User mockedUser;
+
 
     private SettingsPresenter configureAndInitPresenter() {
         SettingsPresenter presenter = this.configurePresenter();
@@ -26,6 +35,9 @@ public class SettingsPresenterTest {
     private SettingsPresenter configurePresenter() {
         MockitoAnnotations.initMocks(this);
         SettingsPresenter presenter = new SettingsPresenter();
+        presenter.sessionManager = this.mockedSessionManager;
+
+        when(this.mockedSessionManager.getLoggedUser()).thenReturn(this.mockedUser);
 
         return presenter;
     }
