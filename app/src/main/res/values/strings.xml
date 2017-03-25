@@ -68,13 +68,15 @@
     <string name="settings_notification_sound">Sound</string>
     <string name="settings_section_others">Others</string>
     <string name="settings_btn_log_out">Log out</string>
+    <string name="settings_enter_display_name">Enter display name</string>
 
     <!-- Edit Snap Fragment -->
     <string name="edit_snap_number_picker_title">Select Snap duration</string>
     <string name="edit_snap_snap_saved_message">Snap saved</string>
 
-    <!-- Number Picker Dialog -->
-    <string name="number_picker_dialog_btn_positive">Ok</string>
+    <!-- Dialog -->
+    <string name="dialog_btn_positive">Ok</string>
+    <string name="dialog_btn_negative">Cancel</string>
 
     <!-- Select Snap Recipient Fragment -->
     <string name="select_snap_recipient_title">Select recipient</string>

@@ -5,7 +5,7 @@
     android:layout_height="wrap_content">
 
     <com.example.pdedio.sendsnap.common.views.BaseTextView_
-        android:id="@+id/txvNumberPickerTitle"
+        android:id="@+id/txvTextInputTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dialog_title_margin_top"
@@ -14,21 +14,40 @@
         android:textSize="@dimen/dialog_title_text_size"
         android:textColor="@color/number_picker_title_text"/>
 
-    <NumberPicker
-        android:id="@+id/npNumberPicker"
-        android:layout_marginTop="@dimen/dialog_content_margin_top"
-        android:layout_width="wrap_content"
+    <com.example.pdedio.sendsnap.common.views.BaseTextInputLayout_
+        android:id="@+id/tilTextInput"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dialog_content_margin_top"
         android:layout_below="@id/txvNumberPickerTitle"
-        android:layout_centerHorizontal="true"/>
+        android:layout_centerHorizontal="true">
+
+        <com.example.pdedio.sendsnap.common.views.BaseEditText_
+            android:id="@+id/etTextInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </com.example.pdedio.sendsnap.common.views.BaseTextInputLayout_>
 
     <com.example.pdedio.sendsnap.common.views.BaseButton
-        android:id="@+id/btnNumberPickerDialogPositive"
+        android:id="@+id/btnTextInputDialogPositive"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/dialog_buttons_margin_bottom"
         android:layout_marginRight="@dimen/dialog_buttons_margin_right"
         android:text="@string/dialog_btn_positive"
+        android:layout_below="@id/npNumberPicker"
+        android:layout_alignParentRight="true"
+        android:background="@null"
+        android:textSize="@dimen/dialog_buttons_text_size"/>
+
+    <com.example.pdedio.sendsnap.common.views.BaseButton
+        android:id="@+id/btnTextInputDialogNegative"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/dialog_buttons_margin_bottom"
+        android:layout_marginRight="@dimen/dialog_buttons_margin_internal"
+        android:text="@string/dialog_btn_negative"
         android:layout_below="@id/npNumberPicker"
         android:layout_alignParentRight="true"
         android:background="@null"

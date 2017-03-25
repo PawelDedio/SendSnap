@@ -1,6 +1,7 @@
 package com.example.pdedio.sendsnap.settings;
 
 import com.example.pdedio.sendsnap.helpers.SessionManager;
+import com.example.pdedio.sendsnap.helpers.SharedPreferenceManager;
 import com.example.pdedio.sendsnap.models.User;
 
 import static org.junit.Assert.*;
@@ -24,6 +25,9 @@ public class SettingsPresenterTest {
     @Mock
     private User mockedUser;
 
+    @Mock
+    private SharedPreferenceManager mockedPrefsManager;
+
 
     private SettingsPresenter configureAndInitPresenter() {
         SettingsPresenter presenter = this.configurePresenter();
@@ -36,6 +40,7 @@ public class SettingsPresenterTest {
         MockitoAnnotations.initMocks(this);
         SettingsPresenter presenter = new SettingsPresenter();
         presenter.sessionManager = this.mockedSessionManager;
+        presenter.sharedPreferenceManager = this.mockedPrefsManager;
 
         when(this.mockedSessionManager.getLoggedUser()).thenReturn(this.mockedUser);
 
@@ -52,6 +57,75 @@ public class SettingsPresenterTest {
 
         verify(this.mockedView).showStatusBar();
     }
+
+
+    //getLoggedUser()
+    @Test
+    public void shouldGetUserFromSessionManager() {
+        SettingsPresenter presenter = this.configurePresenter();
+
+        presenter.getLoggedUser();
+
+        verify(this.mockedSessionManager).getLoggedUser();
+    }
+
+
+    //onDisplayNameClick()
+
+
+    //onDisplaySwitchStateChange()
+    @Test
+    public void shouldSaveDisplayValueToSharedPrefs() {
+        SettingsPresenter presenter = this.configureAndInitPresenter();
+
+        boolean randomValue = Math.random() < 0.5;
+
+        presenter.onDisplaySwitchStateChange(randomValue);
+
+        verify(this.mockedPrefsManager).setNotificationDisplay(randomValue);
+    }
+
+
+    //onLedSwitchStateChange()
+    @Test
+    public void shouldSaveLedValueToSharedPrefs() {
+        SettingsPresenter presenter = this.configureAndInitPresenter();
+
+        boolean randomValue = Math.random() < 0.5;
+
+        presenter.onLedSwitchStateChange(randomValue);
+
+        verify(this.mockedPrefsManager).setNotificationLed(randomValue);
+    }
+
+
+    //onVibrationSwitchStateChange()
+    @Test
+    public void shouldSaveVibrationValueToSharedPrefs() {
+        SettingsPresenter presenter = this.configureAndInitPresenter();
+
+        boolean randomValue = Math.random() < 0.5;
+
+        presenter.onVibrationSwitchStateChange(randomValue);
+
+        verify(this.mockedPrefsManager).setNotificationVibration(randomValue);
+    }
+
+
+    //onSoundSwitchStateChange()
+    @Test
+    public void shouldSaveSoundValueToSharedPrefs() {
+        SettingsPresenter presenter = this.configureAndInitPresenter();
+
+        boolean randomValue = Math.random() < 0.5;
+
+        presenter.onSoundSwitchStateChange(randomValue);
+
+        verify(this.mockedPrefsManager).setNotificationSound(randomValue);
+    }
+
+
+    //onLogOutClick()
 
 
     //destroy()

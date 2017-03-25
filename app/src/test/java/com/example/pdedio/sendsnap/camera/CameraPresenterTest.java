@@ -66,6 +66,9 @@ public class CameraPresenterTest {
     @Mock
     protected User mockedUser;
 
+    @Mock
+    protected File mockedFile;
+
     protected File templateFile = new File("./src/test/resources/photo.jpg");
 
 
@@ -181,7 +184,8 @@ public class CameraPresenterTest {
     //onResume()
     @Test
     public void onResumeShouldSetKeyBackListener() {
-        CameraPresenter presenter = this.configureAndInitPresenter();
+        CameraPresenter presenter = this.configurePresenter();
+        presenter.cameraView = this.mockedView;
 
         presenter.onResume();
 
@@ -283,6 +287,7 @@ public class CameraPresenterTest {
         presenter.isFlashEnabled = true;
 
         when(mockedCameraHelper.isFrontCamera()).thenReturn(true);
+        when(mockedCameraHelper.stopRecording()).thenReturn(mockedFile);
 
         presenter.stopRecording();
 
@@ -293,6 +298,8 @@ public class CameraPresenterTest {
     public void showOpenFragment() {
         CameraPresenter presenter = this.configureAndInitPresenter();
         presenter.isRecording = true;
+
+        when(mockedCameraHelper.stopRecording()).thenReturn(mockedFile);
 
         presenter.stopRecording();
 

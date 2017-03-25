@@ -402,7 +402,7 @@ public class EditSnapPresenterTest {
         when(mockedView.getStringFromRes(R.string.snap_directory_name)).thenReturn("/Send Snap");
         when(mockedView.getStringFromRes(eq(R.string.snap_saved_file_name), Matchers.anyVararg()))
                 .thenReturn("SnapName");
-        when(mockedView.getSnapPath()).thenReturn(mockedFile.getAbsolutePath());
+        when(mockedView.getSnapPath()).thenReturn("");
 
         presenter.onSaveClick();
 
@@ -416,7 +416,7 @@ public class EditSnapPresenterTest {
         when(mockedView.getStringFromRes(R.string.snap_directory_name)).thenReturn("/Send Snap");
         when(mockedView.getStringFromRes(eq(R.string.snap_saved_file_name), Matchers.anyVararg()))
                 .thenReturn("SnapName");
-        when(mockedView.getSnapPath()).thenReturn(mockedFile.getAbsolutePath());
+        when(mockedView.getSnapPath()).thenReturn("");
 
         presenter.onSaveClick();
 
@@ -430,7 +430,7 @@ public class EditSnapPresenterTest {
         when(mockedView.getStringFromRes(R.string.snap_directory_name)).thenReturn("/Send Snap");
         when(mockedView.getStringFromRes(eq(R.string.snap_saved_file_name), Matchers.anyVararg()))
                 .thenReturn("SnapName");
-        when(mockedView.getSnapPath()).thenReturn(mockedFile.getAbsolutePath());
+        when(mockedView.getSnapPath()).thenReturn("");
 
         presenter.onSaveClick();
 
@@ -445,7 +445,7 @@ public class EditSnapPresenterTest {
         when(mockedView.getStringFromRes(R.string.snap_directory_name)).thenReturn("/Send Snap");
         when(mockedView.getStringFromRes(eq(R.string.snap_saved_file_name), Matchers.anyVararg()))
                 .thenReturn("SnapName");
-        when(mockedView.getSnapPath()).thenReturn(mockedFile.getAbsolutePath());
+        when(mockedView.getSnapPath()).thenReturn("");
         when(mockedView.getSnapType()).thenReturn(Consts.SNAP_TYPE_PHOTO);
         when(mockedView.getPreviewImageView()).thenReturn(mockedImageView);
 
@@ -463,7 +463,7 @@ public class EditSnapPresenterTest {
         when(mockedView.getStringFromRes(R.string.snap_directory_name)).thenReturn("/Send Snap");
         when(mockedView.getStringFromRes(eq(R.string.snap_saved_file_name), Matchers.anyVararg()))
                 .thenReturn("SnapName");
-        when(mockedView.getSnapPath()).thenReturn(mockedFile.getAbsolutePath());
+        when(mockedView.getSnapPath()).thenReturn("");
 
         presenter.onSendClick();
 
@@ -477,7 +477,7 @@ public class EditSnapPresenterTest {
         when(mockedView.getStringFromRes(R.string.snap_directory_name)).thenReturn("/Send Snap");
         when(mockedView.getStringFromRes(eq(R.string.snap_saved_file_name), Matchers.anyVararg()))
                 .thenReturn("SnapName");
-        when(mockedView.getSnapPath()).thenReturn(mockedFile.getAbsolutePath());
+        when(mockedView.getSnapPath()).thenReturn("");
 
         presenter.onSendClick();
 

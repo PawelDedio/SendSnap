@@ -57,22 +57,22 @@ public class SettingsPresenter extends BaseFragmentPresenter implements Settings
 
     @Override
     public void onDisplaySwitchStateChange(boolean isChecked) {
-
+        this.sharedPreferenceManager.setNotificationDisplay(isChecked);
     }
 
     @Override
     public void onLedSwitchStateChange(boolean isChecked) {
-
+        this.sharedPreferenceManager.setNotificationLed(isChecked);
     }
 
     @Override
     public void onVibrationSwitchStateChange(boolean isChecked) {
-
+        this.sharedPreferenceManager.setNotificationVibration(isChecked);
     }
 
     @Override
     public void onSoundSwitchStateChange(boolean isChecked) {
-
+        this.sharedPreferenceManager.setNotificationSound(isChecked);
     }
 
     @Override
