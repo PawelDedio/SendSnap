@@ -71,6 +71,14 @@ public class SettingsPresenterTest {
 
 
     //onDisplayNameClick()
+    @Test
+    public void shouldShowTextInputDialog() {
+        SettingsPresenter presenter = this.configureAndInitPresenter();
+
+        presenter.onDisplayNameClick("displayName");
+
+        verify(this.mockedView).showTextInputDialog(anyInt(), anyInt(), anyInt(), anyInt(), anyString(), any(TextInputDialog.ResultListener.class));
+    }
 
 
     //onDisplaySwitchStateChange()

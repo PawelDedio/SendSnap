@@ -1,6 +1,8 @@
 package com.example.pdedio.sendsnap.settings;
 
 import com.example.pdedio.sendsnap.BaseFragmentPresenter;
+import com.example.pdedio.sendsnap.R;
+import com.example.pdedio.sendsnap.helpers.Consts;
 import com.example.pdedio.sendsnap.helpers.SessionManager;
 import com.example.pdedio.sendsnap.helpers.SharedPreferenceManager;
 import com.example.pdedio.sendsnap.models.User;
@@ -52,7 +54,14 @@ public class SettingsPresenter extends BaseFragmentPresenter implements Settings
 
     @Override
     public void onDisplayNameClick(String displayName) {
-
+        this.view.showTextInputDialog(R.string.settings_enter_display_name, R.string.user_display_name,
+                Consts.USER_DISPLAY_NAME_MIN_LENGTH, Consts.USER_DISPLAY_NAME_MAX_LENGTH,
+                this.sessionManager.getLoggedUser().displayName, new TextInputDialog.ResultListener() {
+                    @Override
+                    public void onValueSet(String value) {
+                        sessionManager.getLoggedUser().displayName = value;
+                    }
+                });
     }
 
     @Override

@@ -149,6 +149,9 @@
     <dimen name="dialog_buttons_margin_internal">8dp</dimen>
     <dimen name="dialog_buttons_text_size">14dp</dimen>
 
+    <!-- Text Input Dialog -->
+    <dimen name="text_input_et_text_size">20dp</dimen>
+
     <!-- Select Snap Recipient Fragment -->
     <dimen name="select_snap_recipient">48dp</dimen>
 </resources>

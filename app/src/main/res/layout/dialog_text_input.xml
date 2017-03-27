@@ -12,7 +12,7 @@
         android:layout_marginLeft="@dimen/dialog_content_margin_horizontal"
         android:layout_marginRight="@dimen/dialog_content_margin_horizontal"
         android:textSize="@dimen/dialog_title_text_size"
-        android:textColor="@color/number_picker_title_text"/>
+        android:textColor="@color/dialog_title_text"/>
 
     <com.example.pdedio.sendsnap.common.views.BaseTextInputLayout_
         android:id="@+id/tilTextInput"
@@ -25,7 +25,10 @@
         <com.example.pdedio.sendsnap.common.views.BaseEditText_
             android:id="@+id/etTextInput"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_input_et_text_size"
+            android:textColor="@color/text_input_et_text"
+            android:textColorHint="@color/text_input_et_hint"/>
 
     </com.example.pdedio.sendsnap.common.views.BaseTextInputLayout_>
 

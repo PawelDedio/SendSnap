@@ -2,6 +2,7 @@ package com.example.pdedio.sendsnap.settings;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.annotation.StringRes;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,6 +38,8 @@ public class SettingsFragment extends BaseFragment implements SettingsContract.S
     protected BaseTextView txvEmail;
 
     private FragmentSettingsBinding settingsBinding;
+
+    private TextInputDialog textInputDialog;
 
 
 
@@ -96,7 +99,21 @@ public class SettingsFragment extends BaseFragment implements SettingsContract.S
 
 
     //SettingsView methods
+    @Override
+    public void showTextInputDialog(@StringRes int title, @StringRes int fieldName, int minLength,
+                                    int maxLength, String initialValue, TextInputDialog.ResultListener resultListener) {
 
+        if(this.textInputDialog == null) {
+            this.textInputDialog = new TextInputDialog(this.getContext());
+        }
+        this.textInputDialog.setTitle(title);
+        this.textInputDialog.setFieldName(fieldName);
+        this.textInputDialog.setMinLength(minLength);
+        this.textInputDialog.setMaxLength(maxLength);
+        this.textInputDialog.setInitialText(initialValue);
+        this.textInputDialog.setResultListener(resultListener);
+        this.textInputDialog.show();
+    }
 
 
     //Private methods
