@@ -32,7 +32,7 @@ public class SharedPreferenceManager extends BaseObservable {
     public void setSnapDuration(Integer value) {
         this.sharedPrefHelper.snapDuration().put(value);
 
-        this.notifyPropertyChanged(BR.snapDuration);
+        this.notifyPropertyChanged(BR._all);
     }
 
     public Integer getCameraId() {
@@ -51,7 +51,7 @@ public class SharedPreferenceManager extends BaseObservable {
     public void setNotificationDisplay(boolean value) {
         this.sharedPrefHelper.notificationDisplay().put(value);
 
-        this.notifyPropertyChanged(BR.notificationDisplay);
+        this.notifyPropertyChanged(BR._all);
     }
 
     @Bindable
@@ -62,7 +62,7 @@ public class SharedPreferenceManager extends BaseObservable {
     public void setNotificationLed(boolean value) {
         this.sharedPrefHelper.notificationLed().put(value);
 
-        this.notifyPropertyChanged(BR.notificationLed);
+        this.notifyPropertyChanged(BR._all);
     }
 
     @Bindable
@@ -73,7 +73,7 @@ public class SharedPreferenceManager extends BaseObservable {
     public void setNotificationVibration(boolean value) {
         this.sharedPrefHelper.notificationVibration().put(value);
 
-        this.notifyPropertyChanged(BR.notificationVibration);
+        this.notifyPropertyChanged(BR._all);
     }
 
     @Bindable

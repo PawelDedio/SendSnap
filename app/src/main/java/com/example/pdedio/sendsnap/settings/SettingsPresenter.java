@@ -24,6 +24,8 @@ public class SettingsPresenter extends BaseFragmentPresenter implements Settings
     @Bean
     protected SharedPreferenceManager sharedPreferenceManager;
 
+    private User loggedUser;
+
 
 
 
@@ -44,7 +46,11 @@ public class SettingsPresenter extends BaseFragmentPresenter implements Settings
     //Settings presenter methods
     @Override
     public User getLoggedUser() {
-        return this.sessionManager.getLoggedUser();
+        if(this.loggedUser == null) {
+            this.loggedUser = this.sessionManager.getLoggedUser();
+        }
+
+        return this.loggedUser;
     }
 
     @Override
@@ -56,10 +62,10 @@ public class SettingsPresenter extends BaseFragmentPresenter implements Settings
     public void onDisplayNameClick(String displayName) {
         this.view.showTextInputDialog(R.string.settings_enter_display_name, R.string.user_display_name,
                 Consts.USER_DISPLAY_NAME_MIN_LENGTH, Consts.USER_DISPLAY_NAME_MAX_LENGTH,
-                this.sessionManager.getLoggedUser().displayName, new TextInputDialog.ResultListener() {
+                this.getLoggedUser().displayName, new TextInputDialog.ResultListener() {
                     @Override
                     public void onValueSet(String value) {
-                        sessionManager.getLoggedUser().displayName = value;
+                        getLoggedUser().setDisplayName(value);
                     }
                 });
     }

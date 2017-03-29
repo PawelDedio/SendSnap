@@ -9,6 +9,8 @@ import org.junit.Test;
 import org.mockito.Mock;
 import static org.mockito.Mockito.*;
 import org.mockito.MockitoAnnotations;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 
 /**
  * Created by pawel on 19.03.2017.
@@ -75,9 +77,38 @@ public class SettingsPresenterTest {
     public void shouldShowTextInputDialog() {
         SettingsPresenter presenter = this.configureAndInitPresenter();
 
+        this.mockedUser.displayName = "displayName";
+
+        when(this.mockedSessionManager.getLoggedUser()).thenReturn(this.mockedUser);
+
         presenter.onDisplayNameClick("displayName");
 
         verify(this.mockedView).showTextInputDialog(anyInt(), anyInt(), anyInt(), anyInt(), anyString(), any(TextInputDialog.ResultListener.class));
+    }
+
+    @Test
+    public void shouldUpdateUserDisplayNameAfterSuccess() {
+        SettingsPresenter presenter = this.configureAndInitPresenter();
+
+        this.mockedUser.displayName = "displayName";
+
+        when(this.mockedSessionManager.getLoggedUser()).thenReturn(this.mockedUser);
+
+        doAnswer(new Answer() {
+            @Override
+            public Object answer(InvocationOnMock invocation) throws Throwable {
+                TextInputDialog.ResultListener listener = (TextInputDialog.ResultListener) invocation.getArguments()[5];
+                listener.onValueSet("newDisplayName");
+
+                return null;
+            }
+        }).when(this.mockedView).showTextInputDialog(anyInt(), anyInt(), anyInt(), anyInt(), anyString(), any(TextInputDialog.ResultListener.class));
+
+        when(this.mockedSessionManager.getLoggedUser()).thenReturn(this.mockedUser);
+
+        presenter.onDisplayNameClick("displayName");
+
+        verify(this.mockedUser).setDisplayName("newDisplayName");
     }
 
 

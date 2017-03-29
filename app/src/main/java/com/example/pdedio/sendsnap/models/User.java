@@ -253,4 +253,61 @@ public class User extends BaseSnapModel<User> {
         this.termsAndConditionError = null;
         return true;
     }
+
+
+    //Setters
+    public void setName(String name) {
+        this.name = name;
+        this.notifyChange();
+    }
+
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
+        this.notifyChange();
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+        this.notifyChange();
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+        this.notifyChange();
+    }
+
+    public void setPasswordConfirmation(String passwordConfirmation) {
+        this.passwordConfirmation = passwordConfirmation;
+        this.notifyChange();
+    }
+
+    public void setTermsAccepted(boolean termsAccepted) {
+        this.termsAccepted = termsAccepted;
+        this.notifyChange();
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+        this.notifyChange();
+    }
+
+    public void setAuthToken(String authToken) {
+        this.authToken = authToken;
+        this.notifyChange();
+    }
+
+    public void setTokenExpireTime(Date tokenExpireTime) {
+        this.tokenExpireTime = tokenExpireTime;
+        this.notifyChange();
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+        this.notifyChange();
+    }
+
+    public void setUpdatedAt(Date updatedAt) {
+        this.updatedAt = updatedAt;
+        this.notifyChange();
+    }
 }

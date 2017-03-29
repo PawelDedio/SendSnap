@@ -92,6 +92,8 @@ public class TextInputDialog extends AlertDialog {
 
         this.txvTitle = (BaseTextView) view.findViewById(R.id.txvTextInputTitle);
         this.tilText = (BaseTextInputLayout) view.findViewById(R.id.tilTextInput);
+        this.btnPositive = (BaseButton) view.findViewById(R.id.btnTextInputDialogPositive);
+        this.btnNegative = (BaseButton) view.findViewById(R.id.btnTextInputDialogNegative);
 
         this.btnPositive.setOnClickListener(new View.OnClickListener() {
             @Override

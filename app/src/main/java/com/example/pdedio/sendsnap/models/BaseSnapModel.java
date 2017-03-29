@@ -5,7 +5,10 @@ package com.example.pdedio.sendsnap.models;
  */
 
 import android.content.Context;
+import android.databinding.Observable;
+import android.databinding.PropertyChangeRegistry;
 
+import com.example.pdedio.sendsnap.BR;
 import com.example.pdedio.sendsnap.helpers.ValidationHelper;
 import com.raizlabs.android.dbflow.structure.BaseModel;
 
@@ -16,10 +19,12 @@ import java.io.Serializable;
 
 import retrofit2.Response;
 
-public abstract class BaseSnapModel<T extends BaseSnapModel> extends BaseModel implements Serializable {
+public abstract class BaseSnapModel<T extends BaseSnapModel> extends BaseModel implements Serializable, Observable {
 
 
     protected ValidationHelper validationHelper;
+
+    private transient PropertyChangeRegistry callbacks;
 
 
     public BaseSnapModel() {
@@ -31,6 +36,30 @@ public abstract class BaseSnapModel<T extends BaseSnapModel> extends BaseModel i
     public abstract void save(Context context, OperationCallback<T> callback);
 
     public abstract void mapErrorsFromJson(JSONObject json, Context context) throws JSONException;
+
+
+    //Observable methods
+    @Override
+    public void addOnPropertyChangedCallback(OnPropertyChangedCallback onPropertyChangedCallback) {
+        if(this.callbacks == null) {
+            this.callbacks = new PropertyChangeRegistry();
+        }
+
+        this.callbacks.add(onPropertyChangedCallback);
+    }
+
+    @Override
+    public void removeOnPropertyChangedCallback(OnPropertyChangedCallback onPropertyChangedCallback) {
+        if(this.callbacks != null) {
+            this.callbacks.remove(onPropertyChangedCallback);
+        }
+    }
+
+    public void notifyChange() {
+        if(this.callbacks != null) {
+            this.callbacks.notifyCallbacks(this, BR._all, null);
+        }
+    }
 
 
 
