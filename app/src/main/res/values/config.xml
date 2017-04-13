@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+<<<<<<< HEAD
     <string name="api_url">http://40.71.208.249</string>
+=======
+    <string name="api_url">http://52.168.38.80/</string>
+>>>>>>> master
 </resources>
