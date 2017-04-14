@@ -5,9 +5,8 @@ repositories {
     maven { url 'https://maven.fabric.io/public' }
 }
 
-apply plugin: 'android-apt'
 def AAVersion = '4.1.0'
-def dbflow_version = "4.0.0-beta5"
+def dbflow_version = "4.0.0-beta7"
 
 buildscript {
     repositories {
@@ -22,7 +21,7 @@ buildscript {
 
 android {
     compileSdkVersion 25
-    buildToolsVersion '25.0.0'
+    buildToolsVersion '25.0.2'
 
     defaultConfig {
         applicationId "com.example.pdedio.sendsnap"
@@ -51,7 +50,7 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
-    compile 'com.android.support:appcompat-v7:25.2.0'
+    compile 'com.android.support:appcompat-v7:25.3.1'
 
     //RxJava
     compile 'io.reactivex:rxjava:1.1.9'
@@ -62,7 +61,7 @@ dependencies {
     compile 'com.squareup.retrofit2:converter-gson:2.0.2'
 
     //Framework for elimiate boilerplate https://github.com/androidannotations/androidannotations
-    apt "org.androidannotations:androidannotations:$AAVersion"
+    annotationProcessor "org.androidannotations:androidannotations:$AAVersion"
     compile "org.androidannotations:androidannotations-api:$AAVersion"
 
     //Circle progress https://github.com/lzyzsd/CircleProgress
@@ -88,7 +87,7 @@ dependencies {
     compile 'com.birbit:android-priority-jobqueue:2.0.1'
 
     //Android ORM https://github.com/Raizlabs/DBFlow
-    apt "com.github.Raizlabs.DBFlow:dbflow-processor:${dbflow_version}"
+    annotationProcessor "com.github.Raizlabs.DBFlow:dbflow-processor:${dbflow_version}"
     compile "com.github.Raizlabs.DBFlow:dbflow-core:${dbflow_version}"
     compile "com.github.Raizlabs.DBFlow:dbflow:${dbflow_version}"
 
@@ -115,4 +114,5 @@ dependencies {
     compile('com.crashlytics.sdk.android:crashlytics:2.6.7@aar') {
         transitive = true;
     }
+    compile 'org.jetbrains:annotations-java5:15.0'
 }
