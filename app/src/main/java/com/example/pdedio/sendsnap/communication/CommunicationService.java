@@ -12,6 +12,7 @@ import org.androidannotations.annotations.EBean;
 import org.androidannotations.annotations.res.StringRes;
 
 import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -27,6 +28,9 @@ public class CommunicationService {
 
     @StringRes(R.string.api_url)
     protected String apiUrl;
+
+    @StringRes(R.string.auth_header_schema)
+    protected String authHeaderSchema;
 
     private ApiInterface apiInterface;
 
@@ -48,7 +52,10 @@ public class CommunicationService {
     }
 
     private OkHttpClient prepareOkHttpClient() {
-        OkHttpClient client = new OkHttpClient.Builder().build();
+        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+
+        OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
 
         return client;
     }
@@ -60,5 +67,21 @@ public class CommunicationService {
 
     public Call<User> registerUser(User user) {
         return this.apiInterface.postUsers(user);
+    }
+
+    public Call<User> updateUser(User user) {
+
+        String headerToken = null;
+        if(this.sessionManager.getLoggedUser() != null) {
+            headerToken = this.getTokenHeader(this.sessionManager.getLoggedUser().authToken);
+        }
+
+        return this.apiInterface.putUsersId(headerToken, user.id, user);
+    }
+
+
+    //Private methods
+    private String getTokenHeader(String token) {
+        return this.authHeaderSchema + token;
     }
 }

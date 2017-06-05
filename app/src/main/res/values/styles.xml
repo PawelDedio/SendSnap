@@ -196,10 +196,10 @@
     <style name="TextViewSettingsFieldContent">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">@dimen/settings_txv_field_content_margin_top</item>
         <item name="android:layout_marginLeft">@dimen/settings_content_margin_horizontal</item>
         <item name="android:layout_marginRight">@dimen/settings_content_margin_horizontal</item>
         <item name="android:gravity">left</item>
-        <item name="android:layout_marginTop">@dimen/settings_txv_field_content_margin_top</item>
         <item name="android:textSize">@dimen/settings_txv_field_content_text_size</item>
         <item name="android:textColor">@color/settings_field_content_text</item>
     </style>

@@ -2,6 +2,7 @@ package com.example.pdedio.sendsnap.helpers;
 
 import org.androidannotations.annotations.sharedpreferences.DefaultBoolean;
 import org.androidannotations.annotations.sharedpreferences.DefaultInt;
+import org.androidannotations.annotations.sharedpreferences.DefaultString;
 import org.androidannotations.annotations.sharedpreferences.SharedPref;
 
 /**
@@ -27,4 +28,10 @@ public interface SharedPrefHelper {
 
     @DefaultBoolean(false)
     boolean notificationSound();
+
+    @DefaultString("")
+    String userId();
+
+    @DefaultString("")
+    String userToken();
 }

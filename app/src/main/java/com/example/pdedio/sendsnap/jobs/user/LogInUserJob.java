@@ -1,4 +1,4 @@
-package com.example.pdedio.sendsnap.jobs;
+package com.example.pdedio.sendsnap.jobs.user;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import com.birbit.android.jobqueue.Params;
 import com.birbit.android.jobqueue.RetryConstraint;
 import com.example.pdedio.sendsnap.helpers.Consts;
+import com.example.pdedio.sendsnap.jobs.BaseSnapJob;
 import com.example.pdedio.sendsnap.models.BaseSnapModel;
 import com.example.pdedio.sendsnap.models.BaseSnapModel.OperationError;
 import com.example.pdedio.sendsnap.models.User;
@@ -56,6 +57,7 @@ public class LogInUserJob extends BaseSnapJob {
 
             this.dropDbIfNewUser(loggedUser);
             loggedUser.save();
+            this.sessionManager.logInUser(loggedUser);
 
             if(this.callback != null) {
                 this.callSuccessOnMainThread(this.callback.get(), loggedUser);

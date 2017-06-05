@@ -1,5 +1,6 @@
 package com.example.pdedio.sendsnap.settings;
 
+import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.StringRes;
@@ -113,6 +114,11 @@ public class SettingsFragment extends BaseFragment implements SettingsContract.S
         this.textInputDialog.setInitialText(initialValue);
         this.textInputDialog.setResultListener(resultListener);
         this.textInputDialog.show();
+    }
+
+    @Override
+    public Context getApplicationContext() {
+        return this.getActivity().getApplicationContext();
     }
 
 

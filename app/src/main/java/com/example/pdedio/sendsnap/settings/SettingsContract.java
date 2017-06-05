@@ -1,5 +1,6 @@
 package com.example.pdedio.sendsnap.settings;
 
+import android.content.Context;
 import android.support.annotation.StringRes;
 
 import com.example.pdedio.sendsnap.BaseFragmentContract;
@@ -36,5 +37,7 @@ public class SettingsContract {
     public interface SettingsView extends BaseFragmentContract.BaseFragmentView {
 
         void showTextInputDialog(@StringRes int title, @StringRes int fieldName, int minLength, int maxLength, String initialValue, TextInputDialog.ResultListener resultListener);
+
+        Context getApplicationContext();
     }
 }

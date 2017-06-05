@@ -24,6 +24,11 @@ public class EmptyModel extends BaseSnapModel {
     }
 
     @Override
+    public void update(Context context, OperationCallback callback) {
+
+    }
+
+    @Override
     public void mapErrorsFromJson(JSONObject json, Context context) throws JSONException {
 
     }

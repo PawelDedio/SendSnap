@@ -8,8 +8,9 @@ import com.example.pdedio.sendsnap.SendSnapApplication;
 import com.example.pdedio.sendsnap.database.SnapDB;
 import com.example.pdedio.sendsnap.helpers.Consts;
 import com.example.pdedio.sendsnap.helpers.ErrorStringMapper;
-import com.example.pdedio.sendsnap.jobs.CreateUserJob;
-import com.example.pdedio.sendsnap.jobs.LogInUserJob;
+import com.example.pdedio.sendsnap.jobs.user.CreateUserJob;
+import com.example.pdedio.sendsnap.jobs.user.LogInUserJob;
+import com.example.pdedio.sendsnap.jobs.user.UpdateUserJob;
 import com.google.gson.annotations.SerializedName;
 import com.raizlabs.android.dbflow.annotation.Column;
 import com.raizlabs.android.dbflow.annotation.PrimaryKey;
@@ -57,11 +58,9 @@ public class User extends BaseSnapModel<User> {
     @SerializedName("role")
     public String role;
 
-    @Column
     @SerializedName("auth_token")
     public String authToken;
 
-    @Column
     @SerializedName("token_expire_time")
     public Date tokenExpireTime;
 
@@ -111,6 +110,13 @@ public class User extends BaseSnapModel<User> {
     }
 
     @Override
+    public void update(Context context, OperationCallback<User> callback) {
+        JobManager manager = SendSnapApplication.getJobManager(context);
+
+        manager.addJobInBackground(new UpdateUserJob(this, context, callback));
+    }
+
+    @Override
     public void mapErrorsFromJson(JSONObject json, Context context) throws JSONException {
         ErrorStringMapper errorStringMapper = new ErrorStringMapper();
 
@@ -133,12 +139,6 @@ public class User extends BaseSnapModel<User> {
             String error = json.getJSONArray("password_confirmation").getString(0);
             this.passwordConfirmationError = errorStringMapper.mapCorrectString(error, context, R.string.user_password_confirmation);
         }
-    }
-
-
-    //Static methods
-    public static User getSavedUser() {
-        return SQLite.select(User_Table.ALL_COLUMN_PROPERTIES).from(User.class).querySingle();
     }
 
 

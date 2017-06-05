@@ -1,16 +1,30 @@
 package com.example.pdedio.sendsnap.settings;
 
+import android.content.Context;
+
+import com.example.pdedio.sendsnap.helpers.ErrorManager;
 import com.example.pdedio.sendsnap.helpers.SessionManager;
 import com.example.pdedio.sendsnap.helpers.SharedPreferenceManager;
+import com.example.pdedio.sendsnap.models.BaseSnapModel;
 import com.example.pdedio.sendsnap.models.User;
 
-import static org.junit.Assert.*;
 import org.junit.Test;
+import org.mockito.Matchers;
 import org.mockito.Mock;
-import static org.mockito.Mockito.*;
 import org.mockito.MockitoAnnotations;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
+
+import retrofit2.Response;
+
+import static com.example.pdedio.sendsnap.TestHelper.prepareErrorResponse;
+import static org.junit.Assert.assertNull;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.anyInt;
+import static org.mockito.Mockito.anyString;
+import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 /**
  * Created by pawel on 19.03.2017.
@@ -30,6 +44,15 @@ public class SettingsPresenterTest {
     @Mock
     private SharedPreferenceManager mockedPrefsManager;
 
+    @Mock
+    protected BaseSnapModel.OperationError<User> mockedError;
+
+    @Mock
+    protected ErrorManager mockedErrorManager;
+
+    @Mock
+    protected Context mockedContext;
+
 
     private SettingsPresenter configureAndInitPresenter() {
         SettingsPresenter presenter = this.configurePresenter();
@@ -43,6 +66,7 @@ public class SettingsPresenterTest {
         SettingsPresenter presenter = new SettingsPresenter();
         presenter.sessionManager = this.mockedSessionManager;
         presenter.sharedPreferenceManager = this.mockedPrefsManager;
+        presenter.errorManager = this.mockedErrorManager;
 
         when(this.mockedSessionManager.getLoggedUser()).thenReturn(this.mockedUser);
 
@@ -172,6 +196,8 @@ public class SettingsPresenterTest {
     public void shouldSetViewToNull() {
         SettingsPresenter presenter = this.configureAndInitPresenter();
 
+        when(this.mockedView.getApplicationContext()).thenReturn(this.mockedContext);
+
         presenter.destroy();
 
         assertNull(presenter.view);
@@ -181,8 +207,48 @@ public class SettingsPresenterTest {
     public void shouldHideStatusBar() {
         SettingsPresenter presenter = this.configureAndInitPresenter();
 
+        when(this.mockedView.getApplicationContext()).thenReturn(this.mockedContext);
+
         presenter.destroy();
 
         verify(this.mockedView).hideStatusBar();
+    }
+
+    @Test
+    public void shouldUpdateUser() {
+        SettingsPresenter presenter = this.configureAndInitPresenter();
+
+        when(this.mockedView.getApplicationContext()).thenReturn(this.mockedContext);
+
+        presenter.destroy();
+
+        verify(this.mockedUser).update(any(Context.class), any(BaseSnapModel.OperationCallback.class));
+    }
+
+    @Test
+    public void shouldDelegateUpdateErrors() {
+        SettingsPresenter presenter = this.configureAndInitPresenter();
+
+        when(this.mockedView.getApplicationContext()).thenReturn(this.mockedContext);
+
+        doAnswer(new Answer() {
+            @Override
+            public Object answer(InvocationOnMock invocation) throws Throwable {
+                BaseSnapModel.OperationCallback<User> callback = (BaseSnapModel.OperationCallback) invocation.getArguments()[1];
+                callback.onFailure(mockedError);
+
+                return null;
+            }
+        }).when(this.mockedUser).update(any(Context.class), Matchers.<BaseSnapModel.OperationCallback<User>>any());
+
+        when(this.mockedUser.isValid(any(Context.class))).thenReturn(true);
+
+        this.mockedError.response = prepareErrorResponse(400);
+        this.mockedError.model = this.mockedUser;
+        this.mockedUser.nameError = "Error";
+
+        presenter.destroy();
+
+        verify(this.mockedErrorManager).serviceError(any(SettingsContract.SettingsView.class), any(Response.class));
     }
 }

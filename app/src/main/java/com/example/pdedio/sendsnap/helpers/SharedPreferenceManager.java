@@ -84,6 +84,28 @@ public class SharedPreferenceManager extends BaseObservable {
     public void setNotificationSound(boolean value) {
         this.sharedPrefHelper.notificationSound().put(value);
 
-        this.notifyPropertyChanged(BR.notificationSound);
+        this.notifyPropertyChanged(BR._all);
+    }
+
+    @Bindable
+    public String getUserId() {
+        return this.sharedPrefHelper.userId().get();
+    }
+
+    public void setUserId(String value) {
+        this.sharedPrefHelper.userId().put(value);
+
+        this.notifyPropertyChanged(BR._all);
+    }
+
+    @Bindable
+    public String getUserToken() {
+        return this.sharedPrefHelper.userToken().get();
+    }
+
+    public void setUserToken(String value) {
+        this.sharedPrefHelper.userToken().put(value);
+
+        this.notifyPropertyChanged(BR._all);
     }
 }

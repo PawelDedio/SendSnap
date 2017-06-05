@@ -59,6 +59,7 @@ dependencies {
     //Retrofit https://github.com/square/retrofit
     compile 'com.squareup.retrofit2:retrofit:2.2.0'
     compile 'com.squareup.retrofit2:converter-gson:2.0.2'
+    compile 'com.squareup.okhttp3:logging-interceptor:3.6.0'
 
     //Framework for elimiate boilerplate https://github.com/androidannotations/androidannotations
     annotationProcessor "org.androidannotations:androidannotations:$AAVersion"

@@ -89,6 +89,8 @@
 
                 <com.example.pdedio.sendsnap.common.views.BaseTextView_
                     android:id="@+id/txvSettingsDisplayNameContent"
+                    android:layout_marginTop="0dp"
+                    android:paddingTop="@dimen/settings_txv_field_content_margin_top"
                     app:layout_constraintTop_toBottomOf="@id/txvSettingsDisplayNameLabel"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"

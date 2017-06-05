@@ -35,6 +35,8 @@ public abstract class BaseSnapModel<T extends BaseSnapModel> extends BaseModel i
 
     public abstract void save(Context context, OperationCallback<T> callback);
 
+    public abstract void update(Context context, OperationCallback<T> callback);
+
     public abstract void mapErrorsFromJson(JSONObject json, Context context) throws JSONException;
 
 

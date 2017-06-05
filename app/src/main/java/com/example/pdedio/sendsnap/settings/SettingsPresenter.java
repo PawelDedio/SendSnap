@@ -3,8 +3,10 @@ package com.example.pdedio.sendsnap.settings;
 import com.example.pdedio.sendsnap.BaseFragmentPresenter;
 import com.example.pdedio.sendsnap.R;
 import com.example.pdedio.sendsnap.helpers.Consts;
+import com.example.pdedio.sendsnap.helpers.ErrorManager;
 import com.example.pdedio.sendsnap.helpers.SessionManager;
 import com.example.pdedio.sendsnap.helpers.SharedPreferenceManager;
+import com.example.pdedio.sendsnap.models.BaseSnapModel;
 import com.example.pdedio.sendsnap.models.User;
 
 import org.androidannotations.annotations.Bean;
@@ -14,7 +16,8 @@ import org.androidannotations.annotations.EBean;
  * Created by pawel on 18.03.2017.
  */
 @EBean
-public class SettingsPresenter extends BaseFragmentPresenter implements SettingsContract.SettingsPresenter {
+public class SettingsPresenter extends BaseFragmentPresenter implements SettingsContract.SettingsPresenter,
+        BaseSnapModel.OperationCallback<User> {
 
     protected SettingsContract.SettingsView view;
 
@@ -23,6 +26,9 @@ public class SettingsPresenter extends BaseFragmentPresenter implements Settings
 
     @Bean
     protected SharedPreferenceManager sharedPreferenceManager;
+
+    @Bean
+    protected ErrorManager errorManager;
 
     private User loggedUser;
 
@@ -38,6 +44,7 @@ public class SettingsPresenter extends BaseFragmentPresenter implements Settings
 
     @Override
     public void destroy() {
+        this.getLoggedUser().update(this.view.getApplicationContext(), this);
         this.view.hideStatusBar();
         this.view = null;
     }
@@ -92,6 +99,23 @@ public class SettingsPresenter extends BaseFragmentPresenter implements Settings
 
     @Override
     public void onLogOutClick() {
+
+    }
+
+
+    //OperationCallback methods
+    @Override
+    public void onSuccess(User model) {
+
+    }
+
+    @Override
+    public void onFailure(BaseSnapModel.OperationError<User> error) {
+        this.errorManager.serviceError(this.view, error.response);
+    }
+
+    @Override
+    public void onCanceled(int canceledReason, Throwable throwable) {
 
     }
 }
