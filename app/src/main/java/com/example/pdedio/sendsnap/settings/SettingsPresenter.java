@@ -1,7 +1,10 @@
 package com.example.pdedio.sendsnap.settings;
 
+import android.content.Context;
+
 import com.example.pdedio.sendsnap.BaseFragmentPresenter;
 import com.example.pdedio.sendsnap.R;
+import com.example.pdedio.sendsnap.authorization.AuthActivity_;
 import com.example.pdedio.sendsnap.helpers.Consts;
 import com.example.pdedio.sendsnap.helpers.ErrorManager;
 import com.example.pdedio.sendsnap.helpers.SessionManager;
@@ -32,6 +35,8 @@ public class SettingsPresenter extends BaseFragmentPresenter implements Settings
 
     private User loggedUser;
 
+    protected boolean valuesChanged;
+
 
 
 
@@ -44,7 +49,10 @@ public class SettingsPresenter extends BaseFragmentPresenter implements Settings
 
     @Override
     public void destroy() {
-        this.getLoggedUser().update(this.view.getApplicationContext(), this);
+        if(this.valuesChanged) {
+            this.getLoggedUser().update(this.view.getApplicationContext(), this);
+        }
+
         this.view.hideStatusBar();
         this.view = null;
     }
@@ -72,6 +80,7 @@ public class SettingsPresenter extends BaseFragmentPresenter implements Settings
                 this.getLoggedUser().displayName, new TextInputDialog.ResultListener() {
                     @Override
                     public void onValueSet(String value) {
+                        valuesChanged = true;
                         getLoggedUser().setDisplayName(value);
                     }
                 });
@@ -98,8 +107,10 @@ public class SettingsPresenter extends BaseFragmentPresenter implements Settings
     }
 
     @Override
-    public void onLogOutClick() {
-
+    public void onLogOutClick(Context context) {
+        this.sessionManager.getLoggedUser().logOut(context);
+        this.view.openActivity(AuthActivity_.class);
+        this.view.finishCurrentActivity();
     }
 
 

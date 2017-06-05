@@ -2,6 +2,7 @@ package com.example.pdedio.sendsnap.settings;
 
 import android.content.Context;
 
+import com.example.pdedio.sendsnap.authorization.AuthActivity_;
 import com.example.pdedio.sendsnap.helpers.ErrorManager;
 import com.example.pdedio.sendsnap.helpers.SessionManager;
 import com.example.pdedio.sendsnap.helpers.SharedPreferenceManager;
@@ -19,10 +20,12 @@ import retrofit2.Response;
 
 import static com.example.pdedio.sendsnap.TestHelper.prepareErrorResponse;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.anyInt;
 import static org.mockito.Mockito.anyString;
 import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -135,6 +138,32 @@ public class SettingsPresenterTest {
         verify(this.mockedUser).setDisplayName("newDisplayName");
     }
 
+    @Test
+    public void shouldSetValuesChangedToTrueWhenUserClickOk() {
+        SettingsPresenter presenter = this.configureAndInitPresenter();
+
+        this.mockedUser.displayName = "displayName";
+
+        when(this.mockedSessionManager.getLoggedUser()).thenReturn(this.mockedUser);
+
+        doAnswer(new Answer() {
+            @Override
+            public Object answer(InvocationOnMock invocation) throws Throwable {
+                TextInputDialog.ResultListener listener = (TextInputDialog.ResultListener) invocation.getArguments()[5];
+                listener.onValueSet("newDisplayName");
+
+                return null;
+            }
+        }).when(this.mockedView).showTextInputDialog(anyInt(), anyInt(), anyInt(), anyInt(), anyString(), any(TextInputDialog.ResultListener.class));
+
+        when(this.mockedSessionManager.getLoggedUser()).thenReturn(this.mockedUser);
+
+        presenter.valuesChanged = false;
+        presenter.onDisplayNameClick("displayName");
+
+        assertTrue(presenter.valuesChanged);
+    }
+
 
     //onDisplaySwitchStateChange()
     @Test
@@ -189,6 +218,32 @@ public class SettingsPresenterTest {
 
 
     //onLogOutClick()
+    @Test
+    public void shouldLogOutUser() {
+        SettingsPresenter presenter = this.configureAndInitPresenter();
+
+        presenter.onLogOutClick(this.mockedContext);
+
+        verify(this.mockedUser).logOut(any(Context.class));
+    }
+
+    @Test
+    public void shouldFinishCurrentActivity() {
+        SettingsPresenter presenter = this.configureAndInitPresenter();
+
+        presenter.onLogOutClick(this.mockedContext);
+
+        verify(this.mockedView).finishCurrentActivity();
+    }
+
+    @Test
+    public void shouldOpenAuthActivity() {
+        SettingsPresenter presenter = this.configureAndInitPresenter();
+
+        presenter.onLogOutClick(this.mockedContext);
+
+        verify(this.mockedView).openActivity(AuthActivity_.class);
+    }
 
 
     //destroy()
@@ -215,14 +270,27 @@ public class SettingsPresenterTest {
     }
 
     @Test
-    public void shouldUpdateUser() {
+    public void shouldUpdateUserWhenValuesWasChanged() {
         SettingsPresenter presenter = this.configureAndInitPresenter();
+        presenter.valuesChanged = true;
 
         when(this.mockedView.getApplicationContext()).thenReturn(this.mockedContext);
 
         presenter.destroy();
 
         verify(this.mockedUser).update(any(Context.class), any(BaseSnapModel.OperationCallback.class));
+    }
+
+    @Test
+    public void shouldUpdateUserWhenValuesWasNotChanged() {
+        SettingsPresenter presenter = this.configureAndInitPresenter();
+        presenter.valuesChanged = false;
+
+        when(this.mockedView.getApplicationContext()).thenReturn(this.mockedContext);
+
+        presenter.destroy();
+
+        verify(this.mockedUser, never()).update(any(Context.class), any(BaseSnapModel.OperationCallback.class));
     }
 
     @Test
@@ -247,6 +315,7 @@ public class SettingsPresenterTest {
         this.mockedError.model = this.mockedUser;
         this.mockedUser.nameError = "Error";
 
+        presenter.valuesChanged = true;
         presenter.destroy();
 
         verify(this.mockedErrorManager).serviceError(any(SettingsContract.SettingsView.class), any(Response.class));

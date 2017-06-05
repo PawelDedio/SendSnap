@@ -95,7 +95,7 @@ public class SettingsFragment extends BaseFragment implements SettingsContract.S
 
     @Click(R.id.btnSettingsLogOut)
     protected void onLogOutClick() {
-        this.presenter.onLogOutClick();
+        this.presenter.onLogOutClick(this.getContext());
     }
 
 

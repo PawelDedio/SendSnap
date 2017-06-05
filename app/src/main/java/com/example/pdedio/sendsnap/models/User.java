@@ -10,6 +10,7 @@ import com.example.pdedio.sendsnap.helpers.Consts;
 import com.example.pdedio.sendsnap.helpers.ErrorStringMapper;
 import com.example.pdedio.sendsnap.jobs.user.CreateUserJob;
 import com.example.pdedio.sendsnap.jobs.user.LogInUserJob;
+import com.example.pdedio.sendsnap.jobs.user.LogOutUserJob;
 import com.example.pdedio.sendsnap.jobs.user.UpdateUserJob;
 import com.google.gson.annotations.SerializedName;
 import com.raizlabs.android.dbflow.annotation.Column;
@@ -147,6 +148,12 @@ public class User extends BaseSnapModel<User> {
         JobManager manager = SendSnapApplication.getJobManager(context);
 
         manager.addJobInBackground(new LogInUserJob(this, context, callback));
+    }
+
+    public void logOut(Context context) {
+        JobManager manager = SendSnapApplication.getJobManager(context);
+
+        manager.addJobInBackground(new LogOutUserJob(context));
     }
 
 

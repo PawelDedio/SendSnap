@@ -31,7 +31,7 @@ public class SettingsContract {
 
         void onSoundSwitchStateChange(boolean isChecked);
 
-        void onLogOutClick();
+        void onLogOutClick(Context context);
     }
 
     public interface SettingsView extends BaseFragmentContract.BaseFragmentView {

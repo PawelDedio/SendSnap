@@ -2,6 +2,7 @@ package com.example.pdedio.sendsnap.communication;
 
 import com.example.pdedio.sendsnap.R;
 import com.example.pdedio.sendsnap.helpers.SessionManager;
+import com.example.pdedio.sendsnap.models.EmptyModel;
 import com.example.pdedio.sendsnap.models.User;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -10,6 +11,8 @@ import org.androidannotations.annotations.AfterInject;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EBean;
 import org.androidannotations.annotations.res.StringRes;
+
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -63,6 +66,15 @@ public class CommunicationService {
 
     public Call<User> signInUser(User user) {
         return this.apiInterface.postSessionCreate(user);
+    }
+
+    public Call signOutUser() {
+        String headerToken = null;
+        if(this.sessionManager.getLoggedUser() != null) {
+            headerToken = this.getTokenHeader(this.sessionManager.getLoggedUser().authToken);
+        }
+
+        return this.apiInterface.deleteSessionDestroy(headerToken);
     }
 
     public Call<User> registerUser(User user) {
