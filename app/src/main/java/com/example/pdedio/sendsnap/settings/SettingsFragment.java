@@ -68,6 +68,11 @@ public class SettingsFragment extends BaseFragment implements SettingsContract.S
 
 
     //Events
+    @Click(R.id.btnSettingsBack)
+    protected void onBtnBackClick() {
+        this.presenter.onBtnBackClick();
+    }
+
     @Click({R.id.txvSettingsDisplayNameLabel, R.id.txvSettingsDisplayNameContent})
     protected void onDisplayNameClick() {
         this.presenter.onDisplayNameClick(this.txvDisplayName.getText().toString());

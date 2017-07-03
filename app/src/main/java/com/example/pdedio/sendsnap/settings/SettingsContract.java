@@ -21,6 +21,8 @@ public class SettingsContract {
 
         SharedPreferenceManager getSharedPreferenceManager();
 
+        void onBtnBackClick();
+
         void onDisplayNameClick(String displayName);
 
         void onDisplaySwitchStateChange(boolean isChecked);

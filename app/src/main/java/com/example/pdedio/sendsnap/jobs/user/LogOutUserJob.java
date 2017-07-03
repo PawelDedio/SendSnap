@@ -34,11 +34,15 @@ public class LogOutUserJob extends BaseSnapJob {
 
     @Override
     public void onRun() throws Throwable {
-        Call<Void> call = this.communicationService.signOutUser();
-        call.execute();
+        String token = null;
+        if(this.sessionManager.getLoggedUser() != null) {
+            token = this.sessionManager.getLoggedUser().authToken;
+        }
 
         this.sessionManager.logOutUser();
         this.dropDb();
+        Call<Void> call = this.communicationService.signOutUser(token);
+        call.execute();
     }
 
     @Override

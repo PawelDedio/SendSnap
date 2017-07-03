@@ -74,6 +74,11 @@ public class SettingsPresenter extends BaseFragmentPresenter implements Settings
     }
 
     @Override
+    public void onBtnBackClick() {
+        this.view.popFragment();
+    }
+
+    @Override
     public void onDisplayNameClick(String displayName) {
         this.view.showTextInputDialog(R.string.settings_enter_display_name, R.string.user_display_name,
                 Consts.USER_DISPLAY_NAME_MIN_LENGTH, Consts.USER_DISPLAY_NAME_MAX_LENGTH,

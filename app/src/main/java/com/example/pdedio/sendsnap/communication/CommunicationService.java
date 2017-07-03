@@ -74,7 +74,12 @@ public class CommunicationService {
             headerToken = this.getTokenHeader(this.sessionManager.getLoggedUser().authToken);
         }
 
-        return this.apiInterface.deleteSessionDestroy(headerToken);
+        return this.signOutUser(headerToken);
+    }
+
+    public Call signOutUser(String authToken) {
+
+        return this.apiInterface.deleteSessionDestroy(this.getTokenHeader(authToken));
     }
 
     public Call<User> registerUser(User user) {

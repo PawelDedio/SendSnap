@@ -19,6 +19,7 @@ import org.mockito.stubbing.Answer;
 import retrofit2.Response;
 
 import static com.example.pdedio.sendsnap.TestHelper.prepareErrorResponse;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.any;
@@ -96,6 +97,25 @@ public class SettingsPresenterTest {
         presenter.getLoggedUser();
 
         verify(this.mockedSessionManager).getLoggedUser();
+    }
+
+    //getSharedPreferencedManager()
+    @Test
+    public void shouldReturnSharedPrefsManager() {
+        SettingsPresenter presenter = this.configureAndInitPresenter();
+
+        assertEquals(presenter.getSharedPreferenceManager(), this.mockedPrefsManager);
+    }
+
+
+    //onBtnBackClick()
+    @Test
+    public void shouldPopFragment() {
+        SettingsPresenter presenter = this.configureAndInitPresenter();
+
+        presenter.onBtnBackClick();
+
+        verify(this.mockedView).popFragment();
     }
 
 
